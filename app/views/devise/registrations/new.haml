@@ -1,0 +1,24 @@
+.sign-in-box
+  %h2 Sign up
+  = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :class => "form-horizontal" }) do |f|
+    =devise_error_messages!
+    .control-group
+      = f.label :username, :class => "control-label"
+      .controls
+        = f.text_field :username
+    -unless @facebook_signup
+      .control-group
+        = f.label :email, :class => "control-label"
+        .controls
+          = f.text_field :email
+      .control-group
+        = f.label :password,:class => "control-label"
+        .controls
+          = f.password_field :password
+      .control-group 
+        = f.label :password_confirmation, :class=> "control-label"
+        .controls
+          = f.password_field :password_confirmation
+    = f.submit "Sign up", class: 'sign-in-submit btn btn-default'
+  .devise-links
+    = render "devise/shared/links"

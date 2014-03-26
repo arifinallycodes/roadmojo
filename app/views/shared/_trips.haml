@@ -1,0 +1,45 @@
+%ul.clearfix
+  -@trips.each do |trip|
+    %li.roadstream-feeds-box
+      .roadstream-container
+        .roadstream-imgage-container
+          =image_tag "trip-image.jpg"
+        .roadstream-right-container
+          .right-r1
+            %span.right-r1-blue
+              =link_to truncate( trip.name, length: 18 ), trip_path(trip.user, trip)
+            %span.right-r1-black 
+              ="|" 
+              = trip.first_place ? truncate( trip.first_place, length: 14 ) : ""
+              ="-"
+              = trip.last_place ? truncate( trip.last_place, length: 14 ) : ""
+            .right-r1-time
+              =distance_of_time_in_words(trip.updated_at,Time.now)
+              ago
+          .right-r2
+            .trip-desc
+              =truncate(trip.description, length: 150, omission: "..")
+            .right-r2-image-container
+              =image_tag "landing_page/big_#{trip.transport.downcase}_icon.gif"
+            .icon-location
+              =trip.places.count
+            .icon-book
+              =trip.no_of_library_items
+            -if current_user
+              -if current_user.liked_trip?( trip.id )
+                .icon-liked-heart
+                  =trip.no_of_likes
+                  / =image_tag "landing_page/heart_icon_colour-thumbnail.jpg", size: '14x14'
+              -else
+                .icon-heart
+                  =trip.no_of_likes
+            -else
+              .icon-heart
+                =trip.no_of_likes
+            .icon-member
+              %a{:href => user_path(trip.user)}
+                =truncate(trip.user.username, length: 24)
+            .icon-fb
+              %a{:href => "#{FacebookPublisher.new( request, trip ).url}", target: '_blank'}
+                / %img{:border => "0", :height => "17", :src => "images/fb_icon.jpg", :width => "50"}/
+                =image_tag "landing_page/fb_icon.jpg"

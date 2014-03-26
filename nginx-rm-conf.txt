@@ -1,0 +1,45 @@
+# this file is in /etc/nginx/sites-available/roadmojo.com
+upstream domain1 {
+        server 127.0.0.1:3000;
+        server 127.0.0.1:3001;
+        server 127.0.0.1:3002;
+    }
+
+server {
+            listen   80;
+            server_name  www.roadmojo.com;
+            rewrite ^/(.*) http://roadmojo.com permanent;
+           }
+
+
+server {
+            listen   80;
+            server_name roadmojo.com;
+
+            access_log /root/roadmojo/log/access.log;
+            error_log /root/roadmojo/log/error.log;
+
+            root   /root/roadmojo/public/;
+            index  index.html;
+
+            location / {
+                          proxy_set_header  X-Real-IP  $remote_addr;
+                          proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+                          proxy_set_header Host $http_host;
+                          proxy_redirect false;
+
+                          if (-f $request_filename/index.html) {
+                                           rewrite (.*) $1/index.html break;
+                          }
+
+                          if (-f $request_filename.html) {
+                                           rewrite (.*) $1.html break;
+                          }
+
+                          if (!-f $request_filename) {
+                                           proxy_pass http://domain1;
+                                           break;
+                          }
+            }
+
+}

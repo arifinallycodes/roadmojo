@@ -1,0 +1,13 @@
+/ partial to render the trips around you
+-if !@nearby_trips.empty? or !@nearby_trips.blank?
+  %section.nearby-trips
+    %legend
+      Trips around you
+    %article.nearby-trips-info
+      %ul.thumbnails
+        - @nearby_trips.each do |trip|
+          %li.thumbnail.bg-thumbnail
+            =image_tag("rails.png")
+            =link_to trip.name, trip_path(trip.user, trip)
+            %br
+            =trip.place_names

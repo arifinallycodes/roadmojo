@@ -1,0 +1,53 @@
+!!!
+%html
+  %head
+    %meta{ charset: "utf-8" }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" }
+    -if @trip
+      %meta{:content => @trip.name, :property => "og:title"}/
+      %meta{:content => @trip.description, :property => "og:description"}/
+      %meta{:content => "Raodmojo", :property => "og:site_name"}/
+      %meta{:content => request.protocol + request.host_with_port + '/assets/trip-image.jpg', :property => "og:image"}/
+    %title RoadMojo
+    =stylesheet_link_tag "application", media: "all"
+    =javascript_include_tag "application"
+    =javascript_include_tag :defaults
+    =javascript_include_tag "https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&language=en"
+    =csrf_meta_tags
+    =favicon_link_tag "favicon.png"
+    =render "layouts/shim"
+    -if user_signed_in?
+      %body.bg-1
+        =render 'layouts/body_yield'
+        :javascript
+          <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+          (function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/go6ydD8FEdEJrfeLfFQTQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+
+          <!-- A tab to launch the Classic Widget -->
+          <script>
+          UserVoice = window.UserVoice || [];
+          UserVoice.push(['showTab', 'classic_widget', {
+            mode: 'full',
+            primary_color: '#413c3c',
+            link_color: '#007dbf',
+            default_mode: 'support',
+            forum_id: 218325,
+            tab_label: 'Feedback & Support',
+            tab_color: '#403b3b',
+            tab_position: 'middle-right',
+            tab_inverted: false
+          }]);
+    -else
+      %body
+        =render 'layouts/body_yield'
+    :javascript
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-36750246-1']);
+      _gaq.push(['_setDomainName', 'roadmojo.com']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();

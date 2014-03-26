@@ -1,0 +1,196 @@
+/*User Profile css starts */
+
+@mixin profile-bg-divs {
+  @include bg-color;
+  @include border-1px;
+  @include border-and-inline;
+}
+
+.user-profile-container {
+  @include stick-to-header;
+}
+
+.user-profile {
+  width:74%;
+  @include profile-bg-divs;  
+}
+
+.user-rm-activities {
+  left: 73%;
+  width: 21.5%;
+  @include profile-bg-divs;  
+  position: absolute;
+}
+
+h1.profile-heading {
+  margin: 2% 0 2% 2.6%;
+  font-size: 30px;
+  width: 50%;
+  display: inline-block;
+}
+
+.user-profile-main {
+  padding-bottom: 2%;
+}
+
+.user-profile-image-box {
+  width: 20%;
+  height: 47%;
+  left: 6.9%;
+  position: absolute;
+  display: inline-block;
+}
+
+.user-profile-image {
+  width: 100%;
+  display: inline-block;
+}
+
+.user-profile-desc {
+  width: 62%;
+  margin-left: 35.5%;
+  display: inline-block;
+  background-color: white;
+  box-shadow: 6px 5px 18px 1px rgba(63, 60, 60, 0.5);
+}
+
+.user-age,
+.user-gender,
+.user-full-name,
+.user-current-loc {
+  margin: 13px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(197, 190, 190, 0.7);
+}
+
+.user-desc {
+  margin: 13px;
+}
+
+.age,
+.desc,
+.gender,
+.full-name,
+.current-loc {
+  float: left;
+  font-weight: bold;
+  width: 28%;
+  color:rgba(25, 179, 218, 0.75);
+}
+
+.age-field,
+.gender-field,
+.full-name-field,
+.current-loc-field {
+  width:50%;
+  float: left;
+  margin-left: 5%;
+  text-align: left;
+}
+
+.desc-field {
+  width:62%;
+  height:342px;
+  // padding-top: 8%;
+  margin-left: 46%;
+  overflow-y: scroll;
+}
+
+.edit {
+  float: left;
+  margin-left: 11%;
+}
+
+.desc-edit {
+  float: right;
+}
+/* User Profile css ends */
+
+/* User activities css starts */
+h1.act-profile-heading {
+  font-size: 21px;
+  text-align: left;
+  padding-left: 2%;
+  margin: 8% 0% 2% 0%;
+}
+
+.user-rm-activties-main {
+  margin:3%;
+  background-color: white;
+  // box-shadow: 6px 5px 18px 1px rgba(63, 60, 60, 0.5);
+
+  .road-trips,
+  .liked-trips,
+  .following-places {
+    text-align: left;
+    font-weight: bold;
+    padding:5% 0 4% 0%;
+    margin: 0 4% 0 4%;
+    border-bottom: 1px solid rgba(197, 190, 190, 0.7);
+  }
+}
+
+.draft-trips-profile-box {
+  margin: 4%;
+  margin-top: 8%;
+
+  header.draft-section-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 3%;
+  }
+}
+
+/* User activities css ends */
+
+
+/* User edit css starts */ 
+
+.user-edit-container {
+  width:135%;
+}
+
+.user-edit-main {
+  width: 100%;
+  margin-left: 0%;
+}
+
+a.edit-profile {
+  float: right;
+  margin-top: 3%;
+  font-size: 18px;
+  margin-right: 3%;
+  text-decoration: none;
+}
+
+.change-photo-box {
+  margin-top: 5%;
+}
+
+a.change-photo {
+  text-decoration:none;
+  color:rgba(25, 179, 218, 0.75);
+}
+
+.user-edit-profile-desc {  // overriding the page width from original div .user-profile-desc
+  width: 69%;
+  margin-left: 28%;
+}
+
+.user-edit-profile-image-box {
+  left:7.6%;
+}
+
+select#user_gender {
+  width:66%;
+}
+
+.update-profile-actions {
+  text-align: center;
+  padding-bottom: 7%;
+}
+
+.cancel-edit-profile {
+  margin-left: 3%;
+}
+/* User edit css ends */

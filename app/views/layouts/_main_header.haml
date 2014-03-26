@@ -1,0 +1,42 @@
+#logoinner
+  %a.hide-text{:href => "#{dashboard_path}"} roadmojo
+#navigationinner
+  %ul.topnav-inner#header-nav
+    %li
+      %a{:href => "#{dashboard_path}"} RoadBoard
+    %li
+      %a{:href => "#{trips_path(current_user)}"} My Road trips
+    %li
+      %a{:href => "#{all_following_places_path(current_user)}"} My places
+    %li
+      %a{:href => "#{likes_path(current_user)}"} My Likes
+    %li
+      %a{:href => "#{top_trips_path}"} Top road trips
+%a#dropdown-header-toggle{:href => "#"}
+  .profilebox
+    #profillepic-thumb
+      =image_tag current_user.avatar.url.to_s, width: "30"
+    #profillepic-name
+      Welcome!
+      %br
+        -if current_user.full_name
+          -if !current_user.full_name.empty?
+            =truncate(current_user.full_name, length: 10)
+          -else
+            =truncate(current_user.username, length: 10)
+        -else
+          =truncate(current_user.username, length: 10)
+    #arrow-down
+
+%ul.dropdown-header-menu.hide
+  %a{href: "#{user_path(current_user)}"}
+    %li.header-dropdown-li
+      Profile
+  %li.divider-dropdown
+  %a{href: '/home/faq'}
+    %li.header-dropdown-li
+      FAQ
+  %li.divider-dropdown
+  %a{href: "/users/sign_out"}
+    %li.header-dropdown-li
+      Sign Out

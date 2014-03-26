@@ -1,0 +1,3 @@
+= form_tag(url, remote: true, format: :js, class: "navbar-search pull-left", id: "invite-users") do
+  = text_field_tag 'invite_email', nil , placeholder: 'Enter email to invite', class: "search-query span2"
+  = submit_tag "submit", class: "btn btn-default"

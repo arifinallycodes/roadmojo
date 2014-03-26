@@ -1,0 +1,61 @@
+.follow-and-trips-main-box.clearfix
+  .follow-main-box.clearfix
+    %section.add-places.clearfix
+      %header
+        %h1
+          Add places
+          %span.blue-color
+            you wish to follow
+      .add-places-input.clearfix
+        =form_tag(add_follow_places_path, method: :post) do
+          %input{ class: "place-geocode enter-location", type: "text" }
+          =button_tag "Follow", type: "button", class: "btn btn-large btn-success follow-dummy", rel: "popover", id: "create-new-place"
+          %ul#sortable.hide
+            =render "/trips/trip_places"
+          .hide
+            =submit_tag 'Follow', id: 'submit-follow-places', data: {page: 'follow'}
+    .recommend-and-follow-box.clearfix
+      %section.recommended-places
+        %header
+          %h1
+            Recommended Places
+        -@recommended_places.each do |place|
+          .place-box.clearfix
+            .place-details.clearfix
+              .place-name 
+                %span.blue-color
+                  = truncate(place.name, length: 35)
+              .no-of-followers
+                #{place.following_users_count} following
+            .follow-box
+              =form_tag(add_follow_places_path, method: :post, format: :js) do
+                =hidden_field_tag 'follow_place_id', place.id
+                =submit_tag 'Follow', id: 'submit-follow-places', class: 'btn btn-success'
+
+      %section.currently-following
+        %header
+          %h1
+            You are currently following #{@user.following_places.count} places
+        -@following_places.each do |place|
+          .place-box.clearfix
+            .place-details.clearfix
+              .place-name 
+                %span.blue-color
+                  = truncate(place.name, length: 35)
+              .no-of-followers
+            .unfollow-box
+              =form_tag(remove_follow_places_path, method: :post, format: :js) do
+                =hidden_field_tag 'unfollow_place_id', place.id
+                =hidden_field_tag 'unfollow_place_name', place.name
+                =submit_tag 'Unfollow', id: 'submit-follow-places', class: 'btn btn-primary'
+              / =form_tag(add_follow_places_path, method: :post, format: :js) do
+              /   =hidden_field_tag 'follow_place_id', place.id
+              /   =submit_tag 'Unfollow', id: 'submit-follow-places', class: 'btn btn-primary'
+  .trips-main-box
+    .add-trip-box
+      = link_to 'Add a road trip', new_trip_path( current_user ), class: 'btn btn-primary btn-large btn-trip-add-roadboard' if user_signed_in?
+    - if current_user?
+      %section.draft-trips
+        =render '/shared/draft_trips'
+      .show-more-drafts
+        =link_to 'Show more..', trips_path( current_user ), class: 'blue-color' if current_user.draft_trips.count > 2

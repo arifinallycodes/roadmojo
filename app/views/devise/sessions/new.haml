@@ -1,0 +1,18 @@
+.sign-in-box
+  = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "form-horizontal" }) do |f|
+    .control-group
+      = f.label :login, :class => "control-label"
+      .controls
+        = f.text_field :login
+    .control-group
+      = f.label :password, :class => "control-label"
+      .controls
+        = f.password_field :password
+    - if devise_mapping.rememberable?
+      .control-group.remember-me
+        = f.check_box :remember_me, class: 'checkbox'
+        = f.label :remember_me, :class => "remember-me-label"
+      .clearfix
+      = f.submit "Sign in", class: 'sign-in-submit btn btn-default'
+  .devise-links
+    = render "devise/shared/links"

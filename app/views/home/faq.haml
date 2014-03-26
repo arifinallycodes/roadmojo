@@ -1,0 +1,148 @@
+#faq
+  %h2.faq-title
+    Frequently 
+    %span.blue-color
+      Asked Questions
+  .faq-box
+    .q-n-a
+      .question
+        What exactly is RoadMojo ?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        RoadMojo is a platform for road trips and road trippers. You can store, share and search road trips.
+    .q-n-a
+      .question
+        How can I add a road trip?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        You can add a trip in 3 easy steps:
+        %ul
+          %li
+            Basic information like trip name, trip date
+          %li
+            Way points – what places did you go through from your source to destination?
+          %li
+            Road markers and other details – where did you stay, eat or drink. What places did you see, how was the road between waypoint A and way point B.
+    .q-n-a
+      .question
+        Are there any limitations on the number of waypoints I can add in step 2 of adding a road trip?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        Yes. You can have a maximum of 10 places in your road trip i.e. up to 8 places + source and destination. We have discovered that most road trips have less than 10 places as major waypoints. If you have more waypoints that you want to record, you can either
+        %ul
+          %li
+            Choose the ten important ones as waypoints in step 2 and put the other places in step 3 in the sub-route description OR
+          %li
+            Break your trip into 2 or more road trips
+    .q-n-a
+      .question
+        What is a draft road trip?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        You can create a trip in draft mode when you are using RoadMojo as a recording tool for your experiences. These will not be visible in searches. These are helpful when you are in the middle of a trip and want to enter details that you might forget later or just have time to feed in details about some parts of your road trip. You can also use it when you don’t have enough time to fill the details at one go. You can do it in parts and finally publish it for it to be made public. You can see your draft trips on the right side of your Dashboard.
+    .q-n-a
+      .question
+        What are road markers?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        These are the stops you made along your road trip. They can be restaurants, pubs, cafes, accommodation, points of interest, service stations or just a random stop with lots of memories. Anything really that you might want to store. These can be linked to a waypoint or in between 2 adjacent waypoints.
+    .q-n-a
+      .question
+        Why would I want to add road markers in between waypoints?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        %ul
+          %li
+            You don’t remember the exact location of the road marker you stopped at but know that it was between way point A and B
+          %li
+            You have selected your 10 important waypoints (10 is our limit) but a road marker was at a point between two important waypoints. You can mention the exact location in the description of the road marker.
+    .q-n-a
+      .question
+        Can I use Road Mojo while being on the trip or before the trip?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        Absolutely. You can store information as your road trip is progressing and save it in draft mode (see above). You can keep rough notes from your trips. Once your road trip is over, you can finalize the content and publish it.
+        %br
+        You can also create a draft road trip before your trip starts and then populate it with data gradually.
+    .q-n-a
+      .question
+        What does the “Follow places” feature do?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        You can follow places that you like or would love to go to. You will see a trip on your dashboard feed if anyone uploads a trip with any of these followed places. E.g. if Bob is following London, and Mary stores her road trip from Edinburgh to Berlin via London and Manchester, Bob will see this trip on his dashboard.
+
+    .q-n-a
+      .question
+        Are my road trips public?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        Yes. Published trips are all public. You can store private information in the Personal notes area, which will only be visible to you.
+    .q-n-a
+      .question
+        I have some private information to store about my road trip. What can I do?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        You can enter all private information into the personal notes section. This will only be visible to you. Also, your Draft road trips will only be visible to you. They become public only when you publish them.
+    .q-n-a
+      .question
+        What are these road trips on my dashboard feed?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        Your Dashboard will show all road trips passing through places that are close to your current location. E.g. If you are logged in from London, the feed will have road trips passing through or around London, ordered on time, with newer trips on the top.
+        %br
+        %strong
+          OR
+        %br
+        -trips_url = current_user ? all_following_places_path(current_user) : all_following_places_path( User.find_by_slug('kaushik') )
+        These are the trips through places that you are following. You can follow places using
+        %a{href: trips_url}
+          this link
+
+    .q-n-a
+      .question
+        Will I see my own trips in the dashboard feed?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        -trips_url = current_user ? trips_path(current_user) : trips_path( User.find_by_slug('kaushik') )
+        No. You can see your own trips using this 
+        %a{href: trips_url}
+          link
+    .q-n-a
+      .question
+        I want to enter a “to and fro” trip or a round trip. Is there a good way to store it?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        You are more than welcome to store the whole route as one road trip or you can store it as two trips (you can name the trips conveniently) – one outbound and one inbound. Again, it is your choice.
+    .q-n-a
+      .question
+        What happens if my PC dies in the middle of me storing a road trip?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        RoadMojo will save data till the last save point. So if you were in step 2, it will store till step 1. If you are in step 3, it will store till step 2 and all the road markers you have already saved in step 3.
+        %br
+        On step 3, you can see the saved road markers linked to a waypoint or in between waypoints on the left of the screen.
+        If you want to leave midway of storing the trip, just click on Save trip as draft and you can access this later from your dashboard and complete it.
+
+    .q-n-a
+      .question
+        I like someone else’s road trip and want to save it or review later. What can I do?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        -trips_url = current_user ? likes_path(current_user) : likes_path( User.find_by_slug('kaushik') )
+        You can click “like” on the trip and it will be stored in your “My Likes” section. You can check your liked road trips anytime by going to 
+        %a{href: trips_url}
+          this link
+        or clicking the link on the top navigation bar.
+        %br
+        You have the option to “Unlike” a trip previously liked by you.
+
+    .q-n-a
+      .question
+        What are the ways I can share my road trip with my friends, family and to the world?
+        =image_tag 'faq-icon-close.png', class: 'faq-icon'
+      .answer.hide
+        %ul
+          %li
+            You can click on the FB share link on any road trips (yours or others) and share it on your Facebook timeline.
+          %li
+            You can copy the link from the address bar and share it through your email, instant messengers, blogs or any social networking websites. All the published trips are public so the links will be accessible from anywhere.

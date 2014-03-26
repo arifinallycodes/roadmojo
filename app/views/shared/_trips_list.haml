@@ -1,0 +1,35 @@
+/ Partial to display trips in a list.
+.row-fluid
+  .span10.offset1
+    .page-header
+      %h1=header
+    -if !all_trips.empty?
+      %table.table.table-striped
+        %thead
+          %tr
+            %th=Trip.human_attribute_name(:id)
+            %th=Trip.human_attribute_name(:name)
+            %th Locations
+            %th=Trip.human_attribute_name(:transport)
+            %th=Trip.human_attribute_name(:trip_date)
+            -if actions
+              %th Actions
+        %tbody
+          -all_trips.each do |trip|
+            %tr{ class: ("warning" if trip.draft_version?) }
+              %td=link_to trip.id, trip_path(trip.user, trip)
+              %td=trip.name
+              
+              / There could also be more than 5-10, maybe 20 places. thus, truncated this to 3 places only
+              / the instance method place_names shoots a SQL query. To avoid that twice, storing it in a Local
+              / variable here. - Kaushik
+              -places=trip.place_names
+              %td="#{places.first}..#{places.last}"
+              %td=trip.transport
+              %td=short_date(trip)
+              -if my_trip?(trip)
+                %td
+                  =link_to "Edit", edit_trip_path(current_user, trip), class: "btn btn-mini"
+                  =link_to "Delete", trip_path(current_user, trip), method: :delete, class: "btn btn-mini btn-danger"
+                  =link_to "FB Share", trip_share_on_facebook_path(current_user, trip), class: "btn btn-mini btn-info"
+    = link_to "New trip", new_trip_path(username: current_user.username), class: "btn btn-primary"

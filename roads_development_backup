@@ -1,0 +1,1866 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: authentications; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE authentications (
+    id integer NOT NULL,
+    user_id integer,
+    provider character varying(255),
+    uid character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.authentications OWNER TO kaushik;
+
+--
+-- Name: authentications_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE authentications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.authentications_id_seq OWNER TO kaushik;
+
+--
+-- Name: authentications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE authentications_id_seq OWNED BY authentications.id;
+
+
+--
+-- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE delayed_jobs (
+    id integer NOT NULL,
+    priority integer DEFAULT 0,
+    attempts integer DEFAULT 0,
+    handler text,
+    last_error text,
+    run_at timestamp without time zone,
+    locked_at timestamp without time zone,
+    failed_at timestamp without time zone,
+    locked_by character varying(255),
+    queue character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.delayed_jobs OWNER TO kaushik;
+
+--
+-- Name: delayed_jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE delayed_jobs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.delayed_jobs_id_seq OWNER TO kaushik;
+
+--
+-- Name: delayed_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
+
+
+--
+-- Name: inbetween_places; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE inbetween_places (
+    id integer NOT NULL,
+    place_before_id integer,
+    place_after_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    description character varying(255)
+);
+
+
+ALTER TABLE public.inbetween_places OWNER TO kaushik;
+
+--
+-- Name: inbetween_places_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE inbetween_places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.inbetween_places_id_seq OWNER TO kaushik;
+
+--
+-- Name: inbetween_places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE inbetween_places_id_seq OWNED BY inbetween_places.id;
+
+
+--
+-- Name: library_items; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE library_items (
+    id integer NOT NULL,
+    name character varying(255),
+    item_type character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    location_id integer,
+    location_type character varying(255),
+    description text
+);
+
+
+ALTER TABLE public.library_items OWNER TO kaushik;
+
+--
+-- Name: library_items_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE library_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.library_items_id_seq OWNER TO kaushik;
+
+--
+-- Name: library_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE library_items_id_seq OWNED BY library_items.id;
+
+
+--
+-- Name: photos; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE photos (
+    id integer NOT NULL,
+    image character varying(255),
+    name text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    trip_id integer
+);
+
+
+ALTER TABLE public.photos OWNER TO kaushik;
+
+--
+-- Name: photos_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE photos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.photos_id_seq OWNER TO kaushik;
+
+--
+-- Name: photos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE photos_id_seq OWNED BY photos.id;
+
+
+--
+-- Name: places; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE places (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    lat numeric,
+    lon numeric,
+    following_users_count integer DEFAULT 0,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.places OWNER TO kaushik;
+
+--
+-- Name: places_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.places_id_seq OWNER TO kaushik;
+
+--
+-- Name: places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE places_id_seq OWNED BY places.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE schema_migrations (
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO kaushik;
+
+--
+-- Name: sessions; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE sessions (
+    id integer NOT NULL,
+    session_id character varying(255) NOT NULL,
+    data text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.sessions OWNER TO kaushik;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sessions_id_seq OWNER TO kaushik;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
+
+
+--
+-- Name: special_emails; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE special_emails (
+    id integer NOT NULL,
+    email character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.special_emails OWNER TO kaushik;
+
+--
+-- Name: special_emails_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE special_emails_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.special_emails_id_seq OWNER TO kaushik;
+
+--
+-- Name: special_emails_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE special_emails_id_seq OWNED BY special_emails.id;
+
+
+--
+-- Name: trip_places; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE trip_places (
+    id integer NOT NULL,
+    trip_id integer,
+    place_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    sort integer
+);
+
+
+ALTER TABLE public.trip_places OWNER TO kaushik;
+
+--
+-- Name: trip_places_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE trip_places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.trip_places_id_seq OWNER TO kaushik;
+
+--
+-- Name: trip_places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE trip_places_id_seq OWNED BY trip_places.id;
+
+
+--
+-- Name: trips; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE trips (
+    id integer NOT NULL,
+    name character varying(255),
+    source character varying(255),
+    destination character varying(255),
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    user_id integer,
+    transport character varying(255),
+    trip_date date,
+    draft_version boolean DEFAULT false,
+    slug character varying(255),
+    no_of_shares integer DEFAULT 0 NOT NULL,
+    no_of_likes integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.trips OWNER TO kaushik;
+
+--
+-- Name: trips_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE trips_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.trips_id_seq OWNER TO kaushik;
+
+--
+-- Name: trips_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE trips_id_seq OWNED BY trips.id;
+
+
+--
+-- Name: user_followed_places; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE user_followed_places (
+    id integer NOT NULL,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    place_id integer
+);
+
+
+ALTER TABLE public.user_followed_places OWNER TO kaushik;
+
+--
+-- Name: user_followed_places_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE user_followed_places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_followed_places_id_seq OWNER TO kaushik;
+
+--
+-- Name: user_followed_places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE user_followed_places_id_seq OWNED BY user_followed_places.id;
+
+
+--
+-- Name: user_invites; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE user_invites (
+    id integer NOT NULL,
+    user_id integer,
+    email character varying(255),
+    sign_up_token character varying(255),
+    sign_up_source character varying(255),
+    signed_up boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_invites OWNER TO kaushik;
+
+--
+-- Name: user_invites_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE user_invites_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_invites_id_seq OWNER TO kaushik;
+
+--
+-- Name: user_invites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE user_invites_id_seq OWNED BY user_invites.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying(255),
+    last_sign_in_ip character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    provider character varying(255),
+    uid character varying(255),
+    confirmation_token character varying(255),
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    username character varying(255),
+    fb_authentication_token character varying(255),
+    slug character varying(255),
+    failed_attempts integer DEFAULT 0,
+    unlock_token character varying(255),
+    locked_at timestamp without time zone,
+    following_places_count integer DEFAULT 0,
+    no_of_likes integer DEFAULT 0 NOT NULL,
+    avatar character varying(255),
+    age integer,
+    gender character varying(255),
+    full_name character varying(255),
+    current_loc character varying(255),
+    "desc" text
+);
+
+
+ALTER TABLE public.users OWNER TO kaushik;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO kaushik;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: users_liked_trips; Type: TABLE; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE TABLE users_liked_trips (
+    id integer NOT NULL,
+    user_id integer,
+    trip_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.users_liked_trips OWNER TO kaushik;
+
+--
+-- Name: users_liked_trips_id_seq; Type: SEQUENCE; Schema: public; Owner: kaushik
+--
+
+CREATE SEQUENCE users_liked_trips_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_liked_trips_id_seq OWNER TO kaushik;
+
+--
+-- Name: users_liked_trips_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kaushik
+--
+
+ALTER SEQUENCE users_liked_trips_id_seq OWNED BY users_liked_trips.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY authentications ALTER COLUMN id SET DEFAULT nextval('authentications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY inbetween_places ALTER COLUMN id SET DEFAULT nextval('inbetween_places_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY library_items ALTER COLUMN id SET DEFAULT nextval('library_items_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY photos ALTER COLUMN id SET DEFAULT nextval('photos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY sessions ALTER COLUMN id SET DEFAULT nextval('sessions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY special_emails ALTER COLUMN id SET DEFAULT nextval('special_emails_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY trip_places ALTER COLUMN id SET DEFAULT nextval('trip_places_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY trips ALTER COLUMN id SET DEFAULT nextval('trips_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY user_followed_places ALTER COLUMN id SET DEFAULT nextval('user_followed_places_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY user_invites ALTER COLUMN id SET DEFAULT nextval('user_invites_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: kaushik
+--
+
+ALTER TABLE ONLY users_liked_trips ALTER COLUMN id SET DEFAULT nextval('users_liked_trips_id_seq'::regclass);
+
+
+--
+-- Data for Name: authentications; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY authentications (id, user_id, provider, uid, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: authentications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('authentications_id_seq', 1, false);
+
+
+--
+-- Data for Name: delayed_jobs; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY delayed_jobs (id, priority, attempts, handler, last_error, run_at, locked_at, failed_at, locked_by, queue, created_at, updated_at) FROM stdin;
+3	0	0	--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/object:Devise::Async::Backend::DelayedJob {}\nmethod_name: :perform\nargs:\n- :confirmation_instructions\n- User\n- '64'\n- {}\n	\N	2013-08-16 17:28:03.506227	\N	\N	\N	mailer	2013-08-16 17:28:03.506687	2013-08-16 17:28:03.506687
+4	0	0	--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/object:Devise::Async::Backend::DelayedJob {}\nmethod_name: :perform\nargs:\n- :confirmation_instructions\n- User\n- '65'\n- {}\n	\N	2013-08-16 17:36:37.023539	\N	\N	\N	mailer	2013-08-16 17:36:37.023794	2013-08-16 17:36:37.023794
+5	0	0	--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/object:Devise::Async::Backend::DelayedJob {}\nmethod_name: :perform\nargs:\n- :confirmation_instructions\n- User\n- '66'\n- {}\n	\N	2013-08-16 17:47:10.701666	\N	\N	\N	mailer	2013-08-16 17:47:10.701868	2013-08-16 17:47:10.701868
+6	0	0	--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/object:Devise::Async::Backend::DelayedJob {}\nmethod_name: :perform\nargs:\n- :confirmation_instructions\n- User\n- '67'\n- {}\n	\N	2013-08-16 17:47:39.319943	\N	\N	\N	mailer	2013-08-16 17:47:39.320132	2013-08-16 17:47:39.320132
+7	0	0	--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/object:Devise::Async::Backend::DelayedJob {}\nmethod_name: :perform\nargs:\n- :confirmation_instructions\n- User\n- '68'\n- {}\n	\N	2013-08-16 17:50:46.004325	\N	\N	\N	mailer	2013-08-16 17:50:46.004538	2013-08-16 17:50:46.004538
+8	0	0	--- !ruby/object:Delayed::PerformableMethod\nobject: !ruby/object:Devise::Async::Backend::DelayedJob {}\nmethod_name: :perform\nargs:\n- :confirmation_instructions\n- User\n- '69'\n- {}\n	\N	2013-08-16 17:53:18.093265	\N	\N	\N	mailer	2013-08-16 17:53:18.093501	2013-08-16 17:53:18.093501
+\.
+
+
+--
+-- Name: delayed_jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('delayed_jobs_id_seq', 8, true);
+
+
+--
+-- Data for Name: inbetween_places; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY inbetween_places (id, place_before_id, place_after_id, created_at, updated_at, description) FROM stdin;
+1	1	2	2013-03-15 16:59:33.485207	2013-03-15 16:59:33.485207	\N
+2	2	3	2013-03-15 16:59:33.49235	2013-03-15 16:59:33.49235	\N
+3	4	5	2013-03-15 17:00:18.164701	2013-03-15 17:00:18.164701	\N
+4	5	6	2013-03-15 17:00:18.170215	2013-03-15 17:00:18.170215	\N
+5	7	8	2013-03-15 17:00:56.560548	2013-03-15 17:00:56.560548	\N
+6	9	10	2013-03-16 04:40:15.356629	2013-03-16 04:40:15.356629	\N
+7	10	11	2013-03-16 04:40:15.362953	2013-03-16 04:40:15.362953	\N
+8	15	16	2013-03-19 03:57:57.09219	2013-03-19 03:57:57.09219	\N
+9	16	17	2013-03-19 03:57:57.101332	2013-03-19 03:57:57.101332	\N
+10	17	18	2013-03-19 03:57:57.105598	2013-03-19 03:57:57.105598	\N
+11	18	19	2013-03-19 03:57:57.110543	2013-03-19 03:57:57.110543	\N
+12	19	20	2013-03-19 03:57:57.114888	2013-03-19 03:57:57.114888	\N
+13	20	21	2013-03-19 03:57:57.118778	2013-03-19 03:57:57.118778	\N
+14	21	22	2013-03-19 03:57:57.122566	2013-03-19 03:57:57.122566	\N
+15	23	24	2013-03-19 04:27:35.53325	2013-03-19 04:27:35.53325	\N
+16	24	25	2013-03-19 04:27:35.538939	2013-03-19 04:27:35.538939	\N
+17	26	27	2013-04-07 18:42:50.714643	2013-04-07 18:42:50.714643	\N
+18	28	29	2013-04-07 18:46:40.392714	2013-04-07 18:46:40.392714	\N
+19	30	31	2013-04-10 12:22:17.636386	2013-04-10 12:22:17.636386	\N
+20	31	32	2013-04-10 12:22:17.644606	2013-04-10 12:22:17.644606	\N
+21	32	33	2013-04-10 12:22:17.649562	2013-04-10 12:22:17.649562	\N
+22	33	34	2013-04-10 12:22:17.653151	2013-04-10 12:22:17.653151	\N
+23	34	35	2013-04-10 12:22:17.656991	2013-04-10 12:22:17.656991	\N
+24	35	36	2013-04-10 12:22:17.661566	2013-04-10 12:22:17.661566	\N
+25	36	37	2013-04-10 12:22:17.667048	2013-04-10 12:22:17.667048	\N
+26	37	38	2013-04-10 12:22:17.672555	2013-04-10 12:22:17.672555	\N
+27	38	39	2013-04-10 12:22:17.677291	2013-04-10 12:22:17.677291	\N
+28	39	40	2013-04-10 12:22:17.682474	2013-04-10 12:22:17.682474	\N
+29	41	42	2013-04-11 08:25:04.433856	2013-04-11 08:25:04.433856	\N
+30	43	44	2013-04-11 08:25:54.418064	2013-04-11 08:25:54.418064	\N
+31	45	46	2013-04-11 08:48:49.422703	2013-04-11 08:48:49.422703	\N
+32	47	48	2013-04-11 08:49:34.804455	2013-04-11 08:49:34.804455	\N
+33	49	50	2013-04-11 08:51:10.137964	2013-04-11 08:51:10.137964	\N
+34	51	52	2013-04-11 08:57:23.050988	2013-04-11 08:57:23.050988	\N
+35	53	54	2013-04-11 08:58:56.356565	2013-04-11 08:58:56.356565	\N
+36	55	56	2013-04-11 09:00:52.60538	2013-04-11 09:00:52.60538	\N
+37	57	58	2013-04-11 09:03:04.778801	2013-04-11 09:03:04.778801	\N
+38	59	60	2013-04-11 09:06:01.725778	2013-04-11 09:06:01.725778	\N
+39	61	62	2013-04-28 15:56:08.914493	2013-04-28 15:56:08.914493	\N
+40	64	65	2013-05-18 13:39:13.703536	2013-05-18 13:39:13.703536	\N
+41	66	67	2013-05-22 18:39:17.29133	2013-05-22 18:39:17.29133	\N
+42	68	69	2013-05-22 18:40:11.976444	2013-05-22 18:40:11.976444	\N
+43	70	71	2013-05-22 18:40:37.728938	2013-05-22 18:40:37.728938	\N
+44	72	73	2013-05-22 18:40:46.859942	2013-05-22 18:40:46.859942	\N
+45	74	75	2013-05-27 18:45:12.761798	2013-05-27 18:45:12.761798	\N
+46	76	77	2013-05-27 18:45:24.451164	2013-05-27 18:45:24.451164	\N
+47	78	79	2013-05-27 18:46:56.894438	2013-05-27 18:46:56.894438	\N
+48	80	81	2013-05-27 18:47:03.172318	2013-05-27 18:47:03.172318	\N
+49	82	83	2013-05-27 18:52:17.367779	2013-05-27 18:52:17.367779	\N
+50	84	85	2013-05-27 18:55:00.691916	2013-05-27 18:55:00.691916	\N
+51	87	88	2013-05-29 18:07:26.602401	2013-05-29 18:07:26.602401	\N
+52	88	89	2013-05-29 18:07:26.611294	2013-05-29 18:07:26.611294	\N
+53	89	90	2013-05-29 18:07:26.616164	2013-05-29 18:07:26.616164	\N
+54	90	91	2013-05-29 18:07:26.619995	2013-05-29 18:07:26.619995	\N
+55	91	92	2013-05-29 18:07:26.624203	2013-05-29 18:07:26.624203	\N
+56	92	93	2013-05-29 18:07:26.628362	2013-05-29 18:07:26.628362	\N
+57	93	94	2013-05-29 18:07:26.632481	2013-05-29 18:07:26.632481	\N
+58	94	95	2013-05-29 18:07:26.636154	2013-05-29 18:07:26.636154	\N
+59	95	96	2013-05-29 18:07:26.639778	2013-05-29 18:07:26.639778	\N
+60	97	98	2013-05-29 18:20:00.876888	2013-05-29 18:20:00.876888	\N
+61	99	100	2013-05-31 20:15:10.104583	2013-05-31 20:15:10.104583	\N
+62	101	102	2013-06-03 19:07:30.109288	2013-06-03 19:07:30.109288	\N
+63	103	104	2013-06-03 19:08:05.077078	2013-06-03 19:08:05.077078	\N
+64	105	106	2013-06-03 19:24:31.174159	2013-06-03 19:24:31.174159	\N
+66	107	109	2013-06-03 20:21:55.933082	2013-06-03 20:21:55.933082	\N
+67	110	111	2013-06-03 20:53:59.310831	2013-06-03 20:53:59.310831	\N
+69	119	120	2013-06-15 14:37:04.193805	2013-06-15 14:37:04.193805	\N
+70	121	122	2013-06-16 09:59:23.885897	2013-06-16 09:59:23.885897	\N
+71	123	124	2013-06-18 17:19:27.081568	2013-06-18 17:19:27.081568	\N
+72	124	125	2013-06-18 17:19:27.0886	2013-06-18 17:19:27.0886	\N
+73	125	126	2013-06-18 17:19:27.091989	2013-06-18 17:19:27.091989	\N
+74	126	127	2013-06-18 17:19:27.094926	2013-06-18 17:19:27.094926	\N
+75	127	128	2013-06-18 17:19:27.097455	2013-06-18 17:19:27.097455	\N
+76	128	129	2013-06-18 17:19:27.100044	2013-06-18 17:19:27.100044	\N
+77	129	130	2013-06-18 17:19:27.103549	2013-06-18 17:19:27.103549	\N
+78	130	131	2013-06-18 17:19:27.106769	2013-06-18 17:19:27.106769	\N
+79	132	133	2013-06-19 17:22:59.451186	2013-06-19 17:22:59.451186	\N
+80	133	134	2013-06-19 17:22:59.460024	2013-06-19 17:22:59.460024	\N
+81	135	136	2013-06-23 05:50:07.889535	2013-06-23 05:50:07.889535	\N
+83	139	140	2013-06-29 10:14:02.236728	2013-06-29 10:14:02.236728	\N
+84	141	142	2013-06-30 06:34:48.346921	2013-06-30 06:34:48.346921	\N
+85	142	143	2013-06-30 06:34:48.349787	2013-06-30 06:34:48.349787	\N
+86	144	145	2013-06-30 17:50:37.757195	2013-06-30 17:50:37.757195	\N
+87	145	146	2013-06-30 17:50:37.7604	2013-06-30 17:50:37.7604	\N
+88	146	147	2013-06-30 17:50:37.763324	2013-06-30 17:50:37.763324	\N
+89	147	148	2013-06-30 17:50:37.766146	2013-06-30 17:50:37.766146	\N
+90	148	149	2013-06-30 17:50:37.770343	2013-06-30 17:50:37.770343	\N
+91	149	150	2013-06-30 17:50:37.772812	2013-06-30 17:50:37.772812	\N
+92	150	151	2013-06-30 17:50:37.775176	2013-06-30 17:50:37.775176	\N
+93	151	152	2013-06-30 17:50:37.778367	2013-06-30 17:50:37.778367	\N
+94	152	153	2013-06-30 17:50:37.781098	2013-06-30 17:50:37.781098	\N
+95	154	155	2013-07-04 18:24:45.072068	2013-07-04 18:24:45.072068	\N
+96	155	156	2013-07-04 18:24:45.08029	2013-07-04 18:24:45.08029	\N
+97	156	157	2013-07-04 18:24:45.08344	2013-07-04 18:24:45.08344	\N
+98	157	158	2013-07-04 18:24:45.086192	2013-07-04 18:24:45.086192	\N
+99	159	160	2013-07-04 18:52:06.973588	2013-07-04 18:52:06.973588	\N
+100	161	162	2013-07-05 19:00:30.767242	2013-07-05 19:00:30.767242	\N
+101	163	164	2013-07-10 17:54:24.835857	2013-07-10 17:54:24.835857	\N
+102	165	166	2013-07-17 18:23:52.305002	2013-07-17 18:23:52.305002	\N
+103	167	168	2013-07-19 19:24:45.62816	2013-07-19 19:24:45.62816	\N
+104	168	169	2013-07-19 19:24:45.636628	2013-07-19 19:24:45.636628	\N
+105	170	171	2013-07-20 10:04:37.972096	2013-07-20 10:04:37.972096	\N
+106	172	173	2013-07-20 11:41:58.243045	2013-07-20 11:41:58.243045	\N
+107	174	175	2013-07-20 11:43:46.269564	2013-07-20 11:43:46.269564	\N
+108	176	177	2013-07-20 11:58:36.508226	2013-07-20 11:58:36.508226	\N
+109	178	179	2013-07-20 17:29:21.720151	2013-07-20 17:29:21.720151	\N
+110	180	181	2013-07-20 17:30:03.69425	2013-07-20 17:30:03.69425	\N
+111	182	183	2013-07-20 17:36:01.898669	2013-07-20 17:36:01.898669	\N
+112	184	185	2013-07-20 20:08:58.22115	2013-07-20 20:08:58.22115	\N
+113	185	186	2013-07-20 20:08:58.225606	2013-07-20 20:08:58.225606	\N
+114	186	187	2013-07-20 20:08:58.229825	2013-07-20 20:08:58.229825	\N
+115	187	188	2013-07-20 20:08:58.23344	2013-07-20 20:08:58.23344	\N
+116	188	189	2013-07-20 20:08:58.237292	2013-07-20 20:08:58.237292	\N
+117	190	191	2013-07-21 08:00:56.269632	2013-07-21 08:00:56.269632	\N
+118	192	193	2013-07-21 15:17:23.294432	2013-07-21 15:17:23.294432	\N
+121	196	209	2013-07-30 18:13:35.782922	2013-07-30 18:13:35.782922	\N
+122	209	210	2013-07-30 18:13:35.793626	2013-07-30 18:13:35.793626	\N
+125	211	213	2013-08-01 18:34:35.10413	2013-08-01 18:34:35.10413	\N
+126	213	214	2013-08-01 18:34:51.731909	2013-08-01 18:34:51.731909	\N
+127	215	216	2013-08-04 10:05:42.525677	2013-08-04 10:05:42.525677	\N
+128	217	218	2013-08-04 12:52:27.008329	2013-08-04 12:52:27.008329	\N
+129	219	220	2013-08-06 04:35:03.760615	2013-08-06 04:35:03.760615	\N
+130	221	222	2013-08-06 08:55:35.951932	2013-08-06 08:55:35.951932	\N
+131	223	224	2013-08-06 09:15:31.869851	2013-08-06 09:15:31.869851	\N
+132	225	226	2013-08-07 17:14:33.70445	2013-08-07 17:14:33.70445	\N
+133	227	228	2013-08-13 06:11:09.600237	2013-08-13 06:11:09.600237	\N
+134	229	230	2013-08-16 16:11:39.557706	2013-08-16 16:11:39.557706	\N
+135	230	231	2013-08-16 16:11:39.566066	2013-08-16 16:11:39.566066	\N
+\.
+
+
+--
+-- Name: inbetween_places_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('inbetween_places_id_seq', 135, true);
+
+
+--
+-- Data for Name: library_items; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY library_items (id, name, item_type, created_at, updated_at, location_id, location_type, description) FROM stdin;
+1	lakjsdlaksdj	Cafe	2013-06-18 18:24:53.115321	2013-06-18 18:24:53.120528	123	TripPlace	lkjasldkjad
+2	op2j3	Cafe	2013-06-18 18:27:26.562051	2013-06-18 18:27:26.568888	123	TripPlace	;alsdka;ld
+39	kasjdl	Cafe	2013-07-20 20:11:38.167864	2013-07-20 20:11:38.176752	184	TripPlace	asdadsad
+42	aklsdj	Cafe	2013-07-21 16:49:17.00585	2013-07-21 16:49:17.012008	194	TripPlace	lkjasdlkajsd
+43	first	Cafe	2013-08-02 21:23:09.538119	2013-08-02 21:23:09.557193	211	TripPlace	jasd
+9	kaushik	Cafe	2013-06-23 07:40:50.345455	2013-06-23 07:40:50.349945	81	InbetweenPlace	laksd
+44	Kaiou	Cafe	2013-08-09 06:04:53.520647	2013-08-09 06:04:53.53454	192	TripPlace	ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd ljalkdjasd aljhd
+45	jhad	Cafe	2013-08-13 06:11:19.131736	2013-08-13 06:11:19.139716	227	TripPlace	kjahsdads
+46	123	Cafe	2013-08-13 06:11:23.841169	2013-08-13 06:11:23.848938	227	TripPlace	asd
+47	asd	Cafe	2013-08-13 06:11:28.141471	2013-08-13 06:11:28.143958	227	TripPlace	asd
+48	jkead	Cafe	2013-08-13 06:11:34.815468	2013-08-13 06:11:34.819447	133	InbetweenPlace	asdasd
+15	liuilu	Shop	2013-06-30 06:35:13.165404	2013-06-30 06:35:13.171631	141	TripPlace	.lkjk
+16	lajdlakj	Cafe	2013-07-04 18:35:58.22644	2013-07-04 18:35:58.233261	154	TripPlace	ljalsdjalsd
+17	lksjadlkj	Cafe	2013-07-05 19:35:08.149707	2013-07-05 19:35:08.154604	161	TripPlace	lasjdlajd
+18	lakjsdk	Cafe	2013-07-05 19:47:37.006051	2013-07-05 19:47:37.008932	161	TripPlace	ljasdlajdasd
+19	alskjd	Cafe	2013-07-05 20:05:31.974223	2013-07-05 20:05:31.978391	161	TripPlace	alksjd
+20	lasjkd	Cafe	2013-07-05 20:05:36.187324	2013-07-05 20:05:36.191919	161	TripPlace	klajsd
+21	22	Cafe	2013-07-05 20:13:35.315446	2013-07-05 20:13:35.402722	161	TripPlace	asd
+49	qweeqwe	Cafe	2013-08-13 06:11:40.407228	2013-08-13 06:11:40.412156	228	TripPlace	a
+25	asdkj	Cafe	2013-07-19 19:47:25.818267	2013-07-19 19:47:25.854954	103	InbetweenPlace	lkajsd
+26	adlkj	Cafe	2013-07-19 19:47:34.541214	2013-07-19 19:47:34.545563	169	TripPlace	laksdj
+28	asd	Cafe	2013-07-19 19:48:22.809037	2013-07-19 19:48:22.811948	167	TripPlace	asd
+29	alskdj	Cafe	2013-07-19 19:49:48.169718	2013-07-19 19:49:48.175995	167	TripPlace	lkasjd
+30	asldj	Cafe	2013-07-19 19:50:51.151578	2013-07-19 19:50:51.155873	167	TripPlace	lasjkd
+31	jasdj	Cafe	2013-07-19 19:51:55.895215	2013-07-19 19:51:55.900338	167	TripPlace	jasd
+32	alsdkj	Cafe	2013-07-19 19:54:52.057375	2013-07-19 19:54:52.060722	167	TripPlace	lkajsdlakds\n
+33	l23kjas	Cafe	2013-07-19 19:56:04.191299	2013-07-19 19:56:04.196105	167	TripPlace	lkjasd
+36	asdlkj	Cafe	2013-07-19 19:59:22.580892	2013-07-19 19:59:22.584129	104	InbetweenPlace	alskdj
+\.
+
+
+--
+-- Name: library_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('library_items_id_seq', 49, true);
+
+
+--
+-- Data for Name: photos; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY photos (id, image, name, created_at, updated_at, trip_id) FROM stdin;
+\.
+
+
+--
+-- Name: photos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('photos_id_seq', 1, false);
+
+
+--
+-- Data for Name: places; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY places (id, created_at, updated_at, lat, lon, following_users_count, name) FROM stdin;
+15	2013-03-19 03:57:57.039893	2013-03-19 03:57:57.039893	17.753112	73.18806180000001	0	Dapoli
+17	2013-03-19 03:57:57.047981	2013-03-19 03:57:57.047981	17.1488663	73.27269460000002	0	Ganpati Pule
+18	2013-03-19 03:57:57.052195	2013-03-19 03:57:57.052195	16.0667	73.46669999999995	0	Malvan
+20	2013-03-19 03:57:57.059956	2013-03-19 03:57:57.059956	16.6913076	74.24486619999993	0	Kolhapur
+81	2013-07-29 18:46:07.8428	2013-07-29 18:46:07.8428	17.385044	78.486671	0	Hyderabad
+67	2013-05-31 17:12:37.198283	2013-05-31 17:12:37.198283	32.7801399	-96.80045109999998	0	Dallas
+82	2013-07-29 18:53:54.953425	2013-07-29 18:53:54.953425	23.0395677	72.56600449999996	0	Ahmedabad
+28	2013-03-20 16:58:35.470744	2013-03-20 16:58:35.470744	41.3850639	2.1734034999999494	1	Barcelona
+83	2013-07-29 19:16:23.713138	2013-07-29 19:16:23.713138	19.392674	72.86164299999996	0	Vasai
+57	2013-05-22 18:39:17.25619	2013-05-22 18:39:17.25619	16.20702	77.35436200000004	0	Raichur
+84	2013-08-01 18:34:51.71846	2013-08-01 18:34:51.71846	18.74749	73.40344200000004	0	Lonavala
+58	2013-05-27 18:52:17.340834	2013-05-27 18:52:17.340834	22.572646	88.36389499999996	0	Kolkata
+59	2013-05-27 18:55:00.58772	2013-05-27 18:55:00.58772	17.6599188	75.90639060000001	0	Solapur
+60	2013-05-29 18:07:26.531488	2013-05-29 18:07:26.531488	20.428283	72.83973170000002	0	Daman and Diu
+61	2013-05-29 18:07:26.541059	2013-05-29 18:07:26.541059	22.3073095	73.18109759999993	0	Vadodara
+62	2013-05-29 18:07:26.545959	2013-05-29 18:07:26.545959	21.195	72.81944399999998	0	Surat
+68	2013-05-31 20:06:15.653657	2013-05-31 20:06:15.653657	-33.8674869	151.20699020000006	0	Sydney
+63	2013-05-29 18:07:26.551965	2013-05-29 18:07:26.551965	26.9124165	75.78728790000002	0	Jaipur
+22	2013-03-19 04:08:23.698417	2013-03-19 04:08:23.698417	25.444121	78.56760400000007	1	Jhansi
+64	2013-05-29 18:07:26.557092	2013-05-29 18:07:26.557092	26.449923	80.3318736	0	Kanpur
+66	2013-05-29 18:07:26.566939	2013-05-29 18:07:26.566939	28.4594965	77.02663830000006	0	Gurgaon
+23	2013-03-19 04:27:35.504954	2013-03-19 04:27:35.504954	15.85036	74.50466899999992	0	Belgaum
+27	2013-03-20 16:57:57.200785	2013-03-20 16:57:57.200785	39.4699075	-0.3762881000000107	0	Valencia
+34	2013-04-07 18:42:50.675316	2013-04-07 18:42:50.675316	19.153061	77.30584699999997	0	Nanded
+36	2013-04-07 18:46:40.356897	2013-04-07 18:46:40.356897	52.519171	13.406091199999992	0	Berlin
+37	2013-04-07 18:46:40.370287	2013-04-07 18:46:40.370287	53.5510846	9.99368179999999	0	Hamburg
+38	2013-04-10 12:19:27.081362	2013-04-10 12:19:27.081362	21.621901	82.42875700000002	0	Kasdol
+39	2013-04-10 12:22:17.56712	2013-04-10 12:22:17.56712	28.9844618	77.70641369999998	0	Meerut
+41	2013-04-10 12:22:17.577814	2013-04-10 12:22:17.577814	31.1046052	77.1734242	0	Shimla
+42	2013-04-10 12:22:17.582516	2013-04-10 12:22:17.582516	31.6339793	74.87226420000002	0	Amritsar
+43	2013-04-10 12:22:17.586804	2013-04-10 12:22:17.586804	28.01989	73.31755099999998	0	Bikaner
+44	2013-04-10 12:22:17.592602	2013-04-10 12:22:17.592602	26.2389469	73.02430939999999	0	Jodhpur
+45	2013-04-10 12:22:17.597883	2013-04-10 12:22:17.597883	26.45	74.63999999999999	0	Ajmer
+46	2013-04-10 12:22:17.602335	2013-04-10 12:22:17.602335	25.1695114	75.85398980000002	0	Kota
+47	2013-04-11 08:25:04.274316	2013-04-11 08:25:04.274316	-34.92862119999999	138.5999594	0	Adelaide
+51	2013-04-11 08:51:10.099375	2013-04-11 08:51:10.099375	37.78861	-120.86221999999998	0	Adela
+52	2013-04-11 08:51:10.115727	2013-04-11 08:51:10.115727	34.0489281	-111.09373110000001	0	Arizona
+53	2013-04-11 08:57:23.01175	2013-04-11 08:57:23.01175	53.683298	-1.50592400000005	0	Wakefield
+54	2013-04-11 08:57:23.028338	2013-04-11 08:57:23.028338	43.1680556	-4.681666700000051	0	Lon
+16	2013-03-19 03:57:57.044235	2013-03-19 03:57:57.044235	18.1682776	72.99034469999992	1	Diveagar
+21	2013-03-19 03:57:57.064321	2013-03-19 03:57:57.064321	18.5204303	73.85674369999992	1	Pune
+56	2013-04-28 17:06:03.335333	2013-04-28 17:06:03.335333	42.3875968	-71.0994968	0	Somerville
+55	2013-04-28 15:56:08.868967	2013-04-28 15:56:08.868967	35.2270869	-80.84312669999997	0	Charlotte
+50	2013-04-11 08:25:54.409483	2013-04-11 08:25:54.409483	41.8781136	-87.62979819999998	0	Chicago
+33	2013-03-20 17:22:18.815819	2013-03-20 17:22:18.815819	26.147129	91.73555110000007	0	Guwahati
+35	2013-04-07 18:42:50.685774	2013-04-07 18:42:50.685774	12.9715987	77.59456269999998	1	Bangalore
+69	2013-05-31 20:08:28.277885	2013-05-31 20:08:28.277885	11.0168445	76.95583209999995	0	Coimbatore
+26	2013-03-20 16:56:32.481682	2013-03-20 16:56:32.481682	36.114646	-115.17281600000001	0	Las Vegas
+29	2013-03-20 17:06:48.831802	2013-03-20 17:06:48.831802	15.3647083	75.12395470000001	0	Hubli
+65	2013-05-29 18:07:26.562263	2013-05-29 18:07:26.562263	28.6691565	77.45375779999995	0	Ghaziabad
+30	2013-03-20 17:09:21.814186	2013-03-20 17:09:21.814186	41.8929163	12.482519899999943	0	Rome
+14	2013-03-19 03:57:57.024439	2013-03-19 03:57:57.024439	19.0759837	72.87765590000004	1	Mumbai
+32	2013-03-20 17:11:42.374476	2013-03-20 17:11:42.374476	48.113475	-1.675707999999986	0	Rennes
+49	2013-04-11 08:25:54.40315	2013-04-11 08:25:54.40315	40.7143528	-74.0059731	1	New York
+86	2013-08-10 14:12:47.703584	2013-08-10 14:12:47.703584	7.190708	125.45534099999998	1	Davao City
+48	2013-04-11 08:25:04.301714	2013-04-11 08:25:04.301714	-37.814107	144.96327999999994	0	Melbourne
+70	2013-06-03 21:06:48.805118	2013-06-03 21:06:48.805118	48.856614	2.3522219000000177	0	Paris
+71	2013-06-19 17:22:59.419274	2013-06-19 17:22:59.419274	19.2412011	73.1290596	0	Kalyan
+72	2013-06-30 17:50:37.678604	2013-06-30 17:50:37.678604	19.2183307	72.97808970000006	0	Thane
+73	2013-06-30 17:50:37.697862	2013-06-30 17:50:37.697862	18.92343	73.32513700000004	0	Karjat
+74	2013-06-30 17:50:37.707265	2013-06-30 17:50:37.707265	19.9974533	73.78980230000002	0	Nashik
+75	2013-06-30 17:50:37.716981	2013-06-30 17:50:37.716981	21.1458004	79.08815460000005	0	Nagpur
+76	2013-07-04 18:24:45.041375	2013-07-04 18:24:45.041375	25.61046	85.14166699999998	0	Patna
+77	2013-07-19 19:24:45.485834	2013-07-19 19:24:45.485834	43.3216621	-1.9849934999999732	0	Donostia-San Sebastián
+79	2013-07-20 20:08:58.184202	2013-07-20 20:08:58.184202	13.0524139	80.25082459999999	0	Chennai
+80	2013-07-20 20:08:58.195195	2013-07-20 20:08:58.195195	39.90403	116.40752599999996	0	Beijing
+87	2013-08-10 14:12:52.262253	2013-08-10 14:12:52.262253	14.4663438	75.92383970000003	1	Davanagere
+85	2013-08-10 14:12:00.584529	2013-08-10 14:12:00.584529	43.653226	-79.38318429999998	2	Toronto
+25	2013-03-20 16:55:53.090663	2013-03-20 16:55:53.090663	51.51121389999999	-0.11982439999997041	3	London
+19	2013-03-19 03:57:57.056001	2013-03-19 03:57:57.056001	15.2993265	74.12399600000003	3	Goa
+24	2013-03-19 04:28:37.469261	2013-03-19 04:28:37.469261	28.635308	77.22496000000001	2	New Delhi
+31	2013-03-20 17:10:28.760139	2013-03-20 17:10:28.760139	39.0997265	-94.57856670000001	0	Kansas City
+40	2013-04-10 12:22:17.573211	2013-04-10 12:22:17.573211	30.7333148	76.7794179	0	Chandigarh
+88	2013-08-10 14:12:58.264957	2013-08-10 14:12:58.264957	9.9312328	76.26730410000005	1	Kochi
+89	2013-08-10 16:48:31.869643	2013-08-10 16:48:31.869643	-23.5489433	-46.6388182	1	São Paulo
+90	2013-08-10 16:48:37.705085	2013-08-10 16:48:37.705085	-33.4691199	-70.641997	1	Santiago
+91	2013-08-10 16:48:45.097507	2013-08-10 16:48:45.097507	34.0522342	-118.2436849	1	Los Angeles
+78	2013-07-20 17:29:21.709628	2013-07-20 17:29:21.709628	8.4874949	76.948623	1	Thiruvananthapuram
+92	2013-08-10 16:49:08.99416	2013-08-10 16:49:08.99416	31.230393	121.473704	1	Shanghai
+\.
+
+
+--
+-- Name: places_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('places_id_seq', 92, true);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY schema_migrations (version) FROM stdin;
+20130310153231
+20121001150514
+20121019222115
+20121022072627
+20121110141020
+20121117151745
+20121121200511
+20121121200542
+20121124141959
+20121201202344
+20121208184402
+20121217224116
+20130108180445
+20130111204443
+20130112102758
+20130112220147
+20130115102516
+20130117213532
+20130118204933
+20130118211526
+20130118223524
+20130118223852
+20130118224632
+20130119151927
+20130119162723
+20130119172001
+20130124220030
+20130126223117
+20130126223745
+20130129204342
+20130129212548
+20130131203424
+20130201183115
+20130207143240
+20130210092750
+20130211032441
+20130227100657
+20130302073640
+20130302075305
+20130302081021
+20130302081053
+20130316150908
+20130317113919
+20130317114502
+20130317182835
+20130318165045
+20130318165902
+20130310174620
+20130413125328
+20130416174547
+20130416175012
+20130401141318
+20130506152520
+20130512095901
+20130518141205
+20130518141357
+20130518143315
+20130704113509
+20130817130352
+\.
+
+
+--
+-- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY sessions (id, session_id, data, created_at, updated_at) FROM stdin;
+15	12339dc6b4b00688b2a17e7213722d6c	BAh7CEkiEF9jc3JmX3Rva2VuBjoGRUZJIjFHUVE2OXpzZG1jZDBFNXBwUnNY\nU0JWWGJzcTZZdnRiNmh6bU9vdEgvZS9NPQY7AEZJIhl3YXJkZW4udXNlci51\nc2VyLmtleQY7AFRbCEkiCVVzZXIGOwBGWwZpS0kiIiQyYSQxMCRNbVUwNThq\namRTNFRaTUl4bmovVVNlBjsAVEkiCmZsYXNoBjsAVG86JUFjdGlvbkRpc3Bh\ndGNoOjpGbGFzaDo6Rmxhc2hIYXNoCToKQHVzZWRvOghTZXQGOgpAaGFzaHsA\nOgxAY2xvc2VkRjoNQGZsYXNoZXN7BjoLbm90aWNlSSJGUGxlYXNlIGZvbGxv\ndyB5b3VyIGZhdm9yaXRlIHBsYWNlcyB0byBnZXQgc3RhcnRlZCB3aXRoIFJv\nYWRtb2pvICEGOwBUOglAbm93MA==\n	2013-08-17 13:38:40.859238	2013-08-17 13:38:41.061024
+\.
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('sessions_id_seq', 15, true);
+
+
+--
+-- Data for Name: special_emails; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY special_emails (id, email, created_at, updated_at) FROM stdin;
+2	thirthappa.kaushik@gmail.com	2013-07-04 11:48:20.33902	2013-07-04 11:48:20.33902
+3	aa@aa.com	2013-07-04 11:48:41.965288	2013-07-04 11:48:41.965288
+4	so@so.com	2013-07-04 18:11:35.455805	2013-07-04 18:11:35.455805
+5	case@se.com	2013-08-16 17:27:11.4215	2013-08-16 17:27:11.4215
+\.
+
+
+--
+-- Name: special_emails_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('special_emails_id_seq', 5, true);
+
+
+--
+-- Data for Name: trip_places; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY trip_places (id, trip_id, place_id, created_at, updated_at, sort) FROM stdin;
+97	33	21	2013-05-29 18:20:00.871608	2013-05-29 18:20:00.887688	0
+98	33	14	2013-05-29 18:20:00.875051	2013-05-29 18:20:00.889268	1
+99	36	21	2013-05-31 20:15:10.095561	2013-05-31 20:15:10.229712	0
+100	36	14	2013-05-31 20:15:10.102878	2013-05-31 20:15:10.233522	1
+74	\N	21	2013-05-27 18:45:12.750045	2013-05-27 18:45:12.750045	0
+75	\N	24	2013-05-27 18:45:12.760182	2013-05-27 18:45:12.760182	1
+101	\N	21	2013-06-03 19:07:30.101853	2013-06-03 19:07:30.101853	0
+102	\N	14	2013-06-03 19:07:30.107897	2013-06-03 19:07:30.107897	1
+76	24	21	2013-05-27 18:45:24.448893	2013-05-27 18:45:24.46124	0
+77	24	24	2013-05-27 18:45:24.450264	2013-05-27 18:45:24.46303	1
+78	\N	21	2013-05-27 18:46:56.891036	2013-05-27 18:46:56.891036	0
+79	\N	42	2013-05-27 18:46:56.892986	2013-05-27 18:46:56.892986	1
+15	5	14	2013-03-19 03:57:57.085693	2013-03-19 03:58:28.262311	0
+17	5	16	2013-03-19 03:57:57.099377	2013-03-19 03:58:28.265928	1
+16	5	15	2013-03-19 03:57:57.090206	2013-03-19 03:58:28.267379	2
+18	5	17	2013-03-19 03:57:57.104454	2013-03-19 03:58:28.269974	3
+19	5	18	2013-03-19 03:57:57.109168	2013-03-19 03:58:28.274062	4
+20	5	19	2013-03-19 03:57:57.113975	2013-03-19 03:58:28.277511	5
+21	5	20	2013-03-19 03:57:57.117928	2013-03-19 03:58:28.280542	6
+22	5	21	2013-03-19 03:57:57.121482	2013-03-19 03:58:28.283149	7
+103	50	21	2013-06-03 19:08:05.073786	2013-06-03 19:08:05.089425	0
+23	6	19	2013-03-19 04:27:35.529722	2013-03-19 04:27:35.546137	0
+24	6	23	2013-03-19 04:27:35.531736	2013-03-19 04:27:35.547841	1
+25	6	14	2013-03-19 04:27:35.537867	2013-03-19 04:27:35.549151	2
+104	50	14	2013-06-03 19:08:05.07571	2013-06-03 19:08:05.092152	1
+26	8	34	2013-04-07 18:42:50.709303	2013-04-07 18:42:50.920569	0
+27	8	35	2013-04-07 18:42:50.713366	2013-04-07 18:42:50.922282	1
+105	51	21	2013-06-03 19:24:31.17126	2013-06-03 19:24:31.187354	0
+28	9	36	2013-04-07 18:46:40.38991	2013-04-07 18:46:40.401363	0
+29	9	37	2013-04-07 18:46:40.391609	2013-04-07 18:46:40.40302	1
+30	\N	38	2013-04-10 12:22:17.629928	2013-04-10 12:22:17.629928	0
+31	\N	24	2013-04-10 12:22:17.634554	2013-04-10 12:22:17.634554	1
+32	\N	22	2013-04-10 12:22:17.643345	2013-04-10 12:22:17.643345	2
+33	\N	39	2013-04-10 12:22:17.648288	2013-04-10 12:22:17.648288	3
+34	\N	40	2013-04-10 12:22:17.652281	2013-04-10 12:22:17.652281	4
+35	\N	41	2013-04-10 12:22:17.656028	2013-04-10 12:22:17.656028	5
+36	\N	42	2013-04-10 12:22:17.660522	2013-04-10 12:22:17.660522	6
+37	\N	43	2013-04-10 12:22:17.665396	2013-04-10 12:22:17.665396	7
+38	\N	44	2013-04-10 12:22:17.671287	2013-04-10 12:22:17.671287	8
+39	\N	45	2013-04-10 12:22:17.676172	2013-04-10 12:22:17.676172	9
+40	\N	46	2013-04-10 12:22:17.681264	2013-04-10 12:22:17.681264	10
+106	51	25	2013-06-03 19:24:31.172998	2013-06-03 19:24:31.189047	1
+41	10	47	2013-04-11 08:25:04.425289	2013-04-11 08:25:04.558173	0
+42	10	48	2013-04-11 08:25:04.43221	2013-04-11 08:25:04.561232	1
+110	68	21	2013-06-03 20:53:59.28214	2013-06-03 20:54:35.096814	0
+43	11	49	2013-04-11 08:25:54.41496	2013-04-11 08:25:54.423088	0
+44	11	50	2013-04-11 08:25:54.417017	2013-04-11 08:25:54.424272	1
+111	68	14	2013-06-03 20:53:59.289669	2013-06-03 20:54:35.1017	1
+107	59	21	2013-06-03 20:18:29.223518	2013-06-03 20:21:55.896257	0
+45	12	47	2013-04-11 08:48:49.416963	2013-04-11 08:48:49.431392	0
+46	12	48	2013-04-11 08:48:49.421169	2013-04-11 08:48:49.432772	1
+109	59	25	2013-06-03 20:21:55.901531	2013-06-03 20:21:55.901531	1
+47	13	47	2013-04-11 08:49:34.802437	2013-04-11 08:49:34.809489	0
+48	13	48	2013-04-11 08:49:34.803625	2013-04-11 08:49:34.810965	1
+121	80	21	2013-06-16 09:59:23.850251	2013-06-16 09:59:23.850251	0
+49	14	51	2013-04-11 08:51:10.1344	2013-04-11 08:51:10.147504	0
+50	14	52	2013-04-11 08:51:10.136854	2013-04-11 08:51:10.149285	1
+122	80	14	2013-06-16 09:59:23.860723	2013-06-16 09:59:23.860723	1
+112	69	21	2013-06-03 21:01:46.961975	2013-06-03 21:01:46.961975	0
+51	15	53	2013-04-11 08:57:23.047999	2013-04-11 08:57:23.059929	0
+52	15	54	2013-04-11 08:57:23.049769	2013-04-11 08:57:23.061397	1
+113	70	70	2013-06-03 21:06:48.819036	2013-06-03 21:06:48.819036	0
+114	71	70	2013-06-03 21:10:25.199528	2013-06-03 21:10:25.199528	0
+53	16	47	2013-04-11 08:58:56.35427	2013-04-11 08:58:56.361954	0
+54	16	48	2013-04-11 08:58:56.355576	2013-04-11 08:58:56.363216	1
+115	72	21	2013-06-03 21:11:04.891532	2013-06-03 21:11:04.891532	0
+55	17	47	2013-04-11 09:00:52.599932	2013-04-11 09:00:52.614512	0
+56	17	48	2013-04-11 09:00:52.60407	2013-04-11 09:00:52.616432	1
+123	81	21	2013-06-18 17:19:27.015148	2013-06-18 17:19:27.015148	0
+57	18	47	2013-04-11 09:03:04.773943	2013-04-11 09:03:04.787745	0
+58	18	48	2013-04-11 09:03:04.777525	2013-04-11 09:03:04.789276	1
+124	81	14	2013-06-18 17:19:27.026172	2013-06-18 17:19:27.026172	1
+118	76	21	2013-06-04 19:01:53.320582	2013-06-04 19:01:53.320582	0
+59	19	47	2013-04-11 09:06:01.719808	2013-04-11 09:06:01.735642	0
+60	19	48	2013-04-11 09:06:01.723958	2013-04-11 09:06:01.737173	1
+119	77	14	2013-06-15 14:37:04.155031	2013-06-15 14:37:04.155031	0
+120	77	21	2013-06-15 14:37:04.168994	2013-06-15 14:37:04.168994	1
+61	20	55	2013-04-28 15:56:08.907995	2013-04-28 15:56:09.091059	0
+62	20	49	2013-04-28 15:56:08.913043	2013-04-28 15:56:09.09254	1
+63	21	55	2013-05-05 04:05:03.969268	2013-05-05 04:05:03.969268	0
+125	81	20	2013-06-18 17:19:27.030331	2013-06-18 17:19:27.030331	2
+126	81	58	2013-06-18 17:19:27.034086	2013-06-18 17:19:27.034086	3
+64	22	21	2013-05-18 13:39:13.693443	2013-05-18 13:39:13.979575	0
+65	22	14	2013-05-18 13:39:13.702177	2013-05-18 13:39:13.981256	1
+66	\N	23	2013-05-22 18:39:17.284542	2013-05-22 18:39:17.284542	0
+67	\N	57	2013-05-22 18:39:17.28994	2013-05-22 18:39:17.28994	1
+68	\N	23	2013-05-22 18:40:11.973594	2013-05-22 18:40:11.973594	0
+69	\N	57	2013-05-22 18:40:11.975302	2013-05-22 18:40:11.975302	1
+70	\N	23	2013-05-22 18:40:37.725564	2013-05-22 18:40:37.725564	0
+71	\N	57	2013-05-22 18:40:37.727631	2013-05-22 18:40:37.727631	1
+127	81	24	2013-06-18 17:19:27.038129	2013-06-18 17:19:27.038129	4
+128	81	65	2013-06-18 17:19:27.0435	2013-06-18 17:19:27.0435	5
+72	23	23	2013-05-22 18:40:46.857185	2013-05-22 18:40:46.87335	0
+73	23	57	2013-05-22 18:40:46.858828	2013-05-22 18:40:46.875946	1
+129	81	63	2013-06-18 17:19:27.048711	2013-06-18 17:19:27.048711	6
+130	81	40	2013-06-18 17:19:27.052335	2013-06-18 17:19:27.052335	7
+80	26	21	2013-05-27 18:47:03.168981	2013-05-27 18:47:03.17876	0
+81	26	42	2013-05-27 18:47:03.170927	2013-05-27 18:47:03.180801	1
+131	81	64	2013-06-18 17:19:27.057368	2013-06-18 17:19:27.057368	8
+132	82	21	2013-06-19 17:22:59.402252	2013-06-19 17:22:59.402252	0
+82	28	21	2013-05-27 18:52:17.36482	2013-05-27 18:52:17.377233	0
+83	28	58	2013-05-27 18:52:17.366496	2013-05-27 18:52:17.378928	1
+133	82	14	2013-06-19 17:22:59.413834	2013-06-19 17:22:59.413834	1
+134	82	71	2013-06-19 17:22:59.424108	2013-06-19 17:22:59.424108	2
+84	29	21	2013-05-27 18:55:00.688999	2013-05-27 18:55:00.699645	0
+85	29	59	2013-05-27 18:55:00.690786	2013-05-27 18:55:00.701265	1
+86	31	21	2013-05-27 18:56:35.639755	2013-05-27 18:56:35.639755	0
+135	83	21	2013-06-23 05:50:07.852198	2013-06-23 05:50:07.852198	0
+136	83	14	2013-06-23 05:50:07.862121	2013-06-23 05:50:07.862121	1
+137	84	21	2013-06-29 09:44:28.732251	2013-06-29 10:13:07.308123	0
+87	32	21	2013-05-29 18:07:26.596161	2013-05-29 18:07:26.65417	0
+88	32	14	2013-05-29 18:07:26.60114	2013-05-29 18:07:26.655767	1
+89	32	60	2013-05-29 18:07:26.60988	2013-05-29 18:07:26.656807	2
+90	32	61	2013-05-29 18:07:26.614993	2013-05-29 18:07:26.658167	3
+91	32	62	2013-05-29 18:07:26.618927	2013-05-29 18:07:26.659652	4
+92	32	63	2013-05-29 18:07:26.623193	2013-05-29 18:07:26.660879	5
+93	32	64	2013-05-29 18:07:26.627288	2013-05-29 18:07:26.661823	6
+94	32	65	2013-05-29 18:07:26.631593	2013-05-29 18:07:26.662763	7
+95	32	66	2013-05-29 18:07:26.635193	2013-05-29 18:07:26.663678	8
+96	32	24	2013-05-29 18:07:26.638828	2013-05-29 18:07:26.664567	9
+139	85	21	2013-06-29 10:14:02.220811	2013-06-29 10:14:02.220811	0
+140	85	14	2013-06-29 10:14:02.230354	2013-06-29 10:14:02.230354	1
+141	86	21	2013-06-30 06:34:48.331262	2013-06-30 06:34:48.331262	0
+142	86	24	2013-06-30 06:34:48.338538	2013-06-30 06:34:48.338538	1
+143	86	14	2013-06-30 06:34:48.34348	2013-06-30 06:34:48.34348	2
+144	87	21	2013-06-30 17:50:37.665853	2013-06-30 17:50:37.665853	0
+145	87	14	2013-06-30 17:50:37.672311	2013-06-30 17:50:37.672311	1
+146	87	72	2013-06-30 17:50:37.684379	2013-06-30 17:50:37.684379	2
+147	87	71	2013-06-30 17:50:37.690273	2013-06-30 17:50:37.690273	3
+148	87	73	2013-06-30 17:50:37.701555	2013-06-30 17:50:37.701555	4
+149	87	74	2013-06-30 17:50:37.7113	2013-06-30 17:50:37.7113	5
+150	87	75	2013-06-30 17:50:37.719926	2013-06-30 17:50:37.719926	6
+151	87	59	2013-06-30 17:50:37.726187	2013-06-30 17:50:37.726187	7
+152	87	20	2013-06-30 17:50:37.743423	2013-06-30 17:50:37.743423	8
+153	87	21	2013-06-30 17:50:37.753611	2013-06-30 17:50:37.753611	9
+154	90	21	2013-07-04 18:24:45.011408	2013-07-04 18:24:45.011408	0
+155	90	14	2013-07-04 18:24:45.023233	2013-07-04 18:24:45.023233	1
+156	90	20	2013-07-04 18:24:45.028448	2013-07-04 18:24:45.028448	2
+157	90	59	2013-07-04 18:24:45.034895	2013-07-04 18:24:45.034895	3
+158	90	76	2013-07-04 18:24:45.046907	2013-07-04 18:24:45.046907	4
+159	91	21	2013-07-04 18:52:06.962419	2013-07-04 18:52:06.962419	0
+160	91	14	2013-07-04 18:52:06.968624	2013-07-04 18:52:06.968624	1
+161	92	21	2013-07-05 19:00:30.657189	2013-07-05 19:00:30.657189	0
+162	92	14	2013-07-05 19:00:30.668727	2013-07-05 19:00:30.668727	1
+163	93	21	2013-07-10 17:54:24.802012	2013-07-10 17:54:24.802012	0
+164	93	14	2013-07-10 17:54:24.811837	2013-07-10 17:54:24.811837	1
+165	95	21	2013-07-17 18:23:52.289325	2013-07-17 18:23:52.289325	0
+166	95	14	2013-07-17 18:23:52.299295	2013-07-17 18:23:52.299295	1
+167	96	21	2013-07-19 19:24:45.45726	2013-07-19 19:24:45.45726	0
+168	96	14	2013-07-19 19:24:45.477531	2013-07-19 19:24:45.477531	1
+169	96	77	2013-07-19 19:24:45.621536	2013-07-19 19:24:45.621536	2
+170	105	21	2013-07-20 10:04:37.926616	2013-07-20 10:04:37.926616	0
+171	105	14	2013-07-20 10:04:37.9414	2013-07-20 10:04:37.9414	1
+172	107	21	2013-07-20 11:41:58.212209	2013-07-20 11:41:58.212209	0
+173	107	14	2013-07-20 11:41:58.220337	2013-07-20 11:41:58.220337	1
+205	123	21	2013-07-29 19:16:23.698646	2013-07-29 19:32:41.638058	0
+206	123	14	2013-07-29 19:16:23.707803	2013-07-29 19:32:41.641362	1
+174	109	21	2013-07-20 11:43:46.16382	2013-07-20 11:51:15.936457	0
+175	109	14	2013-07-20 11:43:46.171805	2013-07-20 11:51:15.940096	1
+207	123	83	2013-07-29 19:16:23.717747	2013-07-29 19:32:41.644636	2
+176	111	21	2013-07-20 11:58:36.486138	2013-07-20 11:58:47.806202	0
+177	111	14	2013-07-20 11:58:36.493969	2013-07-20 11:58:47.809247	1
+178	112	21	2013-07-20 17:29:21.704016	2013-07-20 17:29:21.704016	0
+179	112	78	2013-07-20 17:29:21.715941	2013-07-20 17:29:21.715941	1
+180	113	21	2013-07-20 17:30:03.683978	2013-07-20 17:30:03.683978	0
+181	113	78	2013-07-20 17:30:03.690247	2013-07-20 17:30:03.690247	1
+182	114	78	2013-07-20 17:36:01.888174	2013-07-20 17:36:01.888174	0
+183	114	78	2013-07-20 17:36:01.894797	2013-07-20 17:36:01.894797	1
+184	116	21	2013-07-20 20:08:58.158096	2013-07-20 20:08:58.158096	0
+185	116	14	2013-07-20 20:08:58.168119	2013-07-20 20:08:58.168119	1
+186	116	71	2013-07-20 20:08:58.173047	2013-07-20 20:08:58.173047	2
+187	116	35	2013-07-20 20:08:58.177721	2013-07-20 20:08:58.177721	3
+188	116	79	2013-07-20 20:08:58.189082	2013-07-20 20:08:58.189082	4
+189	116	80	2013-07-20 20:08:58.197668	2013-07-20 20:08:58.197668	5
+190	117	21	2013-07-21 08:00:56.251256	2013-07-21 08:00:56.251256	0
+191	117	14	2013-07-21 08:00:56.262643	2013-07-21 08:00:56.262643	1
+192	118	21	2013-07-21 15:17:23.27484	2013-07-21 15:17:23.27484	0
+193	118	14	2013-07-21 15:17:23.287161	2013-07-21 15:17:23.287161	1
+208	123	71	2013-07-29 19:32:41.755085	2013-07-29 19:32:41.755085	3
+196	120	21	2013-07-24 20:37:01.784393	2013-07-30 18:13:35.725284	0
+209	120	14	2013-07-30 18:13:35.739458	2013-07-30 18:13:35.739458	1
+210	120	19	2013-07-30 18:13:35.75374	2013-07-30 18:13:35.75374	2
+219	128	21	2013-08-06 04:35:03.645614	2013-08-06 09:14:30.912453	0
+220	128	14	2013-08-06 04:35:03.735304	2013-08-06 09:14:30.917088	1
+221	131	21	2013-08-06 08:55:35.853241	2013-08-06 09:15:05.937074	0
+222	131	14	2013-08-06 08:55:35.864998	2013-08-06 09:15:05.944475	1
+211	124	21	2013-08-01 18:34:08.503237	2013-08-02 21:23:02.399535	0
+213	124	72	2013-08-01 18:34:08.520191	2013-08-02 21:23:02.40342	1
+214	124	84	2013-08-01 18:34:51.724825	2013-08-02 21:23:02.406097	2
+215	126	21	2013-08-04 10:05:42.494812	2013-08-04 10:05:42.494812	0
+225	132	21	2013-08-07 17:14:33.654217	2013-08-07 17:14:33.654217	0
+226	132	14	2013-08-07 17:14:33.682338	2013-08-07 17:14:33.682338	1
+216	126	14	2013-08-04 10:05:42.519605	2013-08-04 10:05:42.519605	1
+217	127	21	2013-08-04 12:52:26.961201	2013-08-04 12:52:26.961201	0
+218	127	14	2013-08-04 12:52:26.981324	2013-08-04 12:52:26.981324	1
+223	133	14	2013-08-06 09:15:31.752359	2013-08-07 18:22:48.915911	0
+224	133	24	2013-08-06 09:15:31.766586	2013-08-07 18:22:48.920019	1
+227	135	21	2013-08-13 06:11:09.580358	2013-08-13 06:11:09.580358	0
+228	135	19	2013-08-13 06:11:09.592323	2013-08-13 06:11:09.592323	1
+229	139	21	2013-08-16 16:11:39.535589	2013-08-16 16:11:39.535589	0
+230	139	14	2013-08-16 16:11:39.547481	2013-08-16 16:11:39.547481	1
+231	139	70	2013-08-16 16:11:39.552381	2013-08-16 16:11:39.552381	2
+\.
+
+
+--
+-- Name: trip_places_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('trip_places_id_seq', 231, true);
+
+
+--
+-- Data for Name: trips; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY trips (id, name, source, destination, description, created_at, updated_at, user_id, transport, trip_date, draft_version, slug, no_of_shares, no_of_likes) FROM stdin;
+52	lakjsdalskj	\N	\N	lkjalsdkjalskd	2013-06-03 19:53:41.404519	2013-06-03 19:53:41.404519	1	Car	2013-06-01	f	lakjsdalskj	0	0
+53	lae1	\N	\N	kajsd	2013-06-03 20:09:09.549371	2013-06-03 20:09:09.549371	1	Car	2013-05-01	f	lae1	0	0
+54	ash31	\N	\N	alskjd	2013-06-03 20:09:29.199127	2013-06-03 20:09:29.199127	1	Car	2013-05-01	f	ash31	0	0
+6	Mumbai - goa	\N	\N	lakjsdlakjd	2013-03-19 04:27:35.544007	2013-03-19 04:27:35.544007	2	Car	2012-03-01	f	mumbai-goa	0	1
+10	asd	\N	\N	asd	2013-04-11 08:25:04.551081	2013-04-11 08:25:04.551081	1	Car	2013-08-01	f	asd	0	0
+11	asdasdads	\N	\N	asdadasdsd	2013-04-11 08:25:54.421636	2013-04-11 08:25:54.421636	1	Car	2013-04-01	f	asdasdads	0	0
+12	asd	\N	\N	asdasd	2013-04-11 08:48:49.429207	2013-04-11 08:48:49.429207	1	Car	2013-08-01	f	asd--2	0	0
+13	lkajsdlk	\N	\N	lakjsdlakjdalksjd	2013-04-11 08:49:34.807911	2013-04-11 08:49:34.807911	1	Car	2013-09-01	f	lkajsdlk	0	0
+14	ljai2opu2	\N	\N	lakjdlaskdj	2013-04-11 08:51:10.14463	2013-04-11 08:51:10.14463	1	Car	2013-12-01	f	ljai2opu2	0	0
+15	ljai2opu2	\N	\N	lakjdlaskdj	2013-04-11 08:57:23.057762	2013-04-11 08:57:23.057762	1	Car	2013-01-01	f	ljai2opu2--2	0	0
+16	asda323	\N	\N	sdase23	2013-04-11 08:58:56.360491	2013-04-11 08:58:56.360491	1	Car	2013-12-01	f	asda323	0	0
+17	iu42lads	\N	\N	;sjd;'ajd;'	2013-04-11 09:00:52.61233	2013-04-11 09:00:52.61233	1	Car	2013-12-01	f	iu42lads	0	0
+18	jadopi23	\N	\N	ohladnal;dj akjfla f;jal 	2013-04-11 09:03:04.785759	2013-04-11 09:03:04.785759	1	Car	2013-11-01	f	jadopi23	0	0
+19	lajkdlkasjd	\N	\N	lajsdaljdlaksdj	2013-04-11 09:06:01.733858	2013-04-11 09:06:01.733858	1	Car	2013-12-01	f	lajkdlkasjd	0	0
+20	lajksdasdj	\N	\N	lakdj	2013-04-28 15:56:09.086844	2013-04-28 15:56:09.086844	1	Car	2013-04-01	t	lajksdasdj	0	0
+21	Another Trial	\N	\N	asdj'adsjk	2013-05-05 04:05:03.963875	2013-05-05 04:05:03.963875	1	Car	2013-05-01	t	another-trial	0	0
+22	something	\N	\N	alskdjadsjl	2013-05-18 13:39:13.97347	2013-05-18 13:39:13.97347	1	Car	2012-05-01	f	something	0	0
+23	asdm	\N	\N	a;lskda;ldk	2013-05-22 18:40:46.867186	2013-05-22 18:40:46.867186	1	Car	2013-04-01	f	asdm	0	0
+5	My first trip	\N	\N	lksjdalkdj 	2013-03-19 03:57:57.255909	2013-05-26 15:11:32.846634	1	Motorbike	2011-04-01	t	my-first-trip	0	0
+55	kaushik1	\N	\N	lkajsdlaksdj	2013-06-03 20:10:06.130299	2013-06-03 20:10:06.130299	1	Car	2013-04-01	f	kaushik1	0	0
+34		\N	\N		2013-05-29 18:37:19.141725	2013-05-29 18:37:19.141725	10	Car	2013-05-01	t		0	0
+35		\N	\N		2013-05-29 18:39:07.567233	2013-05-29 18:39:07.567233	10	Car	2013-05-01	t	--35	0	0
+36	2uiuasdj	\N	\N	ajsd;asd	2013-05-31 20:15:10.22473	2013-05-31 20:15:10.22473	1	Car	2012-05-01	f	2uiuasdj	0	0
+37		\N	\N		2013-06-01 14:00:28.285144	2013-06-01 14:00:28.285144	1	Car	2013-06-01	f		0	0
+38		\N	\N		2013-06-01 14:00:46.939258	2013-06-01 14:00:46.939258	1	Car	2013-06-01	t	--38	0	0
+39		\N	\N		2013-06-01 14:01:48.359413	2013-06-01 14:01:48.359413	1	Car	2013-06-01	t	--39	0	0
+40		\N	\N		2013-06-01 14:02:00.265619	2013-06-01 14:02:00.265619	1	Car	2013-06-01	t	--40	0	0
+41		\N	\N		2013-06-01 14:03:22.07948	2013-06-01 14:03:22.07948	1	Car	2013-06-01	t	--41	0	0
+42		\N	\N		2013-06-01 14:04:59.356842	2013-06-01 14:04:59.356842	1	Car	2013-06-01	t	--42	0	0
+43		\N	\N		2013-06-01 14:05:28.498212	2013-06-01 14:05:28.498212	1	Car	2013-06-01	t	--43	0	0
+44		\N	\N		2013-06-01 14:05:57.505541	2013-06-01 14:05:57.505541	1	Car	2013-06-01	t	--44	0	0
+45		\N	\N		2013-06-01 14:08:03.020314	2013-06-01 14:08:03.020314	1	Car	2013-06-01	t	--45	0	0
+46		\N	\N		2013-06-01 14:11:37.566575	2013-06-01 14:11:37.566575	1	Car	2013-06-01	t	--46	0	0
+47		\N	\N		2013-06-01 14:13:39.726585	2013-06-01 14:13:39.726585	1	Car	2013-06-01	f	--47	0	0
+48		\N	\N		2013-06-01 14:13:46.922436	2013-06-01 14:13:46.922436	1	Car	2013-06-01	t	--48	0	0
+49	laksjd	\N	\N		2013-06-01 14:19:56.223222	2013-06-01 14:19:56.223222	1	Car	2013-06-01	t	laksjd	0	0
+50	kaushik new trips	\N	\N	should go somewhere	2013-06-03 19:08:05.083835	2013-06-03 19:08:05.083835	1	Car	2013-03-01	f	kaushik-new-trips	0	0
+51	lkajsdlk	\N	\N	jlakjsdlkasjdlaskdj	2013-06-03 19:24:31.184991	2013-06-03 19:24:31.184991	1	Car	2013-05-01	f	lkajsdlk--2	0	0
+56	kaushik2	\N	\N	;sajdaksdj	2013-06-03 20:14:20.586598	2013-06-03 20:14:20.586598	1	Car	2013-04-01	f	kaushik2	0	0
+57	kaushik2	\N	\N	lkasdjlakjd	2013-06-03 20:15:48.269208	2013-06-03 20:15:48.269208	1	Car	2013-06-01	f	kaushik2--2	0	0
+58	kaushik3	\N	\N	lkjasdlkasjd	2013-06-03 20:16:43.280632	2013-06-03 20:16:43.280632	1	Car	2013-05-01	f	kaushik3	0	0
+59	kaushik4	\N	\N	lkajsdlaksjdlkjasdlkasjd	2013-06-03 20:17:13.806507	2013-06-03 20:17:13.806507	1	Car	2013-03-01	f	kaushik4	0	0
+60	lkajsdlkj	\N	\N	laksjdlakjd	2013-06-03 20:35:20.083244	2013-06-03 20:35:20.083244	1	Car	2013-06-01	f	lkajsdlkj	0	0
+61	alksjdlaiu8	\N	\N	ajsdlakjd	2013-06-03 20:36:42.556314	2013-06-03 20:36:42.556314	1	Car	2013-06-01	f	alksjdlaiu8	0	0
+62	lkasd987	\N	\N	laksjdklad	2013-06-03 20:36:56.976938	2013-06-03 20:36:56.976938	1	Car	2013-06-01	f	lkasd987	0	0
+63	lkahsdo789	\N	\N	lkajsdlajdlkj	2013-06-03 20:44:43.324018	2013-06-03 20:44:43.324018	1	Car	2013-06-01	f	lkahsdo789	0	0
+64	lakjsdlakj	\N	\N	jlaksjdlakd	2013-06-03 20:45:47.90109	2013-06-03 20:45:47.90109	1	Car	2013-06-01	f	lakjsdlakj	0	0
+65	asud8798	\N	\N	lkajsdlakjsd	2013-06-03 20:46:36.881578	2013-06-03 20:46:36.881578	1	Car	2013-04-01	f	asud8798	0	0
+66	lkasud98798	\N	\N	;kas;djas;dlk	2013-06-03 20:47:15.008287	2013-06-03 20:47:15.008287	1	Car	2013-03-01	f	lkasud98798	0	0
+67	liyas9d7	\N	\N	kajhsdkad	2013-06-03 20:48:00.472493	2013-06-03 20:48:00.472493	1	Car	2013-06-01	f	liyas9d7	0	0
+68	liyas9d7	\N	\N	kajhsdkad	2013-06-03 20:52:04.681006	2013-06-03 20:52:04.681006	1	Car	2013-06-01	f	liyas9d7--2	0	0
+69	lkajsdlkj	\N	\N	lkjasldjaldjl	2013-06-03 20:59:03.151561	2013-06-03 20:59:03.151561	1	Car	2013-05-01	f	lkajsdlkj--2	0	0
+70	as;kd	\N	\N	kjlkadjlskjd	2013-06-03 21:06:34.373892	2013-06-03 21:06:34.373892	1	Car	2013-06-01	f	as-kd	0	0
+71	;alksd	\N	\N	;lka;sldasd	2013-06-03 21:08:23.407458	2013-06-03 21:08:23.407458	1	Car	2013-06-01	f	alksd	0	0
+72	palsd;l	\N	\N	kjasdkjasd	2013-06-03 21:10:50.548703	2013-06-03 21:10:50.548703	1	Car	2013-06-01	f	palsd-l	0	0
+73	puip9	\N	\N	lkjasldkjas	2013-06-03 21:12:02.149834	2013-06-03 21:12:02.149834	1	Car	2013-06-01	f	puip9	0	0
+74	lk2	\N	\N	asd	2013-06-03 21:22:35.750735	2013-06-03 21:22:35.750735	1	Car	2013-06-01	f	lk2	0	0
+75	kasjdaks	\N	\N	lkjalskdjaslkdjasldkjasdlkasd	2013-06-03 21:23:05.081609	2013-06-03 21:23:05.081609	1	Car	2013-06-01	f	kasjdaks	0	0
+76	asudoiu	\N	\N	lkajsldajd	2013-06-04 18:48:49.826631	2013-06-04 18:48:49.826631	1	Car	2013-06-01	f	asudoiu	0	0
+77	new ui test	\N	\N	lkajsdlajksd	2013-06-15 09:58:50.826977	2013-06-15 09:58:50.826977	1	Car	2013-01-01	f	new-ui-test	0	0
+78	lkajsdl	\N	\N	kjalskjdalkdjasd	2013-06-15 14:54:47.122656	2013-06-15 14:54:47.122656	1	Car	2013-06-01	f	lkajsdl	0	0
+79	iuiojlakdjs	\N	\N	lajsldjad	2013-06-15 14:59:42.550492	2013-06-15 14:59:42.550492	1	Car	2013-06-01	f	iuiojlakdjs	0	0
+80	kahsd	\N	\N	jasdlkajd	2013-06-16 09:50:01.203757	2013-06-16 09:50:01.203757	1	Car	2013-06-01	f	kahsd	0	0
+81	titit	\N	\N	kajsdljas	2013-06-18 17:13:54.413378	2013-06-18 17:13:54.413378	1	Car	2013-06-01	f	titit	0	0
+82	aljsdkjd	\N	\N	lkajsdlakjdasd	2013-06-19 17:22:04.660907	2013-06-19 17:22:04.660907	1	Car	2013-06-01	f	aljsdkjd	0	0
+83	LJSlkiu	\N	\N	;aksd;aldk	2013-06-23 05:49:48.481645	2013-06-23 05:49:48.481645	1	Car	2013-04-01	f	ljslkiu	0	0
+84	jaskd	\N	\N	asd	2013-06-29 09:26:32.117289	2013-06-29 09:26:32.117289	1	Car	2013-06-01	t	jaskd	0	0
+85	NoDraft	\N	\N	lkajsdlakjdslakdsj	2013-06-29 10:13:42.486456	2013-06-29 10:13:42.486456	1	Car	2013-06-01	f	nodraft	0	0
+86	Vicky Mehal	\N	\N	lkasjdlaksjd	2013-06-30 06:33:48.062352	2013-06-30 06:33:48.062352	1	Car	2013-06-01	f	vicky-mehal	0	0
+87	10-places	\N	\N	lkjasldkjaldkjasd	2013-06-30 17:49:03.477993	2013-06-30 17:49:03.477993	1	Car	2013-06-01	f	10-places	0	0
+88	asdj	\N	\N	;lasd	2013-07-01 17:51:56.773611	2013-07-01 17:51:56.773611	1	Car	2013-07-01	f	asdj	0	0
+89	Bus Trip	\N	\N	asd	2013-07-04 17:10:36.832626	2013-07-04 17:10:36.832626	1	Bus	2013-07-01	f	bus-trip	0	0
+90	my first trip	\N	\N	jaja	2013-07-04 18:24:16.341265	2013-07-04 18:24:16.341265	26	Car	2013-07-01	f	my-first-trip	0	0
+92	adklj	\N	\N	asdad	2013-07-05 19:00:18.258519	2013-07-05 19:00:18.258519	1	Car	2013-02-01	f	adklj	0	0
+93	cross test	\N	\N	lkajsd	2013-07-10 17:54:05.106857	2013-07-10 17:54:05.106857	1	Car	2013-07-01	f	cross-test	0	0
+94	alksjd	\N	\N		2013-07-10 18:25:30.746666	2013-07-10 18:25:30.746666	1	Car	2013-07-01	t	alksjd	0	0
+95	jkljlk	\N	\N	lksjdalkdjasd	2013-07-17 18:23:37.144132	2013-07-17 18:23:37.144132	1	Car	2013-07-01	f	jkljlk	0	0
+96	alskdjlk	\N	\N	laskjdlakdjlk	2013-07-19 19:04:33.920508	2013-07-19 19:04:33.920508	1	Car	2013-07-01	f	alskdjlk	0	0
+97	asldjasdl	\N	\N	laksjdlakdj	2013-07-19 20:23:47.333154	2013-07-19 20:23:47.333154	1	Car	2013-07-01	t	asldjasdl	0	0
+98	asldjasdl	\N	\N	laksjdlakdj	2013-07-19 20:24:56.195648	2013-07-19 20:24:56.195648	1	Car	2013-07-01	t	asldjasdl--2	0	0
+99	asldjasdl	\N	\N	laksjdlakdj	2013-07-19 20:25:10.452854	2013-07-19 20:25:10.452854	1	Car	2013-07-01	t	asldjasdl--3	0	0
+100	2jalskdj	\N	\N	laksjd	2013-07-19 20:25:20.865363	2013-07-19 20:25:20.865363	1	Car	2013-07-01	t	2jalskdj	0	0
+101	22jalskdj	\N	\N	laksjd	2013-07-19 20:30:04.287694	2013-07-19 20:30:04.287694	1	Car	2013-07-01	t	22jalskdj	0	0
+102	2ljlk	\N	\N	lkjas	2013-07-19 20:30:20.813488	2013-07-19 20:30:20.813488	1	Car	2013-07-01	t	2ljlk	0	0
+103	2ljlk2	\N	\N	lkjas	2013-07-19 20:31:08.379073	2013-07-19 20:31:08.379073	1	Car	2013-07-01	t	2ljlk2	0	0
+104	2ljlk2	\N	\N	lkjas	2013-07-19 20:37:22.236893	2013-07-19 20:37:22.236893	1	Car	2013-07-01	f	2ljlk2--3	0	0
+105	test-2-places	\N	\N	jlkasdlkj	2013-07-20 08:53:28.440956	2013-07-20 08:53:28.440956	1	Car	2013-07-01	f	test-2-places	0	0
+106	klajsd23	\N	\N	lkjalsdjalksdjasd	2013-07-20 11:30:09.5264	2013-07-20 11:30:09.5264	1	Car	2013-07-01	f	klajsd23	0	0
+107	klajsd23	\N	\N	lkjalsdjalksdjasd	2013-07-20 11:35:04.49895	2013-07-20 11:35:04.49895	1	Car	2013-07-01	f	klajsd23--2	0	0
+108	draft test	\N	\N	asd	2013-07-20 11:43:20.860679	2013-07-20 11:43:20.860679	1	Car	2013-07-01	t	draft-test	0	0
+109	draft test 2	\N	\N	asd	2013-07-20 11:43:31.157176	2013-07-20 11:50:34.444405	1	Car	2013-07-01	t	draft-test-2	0	0
+111	dt 	\N	\N	asdasdasd	2013-07-20 11:58:22.551196	2013-07-20 11:58:36.512313	1	Car	2013-07-01	t	dt	0	0
+124	edit test 2	\N	\N	akjsda sdjak djadlakdj aldj aldk jasd	2013-08-01 18:33:45.755479	2013-08-01 18:33:45.755479	1	Car	2013-08-01	f	edit-test-2	12	0
+113	long trip 2	\N	\N	akljsdalksjd	2013-07-20 17:29:52.721854	2013-07-20 17:29:52.721854	1	Car	2013-07-01	f	long-trip-2	0	0
+114	New New New New New New New New New New New New New New	\N	\N	laksjd	2013-07-20 17:35:40.081866	2013-07-20 17:35:40.081866	1	Car	2013-07-01	f	new-new-new-new-new-new-new-new-new-new-new-new-new-new	0	0
+115	san sebastian	\N	\N	akdj	2013-07-20 17:52:29.901709	2013-07-20 17:52:29.901709	1	Car	2013-07-01	f	san-sebastian	0	0
+116	li test	\N	\N	aksjdl	2013-07-20 19:51:30.001974	2013-07-20 19:51:30.001974	1	Motorbike	2012-07-01	f	li-test	0	0
+117	bus test	\N	\N	lkasjdalkdj	2013-07-21 08:00:41.694961	2013-07-21 08:00:41.694961	1	Bus	2011-07-01	f	bus-test	0	0
+119	laksjd	\N	\N	lkajsdasd	2013-07-21 16:48:56.295078	2013-07-21 16:48:56.295078	1	Car	2013-07-01	f	laksjd--2	0	0
+121	Testing Edit 1	\N	\N	aklsdjasd	2013-07-29 17:29:03.661935	2013-07-29 17:29:03.661935	1	Car	2013-07-01	f	testing-edit-1	0	0
+118	Hover Test Edit	\N	\N	lkajsdlaksdjas	2013-07-21 15:17:12.957596	2013-07-29 17:34:31.133862	1	Bus	2013-07-01	f	hover-test-edit	0	1
+122	places array test	\N	\N	asd	2013-07-29 18:21:15.860515	2013-07-29 18:21:15.860515	1	Car	2013-07-01	f	places-array-test	0	0
+123	Type Mismatch test	\N	\N	lasjkd	2013-07-29 18:59:48.849978	2013-07-29 18:59:48.849978	1	Car	2013-07-01	f	type-mismatch-test	0	0
+120	notice step 2	\N	\N	Maa ki aankh	2013-07-24 20:36:48.254341	2013-07-30 18:12:20.771766	1	Car	2013-07-01	f	notice-step-2	0	0
+110	asd	\N	\N		2013-07-20 11:58:14.343154	2013-08-06 04:04:37.514094	1	Car	2013-07-01	t	asd--3	0	0
+91	my second trip	\N	\N	lkajsd	2013-07-04 18:51:55.571123	2013-07-04 18:51:55.571123	26	Car	2013-07-01	f	my-second-trip	0	1
+125	tresting back button	\N	\N	alskdjadsads	2013-08-04 09:45:21.321614	2013-08-04 09:45:21.321614	1	Car	2013-08-01	f	tresting-back-button	0	0
+126	tresting back button	\N	\N	alskdjadsads	2013-08-04 09:45:25.901512	2013-08-04 09:45:25.901512	1	Car	2013-08-01	f	tresting-back-button--2	0	0
+127	default draft 1	\N	\N	aslkdasd	2013-08-04 12:51:47.586664	2013-08-04 12:54:51.857231	1	Car	2013-08-01	f	default-draft-1	0	0
+112	long trip	\N	\N	jkasld	2013-07-20 17:29:09.447763	2013-08-06 03:56:47.929403	1	Car	2013-07-01	f	long-trip	0	0
+128	12asdasd	\N	\N	asdsad	2013-08-06 04:34:51.204549	2013-08-06 05:15:20.178974	1	Car	2013-08-01	f	12asdasd	0	0
+9	kaljsd	\N	\N	lakjsdlaskjdalksdj	2013-04-07 18:46:40.39899	2013-04-07 18:46:40.39899	2	Car	2013-04-01	f	kaljsd	0	1
+129	Testing buttons	\N	\N	asdasdasd	2013-08-06 05:17:45.166703	2013-08-06 05:17:45.166703	1	Car	2013-08-01	t	testing-buttons	0	0
+130	Testing buttons	\N	\N	asdasdasd	2013-08-06 05:18:09.660495	2013-08-06 05:18:09.660495	1	Car	2013-08-01	t	testing-buttons--2	0	0
+131	Testing buttons	\N	\N	asdasdasd	2013-08-06 05:19:23.936112	2013-08-06 05:19:23.936112	1	Car	2013-08-01	t	testing-buttons--3	0	0
+132	testing 2	\N	\N		2013-08-06 08:53:44.831087	2013-08-06 08:53:44.831087	1	Car	2013-08-01	t	testing-2	0	0
+133	testing 2asd	\N	\N	alskdjasd	2013-08-06 09:15:16.815832	2013-08-06 09:15:16.815832	1	Car	2013-08-01	t	testing-2asd	0	0
+134	kjhi67	\N	\N	lhljhk	2013-08-07 18:23:09.265324	2013-08-07 18:23:09.265324	1	Car	2013-08-01	t	kjhi67	0	0
+8	testing trip	\N	\N	Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32.	2013-04-07 18:42:50.916678	2013-05-28 21:27:41.463909	2	Car	2011-04-01	f	testing-trip	0	1
+135	alsd	\N	\N	l2323	2013-08-13 06:10:42.504199	2013-08-13 06:11:42.592888	1	Car	2013-08-01	f	alsd	0	0
+136	draft trip	\N	\N	lkajdklajds	2013-08-16 06:41:21.202951	2013-08-16 06:41:21.202951	2	Car	2013-08-01	t	draft-trip	0	0
+137	road not found	\N	\N	Raod Not found	2013-08-16 15:31:10.107815	2013-08-16 15:31:10.107815	1	Car	2013-08-01	t	road-not-found	0	0
+138	road not found	\N	\N	Raod Not found	2013-08-16 15:31:37.75918	2013-08-16 15:31:37.75918	1	Car	2013-08-01	t	road-not-found--2	0	0
+139	align test	\N	\N	alkjsd	2013-08-16 16:11:08.757914	2013-08-16 16:11:44.131484	1	Car	2013-08-01	f	align-test	0	0
+\.
+
+
+--
+-- Name: trips_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('trips_id_seq', 139, true);
+
+
+--
+-- Data for Name: user_followed_places; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY user_followed_places (id, user_id, created_at, updated_at, place_id) FROM stdin;
+17	2	2013-03-19 04:08:23.677152	2013-03-19 04:08:23.677152	16
+19	2	2013-03-19 04:08:23.701541	2013-03-19 04:08:23.701541	22
+20	2	2013-03-19 04:28:37.48298	2013-03-19 04:28:37.48298	24
+21	2	2013-03-19 04:29:06.546206	2013-03-19 04:29:06.546206	14
+37	2	2013-04-21 10:00:49.617189	2013-04-21 10:00:49.617189	28
+58	2	2013-08-10 14:07:20.988364	2013-08-10 14:07:20.988364	25
+59	2	2013-08-10 14:07:22.822866	2013-08-10 14:07:22.822866	19
+60	2	2013-08-10 14:07:32.516561	2013-08-10 14:07:32.516561	21
+61	2	2013-08-10 14:07:57.231645	2013-08-10 14:07:57.231645	35
+62	2	2013-08-10 14:11:54.467497	2013-08-10 14:11:54.467497	49
+63	2	2013-08-10 14:12:00.593355	2013-08-10 14:12:00.593355	85
+64	1	2013-08-10 14:12:10.816836	2013-08-10 14:12:10.816836	85
+65	1	2013-08-10 14:12:21.315101	2013-08-10 14:12:21.315101	25
+66	1	2013-08-10 14:12:24.070856	2013-08-10 14:12:24.070856	19
+67	1	2013-08-10 14:12:27.327558	2013-08-10 14:12:27.327558	24
+68	2	2013-08-10 14:12:47.709195	2013-08-10 14:12:47.709195	86
+69	2	2013-08-10 14:12:52.266675	2013-08-10 14:12:52.266675	87
+70	2	2013-08-10 14:12:58.27008	2013-08-10 14:12:58.27008	88
+71	2	2013-08-10 16:48:31.908162	2013-08-10 16:48:31.908162	89
+72	2	2013-08-10 16:48:37.708748	2013-08-10 16:48:37.708748	90
+73	2	2013-08-10 16:48:45.103365	2013-08-10 16:48:45.103365	91
+74	2	2013-08-10 16:48:52.659527	2013-08-10 16:48:52.659527	78
+75	2	2013-08-10 16:49:09.000153	2013-08-10 16:49:09.000153	92
+\.
+
+
+--
+-- Name: user_followed_places_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('user_followed_places_id_seq', 75, true);
+
+
+--
+-- Data for Name: user_invites; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY user_invites (id, user_id, email, sign_up_token, sign_up_source, signed_up, created_at, updated_at) FROM stdin;
+1	\N	alksjd@ahsd.com	bdc6f723a35730578e1005c2cc47ceb1	\N	\N	2013-03-19 03:13:20.222363	2013-03-19 03:13:20.222363
+2	\N	alksjd@ahs2d.com	b753b818c6bb6d69f8011e300065e815	\N	\N	2013-03-19 03:14:57.696947	2013-03-19 03:14:57.696947
+\.
+
+
+--
+-- Name: user_invites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('user_invites_id_seq', 2, true);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, created_at, updated_at, provider, uid, confirmation_token, confirmed_at, confirmation_sent_at, username, fb_authentication_token, slug, failed_attempts, unlock_token, locked_at, following_places_count, no_of_likes, avatar, age, gender, full_name, current_loc, "desc") FROM stdin;
+9	kaka@asd.com	$2a$10$4MjgKNfCf3oFLEjD9aW5K.xFL2EHeOtKzoDcMXcvWSO5upXkKgWYW	\N	\N	\N	0	\N	\N	\N	\N	2013-05-29 18:00:56.391326	2013-05-29 18:00:56.391326	\N	\N	SP5cyLgeSgKvXHRjp5zn	\N	2013-05-29 18:00:56.389633	kaushik123	\N	kaushik123	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+12	lkjlkj@hg.com	$2a$10$SyoE5b2pkHF0UY0J88NtrOs3ndV/G8IbCGGLL0qXG9jJiSRPDAhSa	\N	\N	\N	0	\N	\N	\N	\N	2013-06-02 10:39:12.581629	2013-06-02 10:39:12.581629	\N	\N	75nKSBfsUPvmacpCodxY	\N	2013-06-02 10:39:12.581406	kaushiklj	\N	kaushiklj	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+11	lkjlkj@hg.co	$2a$10$CBHhvMWAzxbWFpJ6i7/fsea0Je8n4Ol3H6fexRZytm1UX9Z3mBAsK	\N	\N	\N	0	\N	\N	\N	\N	2013-06-02 10:38:13.625929	2013-06-02 10:38:13.625929	\N	\N	1SUjA4HZPRuPHX3axv3g	\N	2013-06-02 10:38:13.625675	kjkk	\N	kjkk	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+6	asdasde2@ashd.com	$2a$10$bOJYN/NzvKQ77VDXDxu3yupMK65pv6jHAkvttbz1smAf03TDFEEEC	\N	\N	\N	0	\N	\N	\N	\N	2013-04-28 05:38:55.598654	2013-04-28 05:38:55.598654	\N	\N	Nf683vnnPMfmZ9TWxiSF	\N	2013-04-28 05:38:55.593769	asdasd	\N	asdasd	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+7	asdasd@jalskd.com	$2a$10$5QX3Q2XdYjUs4YK6gSL/XOKSsaSK2urSa51OCHWEYVv.wbmrGsBX2	\N	\N	\N	0	\N	\N	\N	\N	2013-04-28 05:39:36.748242	2013-04-28 05:39:36.748242	\N	\N	vaKMtMwc2FuFMtixsoL7	\N	2013-04-28 05:39:36.747924	ashe2	\N	ashe2	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+69	case@se.com	$2a$10$VwnyfMsX.bYRU0o9Tay97u.oGBveGSpiWW4K3TURKsGrdcmoDMpse	\N	\N	\N	2	2013-08-16 17:55:32.588882	2013-08-16 17:53:58.807184	127.0.0.1	127.0.0.1	2013-08-16 17:53:18.088709	2013-08-16 17:55:32.589849	\N	\N	\N	2013-08-16 17:53:18.111042	2013-08-16 17:53:18.088421	casesen	\N	casesen	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+4	asdasd@232i3u890.com	$2a$10$UsC0LtRO2Tp1SVwiHhfExezlD.X1BWA72G6eOJ8Of08rxD4rHidRG	\N	\N	\N	0	\N	\N	\N	\N	2013-04-16 16:36:44.71044	2013-04-16 16:36:44.71044	\N	\N	ULGm9JFjhzpYLrZDL3Xq	\N	2013-04-16 16:36:44.71021	kaushik_trrr	\N	kaushik_trrr	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+2	kaushik@optcentral.com	$2a$10$x7jTerJruYD3pcSIoQP3pO4CZFyxRoSDUeS6bcoMh3DYiWhyGW3R2	\N	\N	\N	16	2013-08-16 06:40:44.105755	2013-08-10 14:07:09.642595	127.0.0.1	127.0.0.1	2013-03-15 17:01:32.150586	2013-08-16 06:40:44.106564	\N	\N	\N	2013-03-15 17:02:52.267745	2013-03-15 17:01:32.15038	optcentral	\N	optcentral	0	\N	\N	31	1	\N	\N	\N	\N	\N	\N
+5	asilu32asd@asjdl.com	$2a$10$8qPzdm2AqMouT8tA/BdYieylYRCndjWg7hKsGAZ1Q/4QVBL9whLQe	\N	\N	\N	0	\N	\N	\N	\N	2013-04-16 16:37:45.717164	2013-04-16 16:37:45.717164	\N	\N	rK1kdQdhrT7pqfqX24Mp	\N	2013-04-16 16:37:45.716766	alskj3	\N	alskj3	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+13	lkasj@asd.com	$2a$10$/fV/jzyF7Y06SbpTR9Hdqu4U9OEDiXmbAl4mi.DEuOX7cshvu1bNC	\N	\N	\N	0	\N	\N	\N	\N	2013-06-02 10:42:22.242195	2013-06-02 10:42:22.242195	\N	\N	r9MX5pXy7s4y6HtSj1sX	\N	2013-06-02 10:42:22.241975	kaudj	\N	kaudj	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+14	lkjasd@asd.com	$2a$10$hDG.pyToa0/sH1ZJtGa1AOxMCbgP3.jYA3q2e5XCyBUiIScmzoClm	\N	\N	\N	0	\N	\N	\N	\N	2013-06-02 10:43:46.384163	2013-06-02 10:43:46.384163	\N	\N	wsswCBhVzMvwHfH8LxFZ	\N	2013-06-02 10:43:46.383928	kaushikakjs	\N	kaushikakjs	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+15	hasdu3@asjdd.com	$2a$10$Dw1LlKIARHzqGbfUbcW/au0amHPvX7BwmpEp3TGgdyEoooJUQj53m	\N	\N	\N	0	\N	\N	\N	\N	2013-06-02 10:45:58.057363	2013-06-02 10:45:58.057363	\N	\N	VBQkjfGR5qpBsj2CfgxB	\N	2013-06-02 10:45:58.057127	kaushik232	\N	kaushik232	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+16	askjd@h1.com	$2a$10$MoOQBWsMBPaSpU/CwUkgluk9lA1bFXJoWF6XTc/1LaXOeaYqsRM.6	\N	\N	\N	0	\N	\N	\N	\N	2013-06-02 10:50:59.040643	2013-06-02 10:50:59.040643	\N	\N	FJXfc1jZhBqZ3XMyHixN	\N	2013-06-02 10:50:59.040413	kaushikas	\N	kaushikas	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+17	22lkjadlk@adsj.com	$2a$10$qyhTeaxvgq1OemqpY1Gp1OM88JwjVJySWTTGhwpgJXYHTBenlfSTC	\N	\N	\N	0	\N	\N	\N	\N	2013-06-02 10:51:46.759248	2013-06-02 10:51:46.759248	\N	\N	6HC2rHrxJvHBwvSD69YV	\N	2013-06-02 10:51:46.759007	kaushik23	\N	kaushik23	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+18	asda@jasd.com	$2a$10$vP0j2M7.CRV6dZAASbeWgOqaVYGdTSpp4JBO5GZFSKQmV58MLBJr2	\N	\N	\N	0	\N	\N	\N	\N	2013-06-02 10:53:24.071481	2013-06-02 10:53:24.071481	\N	\N	xkS6SJGuX1XxRjBN4vLR	\N	2013-06-02 10:53:24.071261	kaushik2323	\N	kaushik2323	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+19	thirthappa@gmail.com	$2a$10$s/a5ncg17u5g4U9eWcH8lOdD5sRobERFZLh7zJ7ApKiwVYKR0EswW	\N	\N	\N	0	\N	\N	\N	\N	2013-07-03 19:57:06.849587	2013-07-03 19:57:06.849587	\N	\N	QyPmWPZ7LAymsAYSqHLu	\N	2013-07-03 19:57:06.849328	kaushik1234	\N	kaushik1234	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+20	kaushik@asd.com	$2a$10$wzvJ22cl.7YTb7NBxG1rseSHb7JAOzghReXZXRc.DetVm8cKGaVBa	\N	\N	\N	0	\N	\N	\N	\N	2013-07-03 20:04:31.132519	2013-07-03 20:04:31.132519	\N	\N	mePFqp61qwbDvQq8nrmv	\N	2013-07-03 20:04:31.132196	kaushik12344	\N	kaushik12344	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+28	kakaka@asyd.com	$2a$10$AlsDT3Zx5i1SCXKd05ABsOVgYkMNAXnUXfX2GnZt3wiDmTxZoWEBm	\N	\N	\N	0	\N	\N	\N	\N	2013-07-04 19:58:36.116555	2013-07-04 19:58:36.116555	\N	\N	sk89bYwXyzqLKYaxVqV8	\N	2013-07-04 19:58:36.116178	kaushiky22	\N	kaushiky22	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+25	aa@aa.com	$2a$10$YwheZ69MJlEGfGKYVg6yR.hlMCugPwKinFt2tz/mOFKpu9.vu4ttC	\N	\N	\N	1	2013-07-04 11:49:26.445667	2013-07-04 11:49:26.445667	127.0.0.1	127.0.0.1	2013-07-04 11:48:52.319211	2013-07-04 11:49:26.446622	\N	\N	\N	2013-07-04 11:49:13.403514	2013-07-04 11:48:52.318985	aaaa	\N	aaaa	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+27	kakaka@u92.com	$2a$10$o/.fDrlvwkn5r.x96EG0Ienp8LQkz5AzyUxfsoL2y4TBbONClYDba	\N	\N	\N	0	\N	\N	\N	\N	2013-07-04 19:57:51.320605	2013-07-04 19:57:51.320605	\N	\N	WsRHh2hdJiCUhazQoS31	\N	2013-07-04 19:57:51.320379	kaushik898	\N	kaushik898	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+29	lasdl@hacom.co	$2a$10$q43V7EQHlH7uD4E5e3mtX.NLoBfCQZWPMgnSDAnsYa92oUciRbU6W	\N	\N	\N	0	\N	\N	\N	\N	2013-07-04 19:59:37.005356	2013-07-04 19:59:37.005356	\N	\N	jVmGrZtfxjhpRaPNGbEJ	\N	2013-07-04 19:59:36.951124	kaushik12312312	\N	kaushik12312312	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+30	jas2@add.co	$2a$10$A8YzmlJBexPzlaUfaAW.9ecSBXg6MjWsCIjg.9bPoB6CDtyHfBmIK	\N	\N	\N	0	\N	\N	\N	\N	2013-07-04 20:05:22.836804	2013-07-04 20:05:22.836804	\N	\N	Au6JKFk1fD31QqLXxPEA	\N	2013-07-04 20:05:22.836565	kaushik232323	\N	kaushik232323	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+26	so@so.com	$2a$10$5FqZeRy1Q80eh5Ov2Pbveu3sOcfTN6Tz/6HGXYB3T6471eTc5kDim	\N	\N	\N	2	2013-07-04 18:16:41.656122	2013-07-04 18:13:05.404235	127.0.0.1	127.0.0.1	2013-07-04 18:12:03.086444	2013-07-04 18:16:41.657153	\N	\N	\N	2013-07-04 18:12:12.356482	2013-07-04 18:12:03.086217	soso	\N	soso	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+34	jajaja2@n.com	$2a$10$411oPMk3lKHouLIucJtMOeKwtKehBb.Oakrfh8zEvTbE4cvFJ0vEu	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 05:48:09.361163	2013-07-05 05:48:09.361163	\N	\N	vqWZwpwZ4XNfprd7ycP2	\N	2013-07-05 05:48:09.360957	kaus22	\N	kaus22	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+31	kajsd@nad.com	$2a$10$vIuTKP536dQtW617QSYHROuBZ5x/OLPTdNj5fFZNyOf9zYzg9Roe6	\N	\N	\N	0	\N	\N	\N	\N	2013-07-04 20:07:06.240057	2013-07-04 20:07:06.240057	\N	\N	1magpFLzuto2QarhtwZU	\N	2013-07-04 20:07:06.239849	kaushik2312	\N	kaushik2312	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+32	asjdasdj@a.cokm	$2a$10$Y8jlE9Tacg1DyIPFJGwXq.WGDmug11aXylJvTRB55twXoB4PB8o4q	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 05:37:29.16555	2013-07-05 05:37:29.16555	\N	\N	tQdgouW2ktwAUxPzszx2	\N	2013-07-05 05:37:29.160313	j232	\N	j232	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+33	kakaab22b2.a@cj.com	$2a$10$76zGfEITAtF50A8p9rPPNOQY3ezKcm8OIcKk1OXTNlvclbcOToX7O	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 05:42:00.029828	2013-07-05 05:42:00.029828	\N	\N	uTbKk2A15ppiTiQa8JCN	\N	2013-07-05 05:42:00.029623	ka23	\N	ka23	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+35	haha23@nad.com	$2a$10$KTC8wisRkwzOk/WOLsGS9uCE9Fp5JngsFzLCwOmfgFA2CW2EvZiQa	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 05:51:53.877296	2013-07-05 05:51:53.877296	\N	\N	ss9bXq7hyu3QpxDBxqJR	\N	2013-07-05 05:51:53.877087	h12	\N	h12	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+36	kahsb2am@asj.com	$2a$10$jff2meFbIKkfDV/IqsTyiuAOTSja4U1tRUOvCT6uxf3WaFGiP.IKy	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 16:09:42.915263	2013-07-05 16:09:42.915263	\N	\N	bMzP32s6RYRgeqL467sj	\N	2013-07-05 16:09:42.912009	ash2j	\N	ash2j	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+37	kaah2h@jac.oom	$2a$10$5IZsTv9d242ihEKf52KNDOklko2q8wilAlI7gbVyeoACMueqsio/.	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 16:11:24.247521	2013-07-05 16:11:24.247521	\N	\N	9SXsYTwgosV86SS2D3m8	\N	2013-07-05 16:11:24.247308	h23h	\N	h23h	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+38	kakan2@a.do	$2a$10$ONyITZnn8Z0JfmQjcALbnueFMwnSxdWLlKhd60zcmMvrXdoT.yJlO	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 16:12:54.599473	2013-07-05 16:12:54.599473	\N	\N	tCTj2xvf5zZyefr7De2m	\N	2013-07-05 16:12:54.599259	h2j3	\N	h2j3	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+39	bh37j@jad.co	$2a$10$jQXGsQ6SrlCIc4swMrUHlOvRHAdt2GR/KOLcnRMix9RugXTVhoS4K	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 16:14:03.750041	2013-07-05 16:14:03.750041	\N	\N	wnfWCyLGPaHNQcSfP7Ro	\N	2013-07-05 16:14:03.749717	n82j	\N	n82j	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+40	aaah@a.com	$2a$10$EwOmpBeCYUHefCg/QthiOuAxOWW6NbKM8Iq8Aeioe7qFdjXSGFQ9m	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 16:15:11.103804	2013-07-05 16:15:11.103804	\N	\N	BYy9Ru1usZytocBtzksg	\N	2013-07-05 16:15:11.103398	h23h23	\N	h23h23	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+70	s.ajay.sharma@gmail.com	$2a$10$MmU058jjdS4TZMIxnj/USewZxnvy0kRsWYHwsn8g2aMYO4PYMQykK	\N	\N	\N	2	2013-08-17 13:38:40.850655	2013-08-17 13:36:18.765056	127.0.0.1	127.0.0.1	2013-08-17 13:36:18.751189	2013-08-17 13:38:40.851965	facebook	1451455411	\N	2013-08-17 13:36:18	\N	ajay.sharma	CAAENa4tXlgEBAE8sZAvHXpzMYoQ2imRCHuMlRF8yXZCsqYiXgF3BnZB0YigAQJPFNA3ZAHyz9ZAVCrzlQGTt4MeZBrbjoAdiVTGuYmzDZAHhSpZAtafMPgbCyiPUf2KvNBhlYZAklZCToGtNcN81KC6lcE	ajay-sharma	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+41	a2aah@a.com	$2a$10$.Ni1KN/xpfR4glCXyz0G6.S1Qd2tsELazKDUD2zI1O89Fcq26ky42	\N	\N	\N	0	\N	\N	\N	\N	2013-07-05 16:19:09.401033	2013-07-05 16:19:09.401033	\N	\N	GJ6wq1iQnvcxrJ7CepSJ	\N	2013-07-05 16:19:09.400803	h23h234	\N	h23h234	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+43	hash21adsn@asd.com	$2a$10$Qor33Sa.tmTCqmlfXg300OFhHjW02CGvN0v0fs/7WjB/81uecwDdC	\N	\N	\N	0	\N	\N	\N	\N	2013-07-24 20:24:03.369372	2013-07-24 20:24:03.369372	\N	\N	7sC8vL4rKQWtFpMYnP9t	\N	2013-07-24 20:24:03.369155	explore	\N	explore	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+63	kaushik@roadmojo.com	$2a$10$0JBvpVoblWMz81oR5u0mRuHVUt3/TmfkIxBW8R8da3L4LpO2wOmIK	\N	\N	\N	0	\N	\N	\N	\N	2013-08-14 05:20:59.79277	2013-08-14 05:20:59.79277	\N	\N	CbpjMynqCL6s4wsmaLsT	\N	2013-08-14 05:20:59.790015	kaushikrm	\N	kaushikrm	0	\N	\N	0	0	\N	\N	\N	\N	\N	\N
+1	thirthappa.kaushik@gmail.com	$2a$10$GDMhsnlq93D4NIxCEdfnIeno1qeScJ14gUBEjR4s.BuMY5aOFPRt6	\N	\N	\N	7	2013-08-17 13:06:10.692946	2013-08-16 15:30:43.996117	127.0.0.1	127.0.0.1	2013-03-15 16:41:12.21391	2013-08-17 13:06:10.69472	\N	\N	\N	2013-03-15 16:43:00.743464	2013-03-15 16:41:12.212533	kaushik	\N	kaushik	0	\N	\N	42	4	1493426-1296086597314.jpg	24		Kaushik Kumar Thirthappa	Pune, India	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('users_id_seq', 70, true);
+
+
+--
+-- Data for Name: users_liked_trips; Type: TABLE DATA; Schema: public; Owner: kaushik
+--
+
+COPY users_liked_trips (id, user_id, trip_id, created_at, updated_at) FROM stdin;
+24	1	9	2013-07-23 06:58:49.072133	2013-07-23 06:58:49.072133
+25	2	118	2013-07-23 07:21:39.000376	2013-07-23 07:21:39.000376
+28	1	91	2013-08-04 09:14:44.262175	2013-08-04 09:14:44.262175
+30	1	8	2013-08-09 06:45:37.364713	2013-08-09 06:45:37.364713
+31	1	6	2013-08-09 06:48:06.339036	2013-08-09 06:48:06.339036
+\.
+
+
+--
+-- Name: users_liked_trips_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kaushik
+--
+
+SELECT pg_catalog.setval('users_liked_trips_id_seq', 31, true);
+
+
+--
+-- Name: authentications_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY authentications
+    ADD CONSTRAINT authentications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY delayed_jobs
+    ADD CONSTRAINT delayed_jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: inbetween_places_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY inbetween_places
+    ADD CONSTRAINT inbetween_places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: library_items_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY library_items
+    ADD CONSTRAINT library_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: photos_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY photos
+    ADD CONSTRAINT photos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY places
+    ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: special_emails_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY special_emails
+    ADD CONSTRAINT special_emails_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: trip_places_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY trip_places
+    ADD CONSTRAINT trip_places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: trips_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY trips
+    ADD CONSTRAINT trips_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_followed_places_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY user_followed_places
+    ADD CONSTRAINT user_followed_places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_invites_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY user_invites
+    ADD CONSTRAINT user_invites_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_liked_trips_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY users_liked_trips
+    ADD CONSTRAINT users_liked_trips_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
+
+
+--
+-- Name: index_inbetween_places_on_place_after_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_inbetween_places_on_place_after_id ON inbetween_places USING btree (place_after_id);
+
+
+--
+-- Name: index_inbetween_places_on_place_before_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_inbetween_places_on_place_before_id ON inbetween_places USING btree (place_before_id);
+
+
+--
+-- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_sessions_on_session_id ON sessions USING btree (session_id);
+
+
+--
+-- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
+
+
+--
+-- Name: index_trip_places_on_place_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_trip_places_on_place_id ON trip_places USING btree (place_id);
+
+
+--
+-- Name: index_trip_places_on_trip_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_trip_places_on_trip_id ON trip_places USING btree (trip_id);
+
+
+--
+-- Name: index_trips_on_slug; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_trips_on_slug ON trips USING btree (slug);
+
+
+--
+-- Name: index_user_followed_places_on_user_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_user_followed_places_on_user_id ON user_followed_places USING btree (user_id);
+
+
+--
+-- Name: index_user_invites_on_user_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_user_invites_on_user_id ON user_invites USING btree (user_id);
+
+
+--
+-- Name: index_users_liked_trips_on_trip_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_users_liked_trips_on_trip_id ON users_liked_trips USING btree (trip_id);
+
+
+--
+-- Name: index_users_liked_trips_on_user_id; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE INDEX index_users_liked_trips_on_user_id ON users_liked_trips USING btree (user_id);
+
+
+--
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_slug; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_slug ON users USING btree (slug);
+
+
+--
+-- Name: index_users_on_unlock_token; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_token);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: kaushik; Tablespace: 
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: kaushik
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM kaushik;
+GRANT ALL ON SCHEMA public TO kaushik;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

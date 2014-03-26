@@ -1,0 +1,4 @@
+=form_tag(remove_follow_places_path, method: :post, format: :js) do
+  =hidden_field_tag 'unfollow_place_id', place.id
+  =hidden_field_tag 'unfollow_place_name', place.name
+  =submit_tag 'Unfollow', id: 'submit-follow-places', class: 'btn btn-primary'

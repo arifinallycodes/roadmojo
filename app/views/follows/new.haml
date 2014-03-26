@@ -1,0 +1,9 @@
+%h3 Add places you wish to follow
+=form_tag(add_follow_places_path, method: :post) do
+  .controls
+    .input-append
+      %input{ class: "place-geocode input-xlarge", type: "text" }
+      =button_tag "create", type: "button", class: "btn", rel: "popover", id: "create-new-place"
+  %ul#sortable
+    =render "/trips/trip_places"
+  =submit_tag 'Follow', id: 'submit-follow-places'

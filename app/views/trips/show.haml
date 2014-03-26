@@ -1,0 +1,75 @@
+:javascript
+  $(document).ready(function() {
+    window.map.showRoute(#{@coords}, "#{@transport}");
+  });
+
+.show-trip-container
+  .hide
+    =image_tag "trip-image.jpg"
+  =hidden_field_tag 'first-li-count', @li_count_for_first_location
+  .row-fluid
+    .trip-page-header
+      %h2.blue-color
+        =@trip.name
+      -if @trip.draft_version?
+        %span.label.label-warning
+          draft trip
+    .show-trip-main-box
+      .show-trip-inside-box.clearfix
+        .show-trip-name.clearfix
+          .trip-name-n-info.pull-left
+            %span.dull-color="#{@trip.trip_date.strftime('%B %Y')}"
+            =image_tag("landing_page/big_#{@trip.transport.downcase}_icon.gif", size: "34x10", alt: "Car Icon", id: "transport-image")
+
+          .trip-user-box.pull-left.clearfix
+            .trip.user-options.clearfix
+              -if current_user?( @user )
+                =link_to 'Edit', edit_trip_path(current_user, @trip), class: 'label'
+                -if @trip.draft_version?
+                  =link_to 'Publish', trip_publish_path(current_user, @trip), class: 'label'
+              -else
+                -if user_signed_in?
+                  -if current_user.liked_trip?( @trip.id )
+                    =link_to 'Unlike', '#', class: 'label pull-left like-async', data: { like: 'liked' }
+                  -else
+                    =link_to 'Like', '#',  class: 'label pull-left like-async', data: { like: 'unliked' }
+              -if !@trip.draft_version?
+                / =link_to 'Share', "#{FacebookPublisher.new( request, @trip ).url}",  class: 'label pull-left', target: '_blank'
+                / =image_tag "landing_page/fb_icon.jpg"
+                %a.fb-share-show{:href => "#{FacebookPublisher.new( request, @trip ).url}", target: '_blank'}
+                  =image_tag "landing_page/fb_icon.jpg"
+              =link_to @user.username, user_path(username: @user.username), class: 'go-to-profile blue-color'
+              %a.user-profile-icon{href: "#{user_path(username: @user.username)}"}
+                =image_tag 'landing_page/member_icon_deactive.gif'
+
+        .no-of-likes
+          - no_of_likes = @trip.no_of_likes
+          -if no_of_likes > 0
+            %span.blue-color
+              =no_of_likes
+            %span.dull-color="#{ no_of_likes > 1 ? 'Roadtrippers' : 'Roadtripper' } #{ no_of_likes > 1 ? 'like' : 'likes' } this"
+
+        =hidden_field_tag 'type-of-page','show_trip'
+
+        #items-box.clearfix
+          .all-locations-box.clearfix.two-percent-margin-top
+            -if more_than_one_location?(@locations)
+              -@locations.each do |location|
+                .location-box
+                  -if is_location_an_inbetween_place?(location)
+                    =image_tag "line-cross.png", class: 'cross-line'
+                    %a{href: "#", class: 'location-link', data:{ val: location.id, inbetween_place: 'true' }}
+                      =image_tag "inbetween-place.jpg", class: 'blue-flag'
+                      %span.li-count="(#{location.library_items.count})"
+                  -else
+                    =image_tag "line-circle.png", class: 'circle-line'
+                    %a{href: "#", class: 'location-link', data:{ val: location.id, inbetween_place: 'false' }}
+                      =location
+                      %span.li-count="(#{location.library_items.count})"
+          -if @trip.description
+            -if !@trip.description.empty?
+              .show-trips-desc
+                =@trip.description
+          #items
+          #items-meta
+          #map_canvas

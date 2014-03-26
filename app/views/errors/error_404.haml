@@ -1,0 +1,17 @@
+%a{href: "/"}
+  =image_tag 'logos/small.png', class: 'logo'
+.error-box
+  =image_tag '404/404-logo.png'
+  %h2.message-main.red-color
+    RoadMojo could not find your requested page
+  %h3.side-note.dull-color
+    The file may have been moved or deleted. Make sure to check the spelling
+  .ref
+    .go-back
+      =link_to 'Go Back', :back
+    .go-home
+      =link_to 'Go Home', dashboard_path
+    .email.dull-color
+      Email us as at:
+      %span.blue-color
+        =mail_to('team@roadmojo.com')

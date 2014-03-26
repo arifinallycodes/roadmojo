@@ -1,0 +1,14 @@
+.new-trip-container
+  %h3#recommend-header Follow these places to get started!
+  .trip-step-1-box.place-recommender-box
+    .place-recommender.clearfix
+      -@recommended_places.each do |place|
+        %section.recommended-place
+          %header= place.name
+          %article.recommended-place-info= "#{place.following_users_count} following"
+          %footer
+            =form_tag(add_follow_places_path, method: :post, format: :js) do
+              =hidden_field_tag 'follow_place_id', place.id
+              =submit_tag 'Follow', id: 'submit-follow-places', class: 'btn btn-primary'
+    -if @skip_and_continue
+      = link_to 'Skip and continue >>', dashboard_path, class: 'btn btn-large btn-info skip-n-continue'

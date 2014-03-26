@@ -1,0 +1,78 @@
+/ %p
+/   Welcome #{@resource.email}!
+/ %p You can confirm your account email through the link below:
+/ %p= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)
+-if Rails.env.production?
+  -url = "http://roadmojo.com/assets/email_confirmation/"
+-else
+  -url = "http://localhost:3000/assets/email_confirmation/"
+%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :height => "100%", :width => "100%"}
+  %tr
+    %td{:align => "center", :style => "background-color:#efefef; padding:15px;", :valign => "top"}
+      %table{:align => "center", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "509"}
+        %tr
+          %td &nbsp;
+        %tr
+          %td
+            %img{:alt => "RoadMojo", :height => "40", :src => "#{url}/logo_1.jpg", :width => "193"}/
+        %tr
+          %td{:align => "left", :bgcolor => "#EFEFEF", :valign => "top"}
+            %img{:height => "47", :src => "#{url}/rm_top_100813.jpg", :width => "510"}/
+        %tr
+          %td{:align => "left", :bgcolor => "#EFEFEF", :valign => "top"}
+            %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+              %tr
+                %td{:align => "left", :valign => "top", :width => "2%"}
+                  %img{:height => "259", :src => "#{url}/rm_left_100813.jpg", :width => "5"}/
+                %td{:bgcolor => "#FFFFFF", :valign => "bottom", :width => "97%"}
+                  %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                    %tr
+                      %td{:bgcolor => "#FFFFFF"}
+                        %img{:height => "1", :src => "#{url}/middle_gap_100813.gif", :width => "500"}/
+                    %tr{:align => "center", :valign => "top"}
+                      %td{:align => "left", :bgcolor => "#FFFFFF", :style => "font-family:Arial, Helvetica, sans-serif; font-size:25px; color:#6e6e6e; padding-left:35px; padding-top:5px;"}
+                        Welcome
+                        %span{:style => "color:#0e99bf;"}
+                          =@resource.email
+                    %tr
+                      %td{:bgcolor => "#FFFFFF", :style => "font-family:Arial, Helvetica, sans-serif; font-size:15px; color:#4c4c4c; padding-left:35px; padding-top:23px; padding-bottom:7px;"} You can confirm your account email through the link below
+                    %tr
+                      %td{:bgcolor => "#FFFFFF"} &nbsp;
+                    %tr{:align => "center", :valign => "top"}
+                      %td{:bgcolor => "#FFFFFF"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "240"}
+                          %tr
+                            %td{:align => "left", :bgcolor => "#0F99C0", :valign => "top", :width => "15"}
+                              %img{:height => "45", :src => "#{url}/button_left_100813.jpg", :width => "15"}/
+                            %td{:align => "center", :bgcolor => "#0F99C0", :valign => "middle", :width => "270"}
+                              %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "200"}
+                                %tr
+                                  %td{:align => "center", :style => "font-family:Arial, Helvetica, sans-serif; font-size:19px; color:#ffffff;", :valign => "middle"}
+                                    %strong
+                                      =link_to 'Confirm my account',confirmation_url(@resource, :confirmation_token => @resource.confirmation_token), {style: "text-decoration:none; color:#ffffff; border-bottom: solid #2bb1d6 1px;"}
+                                      / %a{:href => "<%= confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %>", :style => "text-decoration:none; color:#ffffff; border-bottom: solid #2bb1d6 1px;"} Confirm my account
+                            %td{:align => "right", :bgcolor => "#0F99C0", :valign => "top", :width => "15"}
+                              %img{:height => "45", :src => "#{url}/button_right_100813.jpg", :width => "15"}/
+                    %tr
+                      %td{:bgcolor => "#FFFFFF"} &nbsp;
+                    %tr
+                      %td{:bgcolor => "#FFFFFF"} &nbsp;
+                    %tr
+                      %td{:bgcolor => "#D7D7D7", :style => "font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#3a3a3a; line-height:24px; padding-left:35px; padding-top:15px;"}
+                        Enjoy,
+                        %br
+                          The RoadMojo Team
+                %td{:align => "right", :valign => "top", :width => "1%"}
+                  %img{:height => "259", :src => "#{url}/rm_lefright_100813.jpg", :width => "5"}/
+        %tr
+          %td{:align => "left", :bgcolor => "#EFEFEF", :valign => "top"}
+            %img{:height => "27", :src => "#{url}/rm_bottom_100813.jpg", :width => "510"}/
+        %tr
+          %td{:align => "right", :style => "padding:5px;", :valign => "middle"}
+            %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+              %tr
+                %td{:align => "left", :style => "font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#9b9b9b;", :valign => "middle"} copyright © 2013 RoadMojo.com
+                %td{:align => "right", :style => "font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#9b9b9b;", :valign => "middle"}
+                  %a{:href => "http://roadmojo.com/", :style => "text-decoration:none; color:#9b9b9b;", :target => "_blank"} www.RoadMojo.com
+        %tr
+          %td{:align => "right", :height => "200", :style => "padding:7px;", :valign => "middle"} &nbsp;

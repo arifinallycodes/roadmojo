@@ -1,0 +1,19 @@
+%h1 Listing special_emails
+
+%table
+  %tr
+    %th Email
+    %th
+    %th
+    %th
+
+  - @special_emails.each do |special_email|
+    %tr
+      %td= special_email.email
+      %td= link_to 'Show', special_email
+      %td= link_to 'Edit', edit_special_email_path(special_email)
+      %td= link_to 'Destroy', special_email, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Special email', new_special_email_path

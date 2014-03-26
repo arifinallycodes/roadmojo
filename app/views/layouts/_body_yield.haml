@@ -1,0 +1,55 @@
+#topnavbg
+  #topnavcontainer
+    =render "layouts/facebook_hash"
+    /=render "layouts/navbar"
+    -if current_user
+      =render 'layouts/main_header'
+    -else
+      =render 'layouts/header'
+-if user_signed_in?
+  .container
+    =render "layouts/flash_messages"
+    =yield
+-else
+  .container.full-height-landing-page
+    =render "layouts/flash_messages"
+    =yield
+/ -if !user_signed_in? and request.fullpath != '/home/faq'
+-if !user_signed_in? and request.fullpath == '/'
+  %a.scoll-down-to-home-level{href: '#'}
+    =image_tag 'landing_page/arrow_down.png'
+  #home-level2
+    #home-level2-inner
+      #home-level2-panel1
+        .home-level2-box-heading What is RoadMojo?
+        .home-level2-picture-videobox
+          %object{:height => "198", :width => "317"}
+            %param{:name => "movie", :value => "http://www.youtube.com/v/cuv-KsZfbeE?hl=en_GB&amp;version=3"}
+            %param{:name => "allowFullScreen", :value => "true"}
+            %param{:name => "allowscriptaccess", :value => "always"}
+            %iframe{:allowfullscreen => "", :frameborder => "0", :height => "200", :src => "//www.youtube.com/embed/b-HtMzn2hA0", :width => "325"}
+            / %embed{:allowfullscreen => "true", :allowscriptaccess => "always", :height => "198", :src => "http://www.youtube.com/v/cuv-KsZfbeE?hl=en_GB&amp;version=3", :type => "application/x-shockwave-flash", :width => "317"}
+        .home-level2-normal-text
+          %p 
+      #home-level2-panel2
+        .home-level2-box-heading Featured trip
+        .home-level2-picture-videobox
+          %a{:href => "http://roadmojo.com/arijit/trips/winter-iceland-trip-in-search-of-the-northern-lights"}
+            =image_tag 'feature-trip.jpg', height: "198", border: "0", width: "317"
+        .home-level2-normal-text
+          %p
+            %strong Himalayas / 143 places covered
+      #home-level2-panel3
+        %a.twitter-button{href: "https://twitter.com/RoadMojo", target: '_blank'}
+        %a.fb-button{href: "http://facebook.com/roadmojo", target: '_blank'}
+        %a.gplus-button{href: "https://plus.google.com/104287839326960633621/posts", target: '_blank'}
+
+  %footer#footer2bg
+    .container
+      #footer2container
+        #footer2-left
+          / %span.footer-link © COPYRIGHT 2013 ROADMOJO
+        #footer2-right
+          %span.footer-link
+            %a{:href => "/home/faq"}> FAQ
+            %a{:href => "mailto:team@roadmojo.com"}> Contact us

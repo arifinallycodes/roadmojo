@@ -1,0 +1,5 @@
+-@places.each do |place|
+  :javascript
+    $(document).ready(function() {
+      window.grid.addPlace("#{place['name']}", "#{place['lat']}", "#{place['lon']}");
+    });

@@ -1,0 +1,17 @@
+.admin-box {
+  margin: 10% 20%;
+
+  .count-box {
+    float: left;
+    padding: 10px;
+    margin-top: 3%;
+    margin-left: 3%;
+    font-size: 30px;
+    color:whitesmoke;
+    border: 1px solid #ddd;
+
+    span.count-text {
+      color: rgb(196, 19, 19);
+    }
+  }
+}

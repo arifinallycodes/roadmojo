@@ -1,0 +1,12 @@
+.sign-in-box
+  %h2 Forgot your password?
+  = form_for(resource, :as => resource_name, :url => password_path(resource_name),  :html => { :method => :post, :class => "form-horizontal"  }) do |f|
+    = devise_error_messages!
+    .control-group.extra-top-padding
+      = f.label :login, :class => "control-label"
+      .controls
+        = f.text_field :login
+    
+    = f.submit "Send me reset password instructions",  class: 'sign-in-submit btn btn-default'
+  .devise-links
+    = render "devise/shared/links"

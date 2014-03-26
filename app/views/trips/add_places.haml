@@ -1,0 +1,70 @@
+-if @trip_step == 'edit_trip'
+  -put_url = trip_save_added_places_path(current_user, from: @trip_step)
+-else
+  -put_url = trip_save_added_places_path(current_user)
+.new-trip-container
+  =form_for @trip, url: put_url, html: { class: "form-horizontal" } do |f|
+    .row-fluid.clearfix
+      .form-title-2.blue-color
+        ="add places"
+      .trip-step-2-box
+        .fuelux
+          #wizard.wizard
+            %ul.steps.clearfix
+              %li.wizard-step.done
+                %a.wizard-link{href:"#"}
+                  %span.badge.badge-info=1
+                  ="Step 1"
+                  %span.chevron
+              %li.wizard-step.active
+                %span.badge.badge-info=2
+                ="Step 2"
+                %span.chevron
+              %li.wizard-step
+                %span.badge.badge-info=3
+                ="Step 3"
+                %span.chevron
+          .trip-name
+            =@trip.name
+        .add-places-main-box.clearfix
+          .add-places-box.add-places
+            .control-group
+              .input-box
+                .input-append
+                  %input{ class: "place-geocode input-xlarge", id: "place-geocode", type: "text", placeholder: "Start entering a location" }
+                  =button_tag "Add to Route", type: "button", class: "btn btn-large btn-primary btn-margin", rel: "popover", id: "create-new-place"
+
+            %ul#sortable.clearfix
+              -@places.each do |place|
+                / =render "trip_places"
+                %li.ui-state-default.place_li
+                  =place.name
+                  %button.remove_place.close ×
+                  %input.trip_place_name{:name => "trip[places][][name]", :type => "hidden", :value => place.name}
+                  %input.trip_place_lat{:name => "trip[places][][lat]", :type => "hidden", :value => place.lat}
+                  %input.trip_place_lon{:name => "trip[places][][lon]", :type => "hidden", :value => place.lon}
+
+            .instruction.hide
+              .places-inst.clearfix
+                .instr-1
+                  =image_tag "icon1_instr.png"
+                .instr-1-text
+                  ="Places are added to the end of the list"
+              .places-drag.clearfix
+                .instr-2
+                  =image_tag "icon2_drag.png"
+                .instr-2-text
+                  ="Drag them to the current location and make sure the change is reflected in the adjoining trip route"
+
+          .map-box
+            / #map_canvas
+            #map_canvas{:style => "height: 374px;"}
+
+        .submit-actions.submit-actions-margin
+          .submit-buttons
+            / =f.submit "Save", class: "btn new-trip-form", disable_with: "Saving..."
+            =link_to "< Previous",edit_trip_path(current_user, @trip), class: "btn btn-primary"
+            -if @trip.draft_version? or @trip_step == 'new_trip'
+              =f.submit "Save as draft", class: "btn new-trip-form btn-primary add-places-submit-form", disable_with: "Saving..."
+            =f.submit "Next >", class: "btn new-trip-form btn-primary add-places-submit-form", disable_with: "Saving..."
+            =link_to 'Cancel', dashboard_path , class: "btn"

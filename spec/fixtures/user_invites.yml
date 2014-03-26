@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: 
+  email: MyString
+  signed_up: false
+
+two:
+  user: 
+  email: MyString
+  signed_up: false

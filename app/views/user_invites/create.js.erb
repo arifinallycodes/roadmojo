@@ -1,0 +1,17 @@
+<%
+is_error = false
+msg = "#{@invite.email} has been invited !"
+ if !@invite.errors.blank? 
+  msg = @invite.errors.full_messages.join(' ')
+  is_error = true
+ end
+
+ info_class = is_error ? "alert-error alert" : "alert-success alert"  
+%>
+if ($('.flash-messages .alert-error').length > 0) {
+	// $('.flash-messages .alert-error a.close').trigger('click');
+	// $('.flash-messages').append("<div class='<%= info_class %>'> <a class='close' data-dismiss='alert'>×</a> <div><%= msg %></div> </div>");
+	$('.flash-messages .alert-error div').html("<%= msg %>");
+} else{
+	$('.flash-messages').append("<div class='<%= info_class %>'> <a class='close' data-dismiss='alert'>×</a> <div><%= msg %></div> </div>");
+};

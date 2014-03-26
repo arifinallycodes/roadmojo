@@ -1,0 +1,18 @@
+#containermain-home
+  =render "layouts/flash_messages"
+  .homebanner-text
+    %p
+      Store your road trips. Share with friends.
+      %br
+        Search for your next adventure.
+  .homelogin-box
+    .homelogin-fb-button
+      %a{:href => user_omniauth_authorize_path(:facebook)}
+        =image_tag 'landing_page/facebook_home_button.png', height: "35", border: "0", width: "204"
+    .homelogin-partition-line
+    %form#new_post.new_post{"accept-charset" => "UTF-8", :action => "/users", :method => "post"}
+      %input.home-input-text-1{ :type => "text", :placeholder => "User Name", :name=>"user[username]" , :id=>"sign-up-username"}
+        %input.home-input-text-1{ :type => "password", :placeholder => "Password", :name=>"user[password]", :id=>"sign-up-password"}
+          %input.home-input-text-2{ :type => "text", :placeholder => "Email ID", :name=>"user[email]" , :id=>"sign-up-email"}
+      .signuphomebox
+        %input.btn.btn-info.btn-large{:name => "commit", :type => "submit", :value => "Sign up > "}

@@ -1,0 +1,162 @@
+-if is_location_an_inbetween_place?(@location)
+  .items-heading{ data: {id: @location.id, inbetween_place: 'true'} }
+    =@location
+-else
+  .items-heading{ data: {id: @location.id, inbetween_place: 'false'} }
+    =@location
+
+%ul.library-items-horizontal
+  -if @library_items.count > 0
+    -@library_items.each do |library_item|
+      %li.library-item-li.clearfix
+        %a.li-click{href: '#', data: {id: library_item.id}}
+          .li-name=truncate(library_item.name, length: 40)
+        %a{href: "#", class: 'delete-item hide', data: { id: library_item.id }}
+          =image_tag 'cross.png' #, class: 'delete-item'
+  -else
+    %li.bold-me.dull-color.no-items
+      ="No Items added to "
+      %span.blue-color
+        =@location
+
+- if @type_of_page == 'add_trip'
+  %a.btn.btn-success.btn-large.add-item-li{"data-toggle" => "modal", :href => "#myModal", :role => "button" , :style => "margin-bottom:3%;width:50%;margin-left:22%"} Add an item
+
+/ Button to trigger modal
+/ Modal
+#myModal.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-header
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+    %h3#myModalLabel=@location
+  .modal-body
+    .alert.alert-error.modal-error.hide
+      %a.close ×
+      You need to add name and description fields
+    #inb-description
+      .control-group
+        .control-label.blue-color
+          %label Type
+        .controls
+          =select_tag "item-type", options_for_select(LibraryItem::ITEM_TYPE), class: "input-medium"
+      .control-group
+        .control-label.blue-color
+          %label Name
+        .controls
+          %input{ class: "input-medium", class: "item-text", id: "item-name", type: "text" }
+      .control-group
+        .control-label.blue-color
+          %label Description
+        .controls
+          %textarea{ class: "input-medium", class: "item-text", id: "item-desc", rows: 10 }
+      .control-group
+        .controls
+          =button_tag "Add an item", type: "button", class: "btn btn-success save-library-item", id: "save"
+  :javascript
+    $(document).ready(function(){
+      bindLiClick();
+      firstLiClick();
+      var type_of_page;
+      type_of_page = $('#type-of-page').val();
+      if (type_of_page === 'add_trip' || type_of_page === 'edit_trip') {
+        $(".library-item-li").hover(
+          function () {
+            $(this).find('.delete-item').removeClass('hide');
+          },
+          function () {
+            $(this).find('.delete-item').addClass('hide');
+          }
+        );
+      }
+    });
+    $('#save').click(function(){
+      if( $('#item-desc').val().length < 1 || $('#item-name').val().length < 1 ){
+        $('.modal-error').removeClass('hide');
+      }else if( $('#item-desc').val().length > 0 && $('#item-name').val().length > 0 ){
+        var val
+          , itemId
+          , location
+          , activeLocation = $('.active-link');
+
+        val = activeLocation.data('val');
+        inbetween_place = activeLocation.data('inbetween-place');
+        
+        location = getLocationAttributes();
+
+        location.item = {
+          name: $('#item-name').val(),
+          item_type: $('#item-type').val(),
+          description: $('#item-desc').val()
+        }
+
+        location.type_of_page = $('#type-of-page').val()
+
+        itemId = $(this).data("id");
+        if (itemId) {
+          location.item.id = itemId;
+          $.ajax({
+            url: "/library_item",
+            type: "PUT",
+            data: location,
+            success: function(data) {
+              _this.getItemsForLocation();
+              return _this.clearForm();
+            }
+          });
+        }else{
+          $.post("/library_items", location, function() {
+            $.ajax({
+              url: "/library_items",
+              data: getLocationAttributes(),
+              success: function(data) {
+                $('button.close').trigger('click');
+                $('#items').html(data);
+              },
+              dataType: "html"
+            });
+
+          });
+        }
+      }
+    });
+
+    $('a.close').click(function(){
+      $('.modal-error').addClass('hide');
+    });
+
+    function getLocationAttributes(){
+      var activeLocation = $('.active-link')
+        , val = activeLocation.data('val')
+        , inbetween_place = activeLocation.data('inbetween-place')
+        , type_of_page = $('#type-of-page').val();
+
+      if(inbetween_place){
+        return { inbetween_id: val, type_of_page: type_of_page }
+      }else{
+        return { trip_place_id: val, type_of_page: type_of_page }
+      }
+    }
+
+    function bindLiClick(){
+      $('.li-click').click(function(e){
+        e.stopPropagation();
+        var item_data = {item_id: $(this).data('id')}
+        $.ajax({
+          url: '/library_item',
+          type: "GET",
+          data: item_data,
+          success: function(data) {
+            $('#items-meta').html(data);
+          },
+          dataType: "html"
+        });
+        return false;
+      });
+    }
+
+    function firstLiClick(){
+      if( $('.no-items').size() > 0 ) {
+        $('.li-meta-box').hide();
+      }else {
+        $('.li-click:first').trigger('click');
+      }
+    }

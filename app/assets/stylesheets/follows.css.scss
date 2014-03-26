@@ -1,0 +1,139 @@
+.follow-and-trips-main-box {
+  @include stick-to-header;
+}
+
+.trips-main-box, 
+.follow-main-box {
+  @include bg-color;
+  @include border-1px;
+  @include l-float-and-inline;
+}
+
+.follow-main-box {
+  width: 74%;
+}
+
+section.add-places {
+  margin: 3% 3% 3% 3%;
+  background-color: white;
+  header {
+    padding: 1% 0% 0% 1%;
+
+    h1 {
+      margin-left: 2%;
+    }
+  }
+
+  input.enter-location {
+    width:80%;
+    padding:12px;
+    margin-left: 1%;
+    margin-bottom: 2%;
+  }
+
+  input.location-error {
+    background-color: rgb(231, 192, 192);
+  }
+
+  .follow-dummy {
+    margin-left: 0;
+  }
+
+  .place-geocode,
+  .follow-dummy {
+    @include l-float-and-inline;
+  }
+}
+
+.trips-main-box {
+  width:22%;
+}
+
+.add-places-input {
+  margin-left: 2%;
+}
+
+section.recommended-places,
+section.currently-following {
+  width:46%;
+  background-color: white;
+  @include l-float-and-inline;
+}
+
+.recommend-and-follow-box {
+  margin-bottom: 8%;
+  header {
+    padding-left: 4%;
+    font-size: 20px;
+    border-bottom:5px solid #3c99cf;
+
+    h1 {
+      font-size: 24px;
+    }
+  }
+}
+
+section.recommended-places {
+  margin-left: 3%;
+}
+
+.place-box {
+    margin: 3% 5%;
+    border-bottom: 1px solid #cfcfcf;
+
+
+    .follow-box,
+    .unfollow-box {
+      @include r-float-and-inline;
+    }
+
+    .place-details {
+      width:50%;
+      @include l-float-and-inline;
+
+      .place-name {
+        font-size: 18px;
+      }
+    }
+  }
+
+section.currently-following {
+  margin-left: 2%;
+}
+
+.trips-main-box {
+  width:24%;
+  margin-left: 1%;
+  padding-top: 5.3%;
+}
+
+.add-trip-box {
+  margin-left: 22%;
+  padding-bottom: 8%;
+}
+
+a.btn-trip-img {
+  margin-top: -20%;
+}
+
+.place-recommender {
+  margin: 3%;
+}
+
+section.recommended-place {
+  float: left;
+  margin-left: 8%;
+}
+
+a.skip-n-continue {
+  margin-left: 8%;
+  margin-bottom: 3%;
+}
+
+#recommend-header {
+  margin-left: 5%;
+}
+
+.place-recommender-box {
+  margin-bottom: 5%;
+}

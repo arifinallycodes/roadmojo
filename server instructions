@@ -1,0 +1,46 @@
+install ruby
+install ruby gems
+install postgresql
+install rails
+configure postgresql :
+  1) create another user named postgres with sudo rights
+  2) siwtch to postgres user and sart the postgres server
+
+/usr/lib/postgresql/9.1/bin/pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+/usr/lib/postgresql/9.1/bin/pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log status
+/usr/lib/postgresql/9.1/bin/pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop
+/usr/lib/postgresql/9.1/bin/pg_ctl -D /usr/local/pgsql/data initdb -D /usr/local/pgsql/data
+
+/usr/lib/postgresql/9.1/bin/pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log -m fast restart
+
+vi /usr/local/var/postgres/server.log
+
+---
+chdir: /root/roadmojo/
+environment: production
+address: 0.0.0.0
+port: 3000
+timeout: 30
+log: log/thin.log
+pid: tmp/pids/thin.pid
+max_conns: 1024
+max_persistent_conns: 512
+require: []
+wait: 30
+servers: 1
+daemonize: true
+
+sudo thin config -C /etc/thin/roadmojo.yml -c /root/roadmojo/  --servers 3 -e production
+
+enable nginx
+
+sudo ln -s /etc/nginx/sites-available/roadmojo.com /etc/nginx/sites-enabled/roadmojo.com 
+
+cd /etc/nginx/sites-available/
+cd /etc/nginx/sites-enabled/
+
+cd /var/log/nginx
+
+for precmpile errors : try precompiling for production env on mac and then deploy
+
+for server running error knock off /raodmojo/tmp/pids/server.pid

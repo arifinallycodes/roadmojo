@@ -1,0 +1,68 @@
+.new-trip-container
+  =form_tag("/items", { id: "items-form", class: "form-horizontal" }) do
+    .row-fluid.clearfix
+      .form-title-2.blue-color
+        Add a trip
+      .trip-step-3-box
+        .fuelux
+          #wizard.wizard
+            %ul.steps.clearfix
+              %li.wizard-step.done
+                %a.wizard-link{href:"#"}
+                  %span.badge.badge-info=1
+                  ="Step 1"
+                  %span.chevron
+              %li.wizard-step.done
+                %a.wizard-link{href:"#"}
+                  %span.badge.badge-info=2
+                  ="Step 2"
+                  %span.chevron
+              %li.wizard-step.active
+                %span.badge.badge-info=3
+                ="Step 3"
+                %span.chevron
+          .trip-name
+            =@trip.name
+        / .control-group
+        /   .control-label
+        /     %label Location
+        /   .controls
+        /     =select_tag "item-place", options_from_collection_for_select(@locations, "id", "to_s"), class: "input-medium"
+
+        =hidden_field_tag 'type-of-page', 'add_trip'
+
+        .locations-and-items.clearfix
+          .all-locations-box
+            -if more_than_one_location?(@locations)
+              -@locations.each do |location|
+                .location-box
+                  -if is_location_an_inbetween_place?(location)
+                    =image_tag "line-cross.png", class: 'cross-line'
+                    %a{href: "#", class: 'location-link', data:{ val: location.id, inbetween_place: 'true' }}
+                      =image_tag "inbetween-place.jpg", class: 'blue-flag'
+                  -else
+                    =image_tag "line-circle.png", class: 'circle-line'
+                    %a{href: "#", class: 'location-link', data:{ val: location.id, inbetween_place: 'false' }}
+                      =location
+          .items-box
+            #items
+          / -if @trip.draft_version?
+          /   - @button_name = "Save"
+          /   - @to_route    = trip_path(current_user, @trip)
+          /   - @disabling   = "Saving..."
+          / -else 
+          /   - @button_name = "Publish"
+          /   - @to_route    = dashboard_path
+          /   - @disabling   = "Publishing..."
+
+        .step-3-submit
+          .submit-buttons
+            -if @skipped_step_2
+              =link_to "< Previous",edit_trip_path(current_user, @trip), class: "btn btn-primary"
+            -else
+              =link_to "< Previous",trip_add_places_path(current_user, @trip), class: "btn btn-primary"
+            =link_to 'Publish', trip_publish_path( current_user, @trip ) ,class: "btn btn-primary", disable_with: 'Publishing..'
+            -if @trip.draft_version? or @trip_step == 'new_trip'
+              =link_to "Save as draft", trip_save_as_draft_path( current_user, @trip ), class: "btn btn-primary", disable_with: "Saving.."
+            =link_to 'Cancel', dashboard_path , class: "btn"
+

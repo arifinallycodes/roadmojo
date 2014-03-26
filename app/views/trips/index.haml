@@ -1,0 +1,43 @@
+#containermain1
+  #leftpanel1
+    .roadstream-box-heading
+      %legend
+        -if current_user?
+          %h2
+            My
+            %span.roadstream-box-heading-colour Road Trips
+        -else
+          %h2
+            ="#{@user.username}'s"
+            %span.roadstream-box-heading-colour Road trips
+    = render '/shared/trips'
+    .liked-trips-pagination
+      = paginate @trips
+
+  #rightpanel1.clearfix
+    #rightpanel1-addroad-box.clearfix
+      = link_to 'Add a road trip', new_trip_path( current_user ), class: 'btn btn-primary btn-large btn-trip-add-roadboard' if user_signed_in?
+      / %a{:href => "#{new_trip_path(current_user)}"}
+      /   .addtrip-button-box.clearfix
+      /     #addtrip-button-icon.clearfix
+      /       #addtrip-button-text.clearfix
+      /         Add a Trip
+      / .h-box
+      /   %h3
+      /     Follow
+      /     %span.h-box-colour Places
+      / #followplaces-box
+      /   %div
+      /     %input.followplaces-input{:maxlength => "40", :name => "followplaces", :type => "text"}/
+      /   .followplaces-button
+      /     %a{:href => "#"}
+      /       /%img{:border => "0", :height => "24", :src => "images/plus_icon.png", :width => "24"}/
+      /       =image_tag "landing_page/plus_icon.jpg"
+      / .currently-follow-places
+      /   Currently Following
+      /   %a{:href => "#"} 9 Places
+      /   %br
+      -if current_user?
+        -if !@draft_trips.empty?
+          %section.draft-trips.extra-top-padding
+            =render '/shared/draft_trips'

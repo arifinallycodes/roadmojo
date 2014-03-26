@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>RoadMojo</title>
+</head>
+<body>
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" bgcolor="#eeeeee" ><table width="600" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="127" align="center" valign="middle" bgcolor="#ffffff"><table width="94%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="19%" align="left" valign="middle">&nbsp;</td>
+            <td width="81%" align="right" valign="middle">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle"><img src="<%= @url + '/assets/like_mailer/rm_logo_icon.jpg' %>" width="107" height="89"></td>
+            <td align="left" valign="middle" class="like-text" style="font-family: Arial, Helvetica, sans-serif;font-size: 21px;color: #4e4e4e;line-height:33px;"><a href="<%= @url + '/' + @user.slug %>"><%= @user.username %></a> just liked your road trip 
+              <a href="<%= @url + '/' + @owner.slug + '/trips/' + @trip.slug %>" style="font-family: Arial, Helvetica, sans-serif;font-size: 21px;color: #0a7dc6;line-height:33px;"><%= @trip.name %></a>. 
+              Yay!</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">&nbsp;</td>
+            <td align="right" valign="middle">&nbsp;</td>
+          </tr>
+          </table></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left" valign="middle"><img src="<%= @url + '/assets/like_mailer/rm_like_logo_footer.jpg' %>" width="156" height="55"></td>
+            <td align="right" valign="middle"><a href="http://roadmojo.com" target="_blank" class="footer-small" style="font-family: Arial, Helvetica, sans-serif;font-size: 12px;color: #9b9b9b;text-decoration:none;">www.roadmojo.com</a></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,38 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require jquery.ui.all
+ */
+ 
+@import "compass";
+@import "custom";
+@import "common";
+@import "widgets";
+@import "home";
+@import "fuelux";
+@import "trips";
+@import "devise";
+@import "liked_trips";
+@import "trips_step_1";
+@import "trips_step_2";
+@import "trips_step_3";
+@import "profile";
+@import "header";
+@import "follows";
+@import "landing_page";
+@import "admin";
+.container {
+	width: 90%;
+}
+
+ul {
+	list-style:none;
+}

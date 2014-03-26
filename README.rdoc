@@ -1,0 +1,21 @@
+== Welcome to RoadMojo
+
+== Requirements
+
+Postgresql 1.9+
+Ruby 1.9.x
+Ruby on Rails
+
+== Email Configuration
+
+Create ENV variables in your application.yml.
+
+Since, we're using {Figaro}(https://github.com/laserlemon/figaro#give-me-an-example), its easier to do so. Refer to the example.
+
+== TODO
+
+1) Make the follow button on recommendation asynchronous
+2) Make the like button asynchronous
+3) Recommendation should not display the trips that the user is already following
+4) Unfollow implementation
+5) Unlike implementation

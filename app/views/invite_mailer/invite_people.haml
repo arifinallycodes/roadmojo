@@ -1,0 +1,8 @@
+%h3
+  %p
+    ="Hi #{@invitee.email.split('@').first},"
+    - if @inviter
+      ="#{@inviter.username} has invited you to Roadmojo"
+    - else
+      ="A well wisher has invited you to join Roadmojo."
+    =link_to 'Click here to join',new_user_registration_url

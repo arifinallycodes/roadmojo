@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    attributes:
+      trip:
+        trip_date: "Trip start date"
+  notice:
+    trips:
+      post_on_fb: "Trip has been shared on Facebook !"
+  alert:
+    trips:
+      connect_fb: "Connect your facebook account to share on facebook"
+      post_on_fb: "There was some error while posting. Please check with if its a valid trip or maybe its already posted !"

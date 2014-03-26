@@ -1,0 +1,118 @@
+/* 
+  Common CSS for RM
+  author: Kaushik thirthappa (kaushik@roadmojo.com)
+          Ajay Sharme (ajay@roadmojo.com)
+*/
+
+@mixin bg-color {
+  background-color:#e8e8e8;
+}
+
+@mixin border-1px {
+  border:1px solid #d4d4d4;
+}
+@mixin border-and-inline {
+  border:1px solid #d4d4d4;
+  display:inline-block;
+}
+
+@mixin l-float-and-inline {
+  float:left;
+  display:inline-block;
+}
+
+@mixin r-float-and-inline {
+  float:right;
+  display:inline-block;
+}
+
+@mixin stick-to-header {
+  margin-top: -7px;
+}
+
+@mixin extra-top-padding($val) {
+  padding-top: $val;
+}
+
+@mixin submit-box {
+  padding:3%;
+  background-color:#C4C4C4;
+}
+
+@mixin italic-n-font {
+  color:#AFABAB;
+  font-size:12px;
+  font-style:italic;
+  font-weight:normal;
+}
+
+@mixin background-for-page {
+  height:auto;
+  z-index:1;
+  margin-top: -1%;
+  padding-top: 3%;
+  background-color:#e8e8e8;
+  border:1px solid #d4d4d4;
+}
+
+@mixin box-inside-page {
+  padding-top: 3%;
+  margin: 1% 5% 0 5%;
+  background-color: white;
+}
+
+@mixin locations-box {
+  float: left;
+  width: 20%;
+  margin-bottom: 3%;
+}
+
+@mixin box-shadow ( $left, $top, $blur, $width, $color ){
+  -webkit-box-shadow: $left $top $blur $width $color;
+  -moz-box-shadow: $left $top $blur $width $color;
+  box-shadow: $left $top $blur $width $color;
+}
+
+
+// @mixin locations-or-places-box {
+//   // width:20%;
+//   // float:left;
+//   margin-bottom: 3%;
+// } 
+
+.blue-color {
+  color: rgba(25, 179, 218, 0.75);
+}
+
+.red-color {
+  color: rgba(207, 56, 56, 0.86);
+}
+
+.dull-color {
+  color:#b9b9b9;
+}
+
+a.non-decor-link {
+  text-decoration: none;
+}
+
+.extra-top-padding {
+  @include extra-top-padding(8%);
+}
+
+.extra-left-padding {
+  padding-left: 3%;
+}
+
+.bold-me {
+  font-weight:bold;
+}
+
+.two-percent-margin-top {
+  margin-top: 2%;
+}
+
+.inactive-link {
+  pointer-events: none;
+  cursor: default;
+}

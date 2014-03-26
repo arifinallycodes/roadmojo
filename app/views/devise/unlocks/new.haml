@@ -1,0 +1,11 @@
+.sign-in-box
+  %h2 Resend unlock instructions
+  = form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post , :class => 'form-horizontal'}) do |f|
+    = devise_error_messages!
+    .control-group
+      = f.label :login, class: 'control-label'
+      .controls
+        = f.text_field :login
+    = f.submit "Resend unlock instructions", class: 'sign-in-submit btn btn-default'
+  .devise-links
+    = render "devise/shared/links"

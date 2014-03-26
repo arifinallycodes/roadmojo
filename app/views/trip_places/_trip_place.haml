@@ -1,0 +1,7 @@
+.control-group.fields
+  =f.label :place_name, class: "control-label"
+  .controls
+    =f.text_field :place_name, class: "input-xlarge place-geocode"
+    =f.hidden_field :lat
+    =f.hidden_field :lon
+    =link_to_remove_fields :remove, f

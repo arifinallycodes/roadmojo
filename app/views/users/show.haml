@@ -1,0 +1,63 @@
+.user-profile-container
+  .user-profile
+    %h1.profile-heading
+      #{@user.username}'s
+      %span.blue-color
+        profile
+    -if correct_user_signed_in?
+      %a.edit-profile{href: edit_user_registration_path( username: current_user.username )}
+        Edit
+    .user-profile-main
+      .user-profile-image-box
+        =image_tag @user.avatar.url.to_s, class: "user-profile-image" #this is for testing only and its on S3.
+      .user-profile-desc.clearfix
+        .user-full-name.clearfix.clearfix
+          .full-name
+            Full Name
+          .full-name-field
+            =truncate(@user.full_name, length: 25, omission: "..")
+        .user-gender.clearfix
+          .gender
+            Gender
+          .gender-field
+            =@user.gender
+        .user-age.clearfix
+          .age
+            Age
+          .age-field
+            =@user.age
+        .user-current-loc.clearfix
+          .current-loc
+            Current Location
+          .current-loc-field
+            =@user.current_loc
+        .user-desc.clearfix
+          .desc
+            Description
+          .desc-field
+            /=truncate(@user.desc, length: 350, omission: "...")
+            =@user.desc
+  .user-rm-activities
+    %h1.act-profile-heading
+      What
+      %span.blue-color
+        #{@user.username}'s been upto?
+    .user-rm-activties-main
+      .road-trips
+        %span.gear-icon
+          =image_tag 'gear-icon.png'
+        %span.blue-color
+          = link_to "#{@user.trips.where('trips.draft_version = ?', false).count} Road trips", trips_path( @user ), class: 'blue-color'
+      .following-places
+        %span.gear-icon
+          =image_tag 'gear-icon.png'
+        %span.blue-color
+          Following #{@user.following_places.count} places
+      .liked-trips
+        %span.gear-icon
+          =image_tag 'gear-icon.png'
+        %span.blue-color
+          = link_to "Liked #{@no_of_liked_trips} Road #{@no_of_liked_trips == 1 ? 'trip' : 'trips'}", likes_path( @user ), class: "#{@no_of_liked_trips.zero? ? 'inactive-link' : ''} blue-color"
+    -if current_user?
+      .draft-trips-profile-box
+        =render '/shared/draft_trips'

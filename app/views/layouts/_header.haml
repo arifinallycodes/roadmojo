@@ -1,0 +1,14 @@
+#logohome
+  %a.hide-text{:href => "/"} roadmojo
+.buttonboxhome
+  -if current_user
+    %a.signin-button{:href => "/users/sign_out"} Sign Out
+  -else
+    / %a.signin-button{:href => "/users/sign_in"} Sign in
+    %a.btn.btn-danger{:href => "/users/sign_in"} Sign in
+#navigationhome
+  %ul.topnav-home
+    %li
+      %a{:href => "/home/faq"} FAQ
+    %li
+      %a{:href => "http://blog.roadmojo.com", target: '_blank'} Blog

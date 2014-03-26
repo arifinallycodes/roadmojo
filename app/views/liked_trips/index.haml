@@ -1,0 +1,17 @@
+/= render '/shared/trips_list', user: current_user, all_trips: @trips, header: "Liked Trips", actions: false
+#containermain1.clearfix
+  #leftpanel1
+    .roadstream-box-heading
+      %legend
+        -if current_user?
+          %h2
+            My
+            %span.roadstream-box-heading-colour Liked Trips
+        -else
+          %h2
+            ="#{@user.username}'s"
+            %span.roadstream-box-heading-colour liked trips
+    .liked-trips-main-box.clearfix
+      = render '/shared/trips'
+    .liked-trips-pagination
+      = paginate @trips

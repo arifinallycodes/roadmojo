@@ -1,0 +1,245 @@
+$space-20px: 20px;
+$space-250px: 250px;
+$full-percent: 100%;
+$fuel-green: rgb(46, 172, 46);
+
+.show-more-drafts {
+  margin-left: 5%;
+}
+
+ul#sortable { /* Please mind that chaning this css also means chaging the css of adding places everywhere on RoadMojo */
+  width: 20%;
+  float: left;
+  margin: 3% 0 0 10%;
+  list-style-type: none;
+  li {
+    margin: 3px;
+    padding: 3px;
+    float: left;
+    width: 150px;
+    height: auto;
+    text-align: center;
+    vertical-align: middle;
+    cursor: default;
+    button {
+      float: right;
+    }
+  }
+}
+
+//Fix for not visible content in popover
+div.popover-content {
+  white-space: normal;
+  font-size: 14px;
+}
+
+div#map_canvas {
+  width: 80%;
+  margin:3% 0 3% 16%;
+  height: $full-percent;
+}
+
+.fuelux .wizard ul li.done a {
+  text-decoration: none;
+  cursor: default;
+}
+.fuelux {
+  margin: 0 5% 2% 5%;
+  padding-bottom: 2%;
+  border-bottom: 1px solid #d4d4d4;
+
+  .wizard {
+    margin-bottom:2%;
+    background-color:white;
+  }
+  
+  .badge-info {
+    background-color:#999;
+  }
+
+  .active {
+    .badge-info {
+      // background-color:#3a87ad;
+      background-color:rgba(25, 179, 218, 0.75);
+    }
+  }
+
+  .mandatory-fields{
+    float:right;
+    @include italic-n-font;
+  }
+}
+
+
+.fuelux .wizard ul li.done {
+  color:$fuel-green;
+
+  a {
+    color:$fuel-green;
+  }
+
+  .badge-info {
+    background-color:rgb(49, 139, 49);
+  }
+}
+
+/* View Trip CSS */
+.show-trip-container {
+  @include background-for-page;
+  padding-top: 1%;
+}
+
+.trip-page-header {
+  padding-bottom: 9px;
+  margin: $space-20px 5% 10px 5%;
+}
+
+.show-trip-main-box {
+  @include box-inside-page;
+  padding-top: 1%;
+
+  .show-trip-inside-box {
+    margin: 2%;
+  }
+
+  .show-trip-name {
+    font-size:$space-20px;
+    padding-bottom: 1%;
+    border-bottom: 1px solid #d4d4d4;
+  }
+
+  .trip-name-n-info,
+  .trip-user-box {
+    width: 50%;
+  }
+
+  .trip.user-options {
+    width: 100%;
+    
+    .fb-share-show {
+      margin-top: -3px;
+    }
+
+    .user-profile-icon {
+      margin-top: -2px;
+    }
+
+    a {
+      float: right;
+      margin-left: 1%;
+      text-decoration: none;
+
+    }
+
+    .go-to-profile {
+      display: inline-block;
+      padding: 2px 4px;
+      font-size: $space-20px;
+      line-height: 14px;
+      vertical-align: bottom;
+      white-space: nowrap;
+      margin:0;
+    }
+  }
+
+  .all-locations-box {
+    min-height: 240px;
+    min-height: 500px;
+    .location-box {
+      margin: 0;
+    }
+  }
+
+  #items {
+    margin-left: 0;
+    margin-top: $space-20px;
+    margin-bottom: 3%;
+    float: left;
+    // -webkit-box-shadow: 1px 1px 11px 2px #ddd;
+    // -moz-box-shadow: 1px 1px 11px 2px #ddd;
+    // box-shadow: 1px 1px 11px 2px #ddd;
+    @include box-shadow(1px, 1px, 11px, 2px, #ddd);
+    min-height: $space-250px;
+    max-height: $space-250px;
+
+    .library-items-horizontal {
+      max-height: 190px;
+      overflow: auto;
+    }
+  }
+}
+
+#transport-image {
+  margin: 0 0 0.5% 1%;
+}
+
+.no-items {
+  padding:20% 3% 3% 23%;
+}
+
+.places-error {
+  margin-left: 10%;
+}
+
+#items-meta {
+  .li-meta-box {
+    width: 37.5%;
+    float: left;
+    border: 1px solid #999999;
+    margin-top: $space-20px;
+    margin-bottom: $space-20px;
+    margin-left: 2%;
+    max-height: $space-250px;
+    min-height: $space-250px;
+    @include box-shadow(1px, 1px, 11px, 2px, #ddd);
+
+    .li-meta-header {
+      font-size: 18px;
+      color: #1986c6;
+    }
+
+    span.li-blue-color {
+      color: #1986c6;
+      background-color: #1986c6;
+      vertical-align: top;
+      font-size: 17px;
+    }
+
+    span.li-blue-color-text {
+      margin-left: 2%;
+    }
+
+    .li-type-box,
+    .li-desc-box {
+      margin-top: 3%;
+      padding-left: 5%;
+    }
+
+    .li-desc-box {
+      max-height: 155px;
+      padding-right: 5%;
+      word-wrap: break-word;
+      padding-bottom: 2%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
+
+}
+.show-trips-desc {
+  max-height: 125px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 19px;
+  margin-left: 20%;
+  margin-top: 2%;
+  // margin-bottom: $space-20px;
+  background-color: whitesmoke;
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}

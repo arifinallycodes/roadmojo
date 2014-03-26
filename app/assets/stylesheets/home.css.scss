@@ -1,0 +1,49 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+section.nearby-trips {
+  margin-top:5%;
+}
+
+.bg-thumbnail {
+  background-color:#e8e8e8;
+}
+
+#faq {
+  @include background-for-page;
+  padding-bottom: 3%;
+}
+
+.faq-title {
+  margin-left: 5%;
+}
+
+.faq-box {
+  @include box-inside-page;
+  padding-bottom: 2%;
+}
+
+.q-n-a {
+  margin: 2%;
+  border: 1px solid #ddd;
+
+  .faq-icon {
+    float: right;
+  }
+
+  .question {
+    padding: 1%;
+    cursor: pointer;
+    color: whitesmoke;
+    background-color: rgba(11, 96, 189, 0.85);
+  }
+
+  .answer {
+    padding: 1%;
+  }
+
+  ul {
+    list-style: decimal;
+  }
+}

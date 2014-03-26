@@ -1,0 +1,87 @@
+$two-per: 2%;
+$three-per: 3%;
+$four-per: 4%;
+$five-per: 5%;
+$border-color:#999;
+
+.trip-step-3-box {
+	padding-top: $three-per;
+	padding-bottom: $three-per;
+	margin: 1% $five-per 0 $five-per;
+	background-color:white;
+}
+
+#items {
+	width:40%;
+	border:1px solid $border-color;
+
+	button {
+		margin-bottom: 3%;
+	}
+}
+
+.items-heading {
+	font: 23px bold;
+	color: whitesmoke;
+	padding: $two-per 0 $two-per 7%;
+	background-color: #1986c6;
+	font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.delete-item {
+	float: right;
+}
+
+.li-name {
+	padding-left: $two-per;
+	float: left;
+}
+
+.library-item-li {
+	padding: $three-per 0;
+	margin-right: 5%;
+	border-bottom: 1px solid $border-color;
+	max-height: 20px;
+}
+
+.add-item-li {
+	margin-left:32%;
+	margin-bottom: 3%;
+}
+
+.all-locations-box {
+	@include locations-box;
+}
+
+.location-box {
+	margin: 0 0 0 5%;
+}
+
+.items-box {
+	// margin: -6% 0 0 30%;
+	// position: absolute;
+	width: 80%;
+	float:left;
+	// top: 38%;
+	// left: 25%;
+	// bottom: 0;
+	// right: 0;
+	// z-index: 1000;
+}
+
+.step-3-submit {
+	@include submit-box;
+	margin-top: 15%;
+}
+
+.locations-and-items {
+	padding-left: 4%;
+}
+
+.active-link {
+	color: #17D317;
+}
+
+.location-link {
+	text-decoration: none;
+}

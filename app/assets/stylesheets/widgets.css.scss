@@ -1,0 +1,39 @@
+.draft-trips {
+  margin:auto 5%;
+
+  header {
+    margin-bottom: 4%;
+    font-size:24px;
+  }
+}
+
+.draft-trip-box {
+  padding:10px;
+  margin-bottom: 4%;
+  background-color: #ffffff;
+
+  .place-names {
+    color: #6a6a6a;
+  }
+
+  .trip-time {
+    color:#6a6a6a;
+  }
+
+  .trip-details,
+  .trip-mode-image {
+    @include l-float-and-inline;
+  }
+
+  .trip-details {
+    width:80%;
+  }
+
+  .trip-mode-image {
+    width: 18%;
+    padding-top: 18%;
+    background-image:image-url('car.png');
+    background-repeat: no-repeat;
+    background-position:80% 80%;
+  }
+}

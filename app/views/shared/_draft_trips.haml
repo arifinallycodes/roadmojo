@@ -1,0 +1,24 @@
+-if !@draft_trips.count.zero?
+  %header.draft-section-header
+    My
+    %span.blue-color
+      Road trip drafts
+  - @draft_trips.each do |trip|
+    .draft-trip-box.clearfix
+      .trip-details
+        .draft-trip-header
+          %span.blue-color
+            =link_to truncate(trip.name, length: 15), trip_path(@user, trip), class: 'non-decor-link blue-color'
+          %span.draft-trip-date.dull-color
+            =trip.trip_date.strftime('%b, %Y')
+        .place-names
+          -trip.place_names.each_with_index do |place,index|
+            = truncate( place, length: 13 )
+            -if trip.place_names.size != index + 1
+              ,
+        .trip-time
+          - updated_time = trip.updated_at
+          = "#{updated_time.strftime('%b %d, %Y')}"
+          %span.dull-color
+            = updated_time.strftime('%l:%M %p %Z')
+      .trip-mode-image{:class => "#{trip.transport}-mode"}

@@ -1,0 +1,51 @@
+.new-trip-container
+  =form_for @trip, url: @form_url, html: { class: "form-horizontal" } do |f|
+    .row-fluid
+      .form-title-1.blue-color=form_title
+      .trip-step-1-box
+        .fuelux
+          #wizard.wizard
+            %ul.steps.clearfix
+              %li.wizard-step.active
+                %span.badge.badge-info=1
+                ="Step 1"
+                %span.chevron
+              %li.wizard-step
+                %span.badge.badge-info=2
+                ="Step 2"
+                %span.chevron
+              %li.wizard-step
+                %span.badge.badge-info=3
+                ="Step 3"
+                %span.chevron
+          .mandatory-fields
+            ="All fields are mandatory"
+        .control-group.step-control-box
+          =f.label :name, class: "control-label blue-color bold-me"
+          .controls
+            =f.text_field :name, class: "input-xxlarge"
+          .italic-and-faint
+            ="Example: Bob's weekend trip to Vegas"
+        .control-group
+          =f.label :description, class: "control-label blue-color bold-me"
+          .controls
+            =f.text_area :description, class: "input-xxlarge", rows: "5"
+        .control-group
+          =f.label :transport, class: "control-label blue-color bold-me"
+          .controls
+            =f.select :transport, Trip::TRANSPORT, {}, class: "input-xlarge"
+        .control-group
+          =f.label :trip_date, class: "control-label blue-color bold-me"
+          .controls
+            =f.date_select :trip_date, { start_year: 1970 ,end_year: Date.today.year, discard_day: true }, { class: "input-medium", id: "trip-date" }
+
+        - button_info = get_button_info( @trip_step )
+
+        .submit-actions
+          .submit-buttons
+            / =f.submit "Save as draft", class: "btn btn-primary new-trip-form", disable_with: "Saving..."
+            / =f.submit "Next >", class: "btn btn-primary", disable_with: "Saving..."
+            -if @trip.draft_version? or @trip_step == 'new_trip'
+              =f.submit button_info[:draft][:name], class: "btn btn-primary new-trip-form", disable_with: button_info[:draft][:disable_with]
+            =f.submit button_info[:next_step][:name], class: "btn btn-primary", disable_with: button_info[:next_step][:disable_with]
+            =link_to 'Cancel', dashboard_path , class: "btn"
