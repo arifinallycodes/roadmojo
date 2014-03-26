@@ -71,8 +71,8 @@ Road::Application.configure do
     :domain => 'roadmojo.com',
     :port => 587,
     :authentication => "plain",
-    :user_name => 'admin@roadmojo.com',
-    :password => 'roadmojo@123',
+    :user_name => ENV["ADMIN_RM_EMAIL"],
+    :password => ENV["ADMIN_RM_PASSWORD"],
     :enable_starttls_auto => true
   }
 end
