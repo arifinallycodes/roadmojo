@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   # Once we move out of Heroku, add :async module to send emails in the background
-  devise :database_authenticatable, :registerable, :confirmable, :lockable,
+  devise :database_authenticatable, :registerable, :lockable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :async
 
 
@@ -35,11 +35,12 @@ class User < ActiveRecord::Base
   validates :username, 
             format: 
                   { 
-                    with: /^[a-zA-Z0-9_\-.]+$/, 
+                    with: /\A[a-zA-Z0-9_\-.]+\Z/, 
+                    multiline: false,
                     message: "format is incorrect"
                   },
-            :uniqueness => {
-                    :case_sensitive => false
+            uniqueness: {
+                    case_sensitive: false
                   },
             length:
                   {
@@ -49,7 +50,8 @@ class User < ActiveRecord::Base
                     too_long: "should not have more than %{count} characters"
                   }
 
-  validate :username_email
+  #validate :username_email
+  validates :email,uniqueness: true
   validates :age, numericality: { only_integer: true, greater_than: 0 }, if: "self.created_at and self.age != '' and !self.age.nil?"
   # validates :age, numericality: { only_integer: true, greater_than: 0 }, if: "self.created_at"
 
@@ -71,7 +73,16 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_provider_oauth(auth, signed_in_resource = nil)
-    User.where(email: auth.info.email).first
+    user = User.where(email: auth.info.email).first
+    # if user.nil?
+    #     user = User.new(
+    #       name: auth.extra.raw_info.name,
+    #       email: auth.info.email.blank? ? "" : auth.info.email,
+    #       password: Devise.friendly_token[0,20]
+    #     )
+    #     user.skip_confirmation!
+    #     user.save!
+    # end
   end
 
   # Collect the places that the user is following
@@ -116,22 +127,22 @@ class User < ActiveRecord::Base
   private
 
   # Validator for email and username presence
-  def username_email
-    found_by_email = User.scoped_by_email(email).first
-    return true if found_by_email == self
-    self.username.downcase!
-    if found_by_email
-      message = "has already been taken."
-      if found_by_email[:provider]
-        message << " Please sign in with #{found_by_email[:provider]}."
-      end
-      errors.messages[:email] = ["#{message} If you wish to reset your password please click the link below."]
-    elsif User.where("lower(username) = ?", username.downcase).any?
-      errors.messages[:username] = ["has already been taken"]
-    elsif User::RESERVED_USERNAMES.include?( username )
-      errors.messages[:username] = ["is reserved. Please choose some other username"]
-    end
-  end
+  # def username_email
+  #   found_by_email = User.scoped_by_email(email).first
+  #   return true if found_by_email == self
+  #   self.username.downcase!
+  #   if found_by_email
+  #     message = "has already been taken."
+  #     if found_by_email[:provider]
+  #       message << " Please sign in with #{found_by_email[:provider]}."
+  #     end
+  #     errors.messages[:email] = ["#{message} If you wish to reset your password please click the link below."]
+  #   elsif User.where("lower(username) = ?", username.downcase).any?
+  #     errors.messages[:username] = ["has already been taken"]
+  #   elsif User::RESERVED_USERNAMES.include?( username )
+  #     errors.messages[:username] = ["is reserved. Please choose some other username"]
+  #   end
+  # end
 
 
   # Overriding Devise to setup username to login.
