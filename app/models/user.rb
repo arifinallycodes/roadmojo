@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   # Once we move out of Heroku, add :async module to send emails in the background
-  devise :database_authenticatable, :registerable, :lockable,
+  devise :database_authenticatable, :registerable, :lockable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :async
 
 

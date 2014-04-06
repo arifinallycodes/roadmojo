@@ -14,7 +14,7 @@ Road::Application.routes.draw do
   get "/error_404", :to => "errors#error_404"
   get "/error_500", :to => "errors#error_500"
 
-  match '/auth/:provider/callback' => 'authentications#create'
+  post '/auth/:provider/callback' => 'authentications#create'
 
   # These are all AJAX routes
   constraints AjaxOnlyRequest.new do
