@@ -3,6 +3,8 @@ class UsersController < ApplicationController
 
   before_filter :clear_flash, only: [:dashboard]
 
+  # before_action :ensure_valid_email, only: [:add_email]
+
   # layout :user_layout, only: [:dashboard]
 
   def show
@@ -51,4 +53,5 @@ class UsersController < ApplicationController
   def user_layout
     user_signed_in? ? "application" : "landing_page"
   end
+
 end
