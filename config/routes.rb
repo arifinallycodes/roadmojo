@@ -29,6 +29,8 @@ Road::Application.routes.draw do
   
   resources :authentications
 
+  get '/auth/:provider/callback' => 'authentications#create'
+  post '/auth/:provider/callback' => 'authentications#create'
   devise_for :users, controllers: {
     omniauth_callbacks: "omniauth_callbacks",
     registrations: "registrations"

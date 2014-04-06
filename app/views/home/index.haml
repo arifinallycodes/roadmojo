@@ -9,6 +9,9 @@
     .homelogin-fb-button
       %a{:href => user_omniauth_authorize_path(:facebook)}
         =image_tag 'landing_page/facebook_home_button.png', height: "35", border: "0", width: "204"
+        .homelogin-twitter-button
+      %a{:href => user_omniauth_authorize_path(:twitter)}
+        =image_tag 'https://dev.twitter.com/sites/default/files/images_documentation/sign-in-with-twitter-gray.png', height: "35", border: "0", width: "190"
     .homelogin-partition-line
     %form#new_post.new_post{"accept-charset" => "UTF-8", :action => "/users", :method => "post"}
       %input.home-input-text-1{ :type => "text", :placeholder => "User Name", :name=>"user[username]" , :id=>"sign-up-username"}

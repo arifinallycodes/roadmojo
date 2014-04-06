@@ -205,7 +205,9 @@ Devise.setup do |config|
   FACEBOOK_APP_ID     = Rails.env.development? ? "296230527145473" : "280725785381144"
   FACEBOOK_APP_SECRET = Rails.env.development? ? "c0667d605f37fb203c8b6de048f28ceb" : "df669eb8ba9a347e6a15add4c21ebc63"
   config.omniauth :facebook, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, {:scope => "publish_actions, publish_stream, email, offline_access"}
-
+  require 'omniauth-twitter'
+  config.omniauth :twitter, "uZOVGAI729pZqWu9AC1wGBflK", "Je1PaTBrcpdV4GJ5aEIR1tFUGSzo0Y58meW1TI660MT15kt7Nd"
+  config.secret_key = 'c09a2ab942f958964dccd8cafe723c63d8341e53a68681fcea8e5180f53c17543b0722023bd5fe64f98e27248806616c1e382521575cb159fa25c8208c4992ea'
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
