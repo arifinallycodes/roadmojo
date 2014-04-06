@@ -3,6 +3,7 @@
 # Road::Application.config.session_store :cookie_store, :key => '_road_session'
 # Road::Application.config.session_store :cookie_store :active_record_store
 Road::Application.config.session_store :active_record_store
+ActiveRecord::SessionStore::Session.attr_accessible :data, :session_id
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
