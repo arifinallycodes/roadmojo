@@ -2,7 +2,7 @@ ruby "2.0.0"
 
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '4.0.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -10,6 +10,11 @@ gem 'thin'
 
 # gem 'puma' # just trying this out https://www.engineyard.com/articles/rails-server
 gem 'puma'
+gem 'omniauth-twitter'
+gem 'twitter'
+gem 'activerecord-session_store'
+gem 'sprockets-rails'
+gem 'protected_attributes'
 
 gem 'pg'
 gem 'haml-rails'
@@ -23,7 +28,7 @@ gem 'inherited_resources'
 # gem "coffee-filter", git: 'git://github.com/paulnicholson/coffee-filter.git'
 gem "draper"
 gem "pry-rails"
-gem "friendly_id"
+gem "friendly_id", '~> 5.0.3'
 
 # Koala is a gem to access and play around easily with Facebook's Graph API
 gem "koala"
@@ -71,8 +76,8 @@ gem 'newrelic_rpm'
 # in production environments by default.
 gem "compass-rails"
 group :assets do
-  gem 'sass-rails', '3.2.5'
-  gem 'coffee-rails'
+  gem 'sass-rails', '~> 4.0.3'
+  gem 'coffee-rails', '~> 4.0.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
