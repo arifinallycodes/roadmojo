@@ -53,6 +53,21 @@ module Road
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
+    initializer 'setup_asset_pipeline', :group => :all  do |app|
+      # We don't want the default of everything that isn't js or css, because it pulls too many things in
+      app.config.assets.precompile.shift
+
+      # Explicitly register the extensions we are interested in compiling
+      app.config.assets.precompile.push(Proc.new do |path|
+        File.extname(path).in? [
+          '.html', '.erb', '.haml',                 # Templates
+          '.png',  '.gif', '.jpg', '.jpeg',         # Images
+          '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
+        ]
+        end)
+    end
+
+    
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
