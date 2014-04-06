@@ -1,8 +1,9 @@
 class RegistrationsController < Devise::RegistrationsController
   def new
     @facebook_signup = facebook_signup?
+    @twitter_signup = twitter_signup?
     puts 'you are in RegistrationsController new %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' 
-    if @facebook_signup
+    if @facebook_signup || @twitter_signup
       puts'##################################################################################################################################'
       puts 'you are in facebook_signup present new %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' 
       flash.now[:notice] = "Almost done! We'll just need you to enter your Roadmojo username and you'll be ready to ride."
@@ -16,6 +17,9 @@ class RegistrationsController < Devise::RegistrationsController
     puts @facebook_signup.inspect
     # super
     build_resource
+    resource.username = params["user"]["username"]
+    resource.password = assign_password
+    resource.email = params["user"]["email"] if params["user"]
     if resource.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
@@ -23,7 +27,7 @@ class RegistrationsController < Devise::RegistrationsController
         # respond_with resource, :location => after_sign_up_path_for(resource)
         redirect_to new_user_session_path
       else
-        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
+        set_flash_message :notice, "signed_up_but_#{resource.inactive_message}" if is_navigational_format?
         expire_session_data_after_sign_in!
         redirect_to new_user_session_path
         # respond_with resource, :location => after_inactive_sign_up_path_for(resource)
@@ -47,7 +51,6 @@ class RegistrationsController < Devise::RegistrationsController
       params[:user].delete("password")
       params[:user].delete("password_confirmation")
     end
-
     @user = User.find(current_user.id)
     if @user.update_attributes(params[:user])
       set_flash_message :notice, :updated
@@ -71,9 +74,17 @@ class RegistrationsController < Devise::RegistrationsController
       !params[:user][:password].blank?
   end
 
+  def assign_password
+    SecureRandom.hex(20)
+  end
+
   protected
 
   def facebook_signup?
     session["devise.facebook_data"].present?
+  end
+
+  def twitter_signup?
+    session["devise.twitter_data"].present?
   end
 end
