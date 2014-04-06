@@ -23,10 +23,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # def current_user
+  #   @current_user ||= User.find(session[:username]) if session[:username]
+  # end
   # Returns a boolean value after checking if user is the current_user !
   def current_user?( user=nil )
     if !user
-      user = User.find(params[:username])
+      user = User.where(username: params[:username]).first
     end
     return user == current_user ? true : false
   end
@@ -37,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def find_user_by_username
-    if !(@user = User.find_by_slug( params[:username] ))
+    if !(@user = User.where(username: params[:username]).first)
       raise ActiveRecord::RecordNotFound, "Page not found"
     end
   end
