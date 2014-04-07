@@ -80,8 +80,8 @@ Road::Application.configure do
     :domain => 'roadmojo.com',
     :port => 587,
     :authentication => "plain",
-    :user_name => Figaro.env["mail_username"],
-    :password => Figaro.env["mail_password"],
+    :user_name => ENV["mail_username"],
+    :password => ENV["mail_password"],
     :enable_starttls_auto => true
   }
 end

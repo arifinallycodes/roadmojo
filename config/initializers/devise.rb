@@ -205,13 +205,13 @@ Devise.setup do |config|
 
   require "omniauth-facebook"
   # Different App Id and Secret depending on environment.
-  FACEBOOK_APP_ID     = Figaro.env["FB_APP_ID"]
-  FACEBOOK_APP_SECRET = Figaro.env["FB_APP_SECRET"]
+  FACEBOOK_APP_ID     = ENV["FB_APP_ID"]
+  FACEBOOK_APP_SECRET = ENV["FB_APP_SECRET"]
   config.omniauth :facebook, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, {:scope => "publish_actions, publish_stream, email, offline_access"}
   require 'omniauth-twitter'
   # config.omniauth :twitter, "uZOVGAI729pZqWu9AC1wGBflK", "Je1PaTBrcpdV4GJ5aEIR1tFUGSzo0Y58meW1TI660MT15kt7Nd"
-  TWITTER_APP_ID = Figaro.env["TWITTER_APP_ID"]
-  TWITTER_APP_SECRET = Figaro.env["TWITTER_APP_SECRET"]
+  TWITTER_APP_ID = ENV["TWITTER_APP_ID"]
+  TWITTER_APP_SECRET = ENV["TWITTER_APP_SECRET"]
   config.secret_key = "c09a2ab942f958964dccd8cafe723c63d8341e53a68681fcea8e5180f53c17543b0722023bd5fe64f98e27248806616c1e382521575cb159fa25c8208c4992ea"
   config.omniauth :twitter, TWITTER_APP_ID, TWITTER_APP_SECRET,{client_options: {authorize_path: '/oauth/authenticate'} } 
   # ==> Warden configuration
