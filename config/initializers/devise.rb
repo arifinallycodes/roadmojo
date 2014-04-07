@@ -79,6 +79,9 @@ Devise.setup do |config|
   # the user cannot access the website without confirming his account.
   # config.confirm_within = 2.days
 
+  #Allow sign in after insecure devise token authentication
+  config.allow_insecure_sign_in_after_confirmation = true
+
   # Defines which key will be used when confirming an account
 
   # ==> Configuration for :rememberable
@@ -156,7 +159,7 @@ Devise.setup do |config|
   # and :restful_authentication_sha1 (then you should set stretches to 10, and copy
   # REST_AUTH_SITE_KEY to pepper)
   # config.encryptor = :sha512
-
+  # config.allow_insecure_token_lookup = true
   # ==> Configuration for :token_authenticatable
   # Defines name of the authentication token params key
   # config.token_authentication_key = :auth_token
@@ -202,12 +205,15 @@ Devise.setup do |config|
 
   require "omniauth-facebook"
   # Different App Id and Secret depending on environment.
-  FACEBOOK_APP_ID     = Rails.env.development? ? "296230527145473" : "280725785381144"
-  FACEBOOK_APP_SECRET = Rails.env.development? ? "c0667d605f37fb203c8b6de048f28ceb" : "df669eb8ba9a347e6a15add4c21ebc63"
+  FACEBOOK_APP_ID     = Figaro.env["FB_APP_ID"]
+  FACEBOOK_APP_SECRET = Figaro.env["FB_APP_SECRET"]
   config.omniauth :facebook, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, {:scope => "publish_actions, publish_stream, email, offline_access"}
   require 'omniauth-twitter'
-  config.omniauth :twitter, "uZOVGAI729pZqWu9AC1wGBflK", "Je1PaTBrcpdV4GJ5aEIR1tFUGSzo0Y58meW1TI660MT15kt7Nd"
-  config.secret_key = 'c09a2ab942f958964dccd8cafe723c63d8341e53a68681fcea8e5180f53c17543b0722023bd5fe64f98e27248806616c1e382521575cb159fa25c8208c4992ea'
+  # config.omniauth :twitter, "uZOVGAI729pZqWu9AC1wGBflK", "Je1PaTBrcpdV4GJ5aEIR1tFUGSzo0Y58meW1TI660MT15kt7Nd"
+  TWITTER_APP_ID = Figaro.env["TWITTER_APP_ID"]
+  TWITTER_APP_SECRET = Figaro.env["TWITTER_APP_SECRET"]
+  config.secret_key = Figaro.env["DEVISE_SECRET_KEY"]
+  config.omniauth :twitter, TWITTER_APP_ID, TWITTER_APP_SECRET,{client_options: {authorize_path: '/oauth/authenticate'} } 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

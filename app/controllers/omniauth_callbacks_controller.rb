@@ -19,7 +19,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # Provider should be string representing calling method name,
   # e.g. "facebook", "twitter"
   def sign_in_through_provider( provider )
-    @user = User.find_for_provider_oauth(request.env["omniauth.auth"], current_user)
+    @user = User.find_for_provider_oauth(request.env["omniauth.auth"], provider, current_user)
     if @user
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, username: @user.username) if is_navigational_format?
@@ -41,6 +41,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       # The update is currently unsuccessful because of custom validation method on user model
       # named username_email
       # Move this validator in a better way so that we can atleast run the basic U of CRUD :-)
+      
       user = current_user
       if user.update_attributes( fb_authentication_token: fb_auth_token )
         format.html { redirect_to dashboard_path, notice: "success !" }

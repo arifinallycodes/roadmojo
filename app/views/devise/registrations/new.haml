@@ -7,6 +7,7 @@
       .controls
         = f.text_field :username
     .control-group
+    -if @twitter_signup
       = f.label :email, :class => "control-label"
       .controls
         = f.text_field :email

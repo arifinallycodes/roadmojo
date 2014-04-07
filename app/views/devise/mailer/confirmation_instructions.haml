@@ -49,7 +49,7 @@
                                 %tr
                                   %td{:align => "center", :style => "font-family:Arial, Helvetica, sans-serif; font-size:19px; color:#ffffff;", :valign => "middle"}
                                     %strong
-                                      =link_to 'Confirm my account',confirmation_url(@resource, :confirmation_token => @resource.confirmation_token), {style: "text-decoration:none; color:#ffffff; border-bottom: solid #2bb1d6 1px;"}
+                                      =link_to 'Confirm my account',confirmation_url(@resource, :confirmation_token => @token), {style: "text-decoration:none; color:#ffffff; border-bottom: solid #2bb1d6 1px;"}
                                       / %a{:href => "<%= confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %>", :style => "text-decoration:none; color:#ffffff; border-bottom: solid #2bb1d6 1px;"} Confirm my account
                             %td{:align => "right", :bgcolor => "#0F99C0", :valign => "top", :width => "15"}
                               %img{:height => "45", :src => "#{url}/button_right_100813.jpg", :width => "15"}/

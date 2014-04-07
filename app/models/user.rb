@@ -72,8 +72,12 @@ class User < ActiveRecord::Base
     self.fb_authentication_token ? Koala::Facebook::API.new( self.fb_authentication_token ) : nil
   end
 
-  def self.find_for_provider_oauth(auth, signed_in_resource = nil)
-    user = User.where(email: auth.info.email).first
+  def self.find_for_provider_oauth(auth, provider, signed_in_resource = nil)
+    if provider == "facebook"
+      user = User.where(email: auth.info.email).first
+    elsif provider == "twitter"
+      user = User.where(:provider => auth.provider, :twitter_uid => auth.uid).first
+    end
     # if user.nil?
     #     user = User.new(
     #       name: auth.extra.raw_info.name,
@@ -82,6 +86,27 @@ class User < ActiveRecord::Base
     #     )
     #     user.skip_confirmation!
     #     user.save!
+    # end
+  end
+
+  def self.find_for_twitter_oauth(auth, provider, signed_in_resource=nil)
+
+    # if user
+    #   return user
+    # else
+    #   registered_user = User.where(:email => auth.uid + "@twitter.com").first
+    #   if registered_user
+    #     return registered_user
+    #   else
+
+    #     user = User.create(name:auth.extra.raw_info.name,
+    #                         provider:auth.provider,
+    #                         uid:auth.uid,
+    #                         email:auth.uid+"@twitter.com",
+    #                         password:Devise.friendly_token[0,20],
+    #                       )
+    #   end
+
     # end
   end
 

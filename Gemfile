@@ -9,6 +9,7 @@ gem 'rails', '4.0.0'
 gem 'thin'
 
 # gem 'puma' # just trying this out https://www.engineyard.com/articles/rails-server
+gem 'figaro'
 gem 'puma'
 gem 'omniauth-twitter'
 gem 'twitter'
