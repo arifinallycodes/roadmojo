@@ -212,7 +212,7 @@ Devise.setup do |config|
   # config.omniauth :twitter, "uZOVGAI729pZqWu9AC1wGBflK", "Je1PaTBrcpdV4GJ5aEIR1tFUGSzo0Y58meW1TI660MT15kt7Nd"
   TWITTER_APP_ID = Figaro.env["TWITTER_APP_ID"]
   TWITTER_APP_SECRET = Figaro.env["TWITTER_APP_SECRET"]
-  config.secret_key = Figaro.env["DEVISE_SECRET_KEY"]
+  config.secret_key = "c09a2ab942f958964dccd8cafe723c63d8341e53a68681fcea8e5180f53c17543b0722023bd5fe64f98e27248806616c1e382521575cb159fa25c8208c4992ea"
   config.omniauth :twitter, TWITTER_APP_ID, TWITTER_APP_SECRET,{client_options: {authorize_path: '/oauth/authenticate'} } 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
