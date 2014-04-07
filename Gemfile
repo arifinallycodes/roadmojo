@@ -34,9 +34,6 @@ gem "friendly_id", '~> 5.0.3'
 # Koala is a gem to access and play around easily with Facebook's Graph API
 gem "koala"
 
-gem 'figaro'
-
-
 # DelayedJob is a gem for background jobs. It has two versions, one for mongoid
 # and another for active_record. This one is for active record
 gem 'delayed_job'
