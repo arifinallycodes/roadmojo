@@ -11,7 +11,7 @@
       = f.label :email, :class => "control-label"
       .controls
         = f.text_field :email
-    -unless @facebook_signup || @twitter_signup
+    -unless @facebook_signup || @twitter_signup || @google_signup
       .control-group
         = f.label :email, :class => "control-label"
         .controls

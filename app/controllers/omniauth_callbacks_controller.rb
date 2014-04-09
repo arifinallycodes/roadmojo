@@ -1,6 +1,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # Generate methods facebook and twitter
-    ["facebook","twitter"].each do |provider|
+    ["facebook","twitter","google_oauth2"].each do |provider|
       # self.class_eval "def #{provider}; sign_in_through_provider(\"#{provider}\"); end"
       self.class_eval "def #{provider}; connect_or_sign_up(\"#{provider}\"); end"
     end

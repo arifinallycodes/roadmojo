@@ -76,38 +76,10 @@ class User < ActiveRecord::Base
     if provider == "facebook"
       user = User.where(email: auth.info.email).first
     elsif provider == "twitter"
-      user = User.where(:provider => auth.provider, :twitter_uid => auth.uid).first
+      user = User.where(provider: auth.provider,uid: auth.uid).first
+    elsif provider == "google_oauth2"
+      user = User.where(email: auth.info.email).first
     end
-    # if user.nil?
-    #     user = User.new(
-    #       name: auth.extra.raw_info.name,
-    #       email: auth.info.email.blank? ? "" : auth.info.email,
-    #       password: Devise.friendly_token[0,20]
-    #     )
-    #     user.skip_confirmation!
-    #     user.save!
-    # end
-  end
-
-  def self.find_for_twitter_oauth(auth, provider, signed_in_resource=nil)
-
-    # if user
-    #   return user
-    # else
-    #   registered_user = User.where(:email => auth.uid + "@twitter.com").first
-    #   if registered_user
-    #     return registered_user
-    #   else
-
-    #     user = User.create(name:auth.extra.raw_info.name,
-    #                         provider:auth.provider,
-    #                         uid:auth.uid,
-    #                         email:auth.uid+"@twitter.com",
-    #                         password:Devise.friendly_token[0,20],
-    #                       )
-    #   end
-
-    # end
   end
 
   # Collect the places that the user is following
@@ -147,6 +119,34 @@ class User < ActiveRecord::Base
 
   def draft_trips
     self.trips.where('draft_version=?',true)
+  end
+
+  def self.build_resource(session_data,provider)
+    if provider == "google_oauth2"
+      data = session_data.with_indifferent_access
+      user = User.new(
+          uid: data[:uid],
+          provider: data[:provider],
+          full_name: data[:info][:name],
+          email: data[:info][:email]
+        )
+    elsif provider == "twitter"
+      data = session_data.with_indifferent_access
+      user = User.new(
+          uid: data[:uid],
+          provider: data[:provider],
+          full_name: data[:info][:name]
+        )
+    elsif provider == "facebook"
+      data = session_data.with_indifferent_access
+      user = User.new(
+          uid: data[:uid],
+          provider: data[:provider],
+          full_name: data[:info][:name],
+          email: data[:info][:email]
+        )
+    end
+    return user
   end
 
   private

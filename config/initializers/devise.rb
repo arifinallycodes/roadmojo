@@ -213,7 +213,13 @@ Devise.setup do |config|
   TWITTER_APP_ID = ENV["TWITTER_APP_ID"]
   TWITTER_APP_SECRET = ENV["TWITTER_APP_SECRET"]
   config.secret_key = "c09a2ab942f958964dccd8cafe723c63d8341e53a68681fcea8e5180f53c17543b0722023bd5fe64f98e27248806616c1e382521575cb159fa25c8208c4992ea"
+  
+
+  GOOGLE_APP_ID = ENV["OAUTH_CLIENT_ID"]
+  GOOGLE_APP_SECRET = ENV["OAUTH_CLIENT_SECRET"]
+
   config.omniauth :twitter, TWITTER_APP_ID, TWITTER_APP_SECRET,{client_options: {authorize_path: '/oauth/authenticate'} } 
+  config.omniauth :google_oauth2, GOOGLE_APP_ID, GOOGLE_APP_SECRET, { access_type: "offline", approval_prompt: "" }
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

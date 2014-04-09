@@ -2,8 +2,10 @@ class RegistrationsController < Devise::RegistrationsController
   def new
     @facebook_signup = facebook_signup?
     @twitter_signup = twitter_signup?
+    @google_signup = google_signup?
+    puts session["devise.facebook_data"].as_json
     puts 'you are in RegistrationsController new %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' 
-    if @facebook_signup || @twitter_signup
+    if @facebook_signup || @twitter_signup || @google_signup
       puts'##################################################################################################################################'
       puts 'you are in facebook_signup present new %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' 
       flash.now[:notice] = "Almost done! We'll just need you to enter your Roadmojo username and you'll be ready to ride."
@@ -14,14 +16,23 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     puts 'you are in RegistrationsController create %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' 
     @facebook_signup = facebook_signup?
-    puts @facebook_signup.inspect
     # super
-    build_resource
+    if google_signup?
+      resource = User.build_resource(session["devise.google_oauth2_data"].as_json,"google_oauth2")
+    elsif facebook_signup?
+      resource = User.build_resource(session["devise.facebook_data"].as_json,"facebook") 
+    elsif twitter_signup?
+      resource = User.build_resource(session["devise.twitter_data"].as_json,"twitter") 
+      resource.email = params["user"]["email"] if params["user"]
+    else
+      resource = User.new(email: params["user"]["email"]) if params["user"]
+    end
     resource.username = params["user"]["username"]
-    resource.password = assign_password
-    resource.email = params["user"]["email"] if params["user"] && twitter_signup?
-    resource.twitter_uid = session["devise.twitter_data"].uid rescue nil
-    resource.provider = session["devise.twitter_data"].provider rescue nil
+    if needs_password?(resource,params)
+      resource.password = assign_password
+    else
+      resource.password = params["user"]["password"]
+    end
     if resource.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
@@ -72,8 +83,7 @@ class RegistrationsController < Devise::RegistrationsController
   # ie if password or email was changed
   # extend this as needed
   def needs_password?(user, params)
-    user.email != params[:user][:email] ||
-      !params[:user][:password].blank?
+    user.email != params[:user][:email] || params[:user][:password].blank?
   end
 
   def assign_password
@@ -89,4 +99,9 @@ class RegistrationsController < Devise::RegistrationsController
   def twitter_signup?
     session["devise.twitter_data"].present?
   end
+
+  def google_signup?
+    session["devise.google_oauth2_data"].present?
+  end
+
 end

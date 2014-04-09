@@ -10,12 +10,13 @@ gem 'thin'
 
 # gem 'puma' # just trying this out https://www.engineyard.com/articles/rails-server
 gem 'figaro'
-gem 'puma'
+#gem 'puma'
 gem 'omniauth-twitter'
 gem 'twitter'
 gem 'activerecord-session_store'
 gem 'sprockets-rails'
 gem 'protected_attributes'
+gem "omniauth-google-oauth2"
 
 gem 'pg'
 gem 'haml-rails'
@@ -25,14 +26,14 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem "bootstrap-sass"
 gem 'gmaps4rails'
-gem 'inherited_resources'
+#gem 'inherited_resources'
 # gem "coffee-filter", git: 'git://github.com/paulnicholson/coffee-filter.git'
 gem "draper"
 gem "pry-rails"
 gem "friendly_id", '~> 5.0.3'
 
 # Koala is a gem to access and play around easily with Facebook's Graph API
-gem "koala"
+#gem "koala"
 
 # DelayedJob is a gem for background jobs. It has two versions, one for mongoid
 # and another for active_record. This one is for active record
