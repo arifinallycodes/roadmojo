@@ -22,6 +22,7 @@ gem 'pg'
 gem 'haml-rails'
 gem 'nifty-generators'
 gem 'devise'
+gem 'activerecord-postgis-adapter'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem "bootstrap-sass"
