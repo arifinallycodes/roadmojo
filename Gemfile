@@ -13,6 +13,9 @@ gem 'figaro'
 #gem 'puma'
 gem 'omniauth-twitter'
 gem 'twitter'
+gem "rgeo"
+gem "rgeo-shapefile"
+gem 'resque'
 gem 'activerecord-session_store'
 gem 'sprockets-rails'
 gem 'protected_attributes'
