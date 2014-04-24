@@ -39,6 +39,9 @@ class Trip < ActiveRecord::Base
   has_many :users_liking_it, through: :users_liked_trips, source: :user #, foreign_key: 'user_id'
   has_many :photos
 
+  has_many :users, through: :trip_users
+  has_many :trip_users, :class_name => "::Trips::User"
+
   validates_presence_of :name
   validates_presence_of :description, :trip_date, :if => Proc.new { |t| !t.draft_version }
 

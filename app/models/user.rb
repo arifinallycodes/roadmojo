@@ -10,7 +10,13 @@ class User < ActiveRecord::Base
   friendly_id :username, use: :slugged
 
   # === Associations ===
-  has_many :trips
+  has_many :trips, through: :trip_users
+  has_many :trip_users,class_name: "::Trips::User"
+  has_many :comments
+  has_many :likes
+  has_many :follows
+  has_many :notifications
+
   has_many :user_invites
   has_many :authentications
   has_many :users_liked_trips

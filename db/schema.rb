@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140406185703) do
+ActiveRecord::Schema.define(version: 20140424141317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -22,6 +23,29 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "cities", force: true do |t|
+    t.integer "region_id"
+    t.string  "name"
+    t.spatial "coordinates", limit: {:srid=>4326, :type=>"point"}
+  end
+
+  add_index "cities", ["coordinates"], :name => "index_cities_on_coordinates", :spatial => true
+
+  create_table "comments", force: true do |t|
+    t.string  "object_type"
+    t.integer "object_id"
+    t.text    "description"
+    t.integer "user_id"
+  end
+
+  add_index "comments", ["object_id", "object_type"], :name => "by class id comments"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
+  create_table "countries", force: true do |t|
+    t.string  "name"
+    t.spatial "coordinates", limit: {:srid=>4326, :type=>"point"}
   end
 
   create_table "delayed_jobs", force: true do |t|
@@ -38,7 +62,42 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "follows", force: true do |t|
+    t.integer "user_id"
+    t.string  "object_id"
+    t.integer "object_type"
+  end
+
+  add_index "follows", ["object_id", "object_type"], :name => "by class id follows"
+  add_index "follows", ["user_id"], :name => "index_follows_on_user_id"
+
+  create_table "images", force: true do |t|
+    t.integer  "object_id"
+    t.string   "object_type"
+    t.integer  "priority"
+    t.text     "caption"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "images", ["object_id", "object_type"], :name => "by class id images"
+
+  create_table "images_image_tags", force: true do |t|
+    t.integer  "image_id"
+    t.integer  "tag_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "images_tags", force: true do |t|
+    t.integer  "object_id"
+    t.string   "object_type"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "inbetween_places", force: true do |t|
     t.integer  "place_before_id"
@@ -48,8 +107,8 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.string   "description"
   end
 
-  add_index "inbetween_places", ["place_after_id"], name: "index_inbetween_places_on_place_after_id", using: :btree
-  add_index "inbetween_places", ["place_before_id"], name: "index_inbetween_places_on_place_before_id", using: :btree
+  add_index "inbetween_places", ["place_after_id"], :name => "index_inbetween_places_on_place_after_id"
+  add_index "inbetween_places", ["place_before_id"], :name => "index_inbetween_places_on_place_before_id"
 
   create_table "library_items", force: true do |t|
     t.string   "name"
@@ -61,6 +120,24 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.text     "description"
   end
 
+  create_table "likes", force: true do |t|
+    t.string  "object_type"
+    t.integer "object_id"
+    t.integer "user_id"
+  end
+
+  add_index "likes", ["object_id", "object_type"], :name => "by class id likes"
+  add_index "likes", ["user_id"], :name => "index_likes_on_user_id"
+
+  create_table "notifications", force: true do |t|
+    t.integer "user_id"
+    t.integer "object_id"
+    t.string  "object_type"
+  end
+
+  add_index "notifications", ["object_id", "object_type"], :name => "by class id notifications"
+  add_index "notifications", ["user_id"], :name => "index_notifications_on_user_id"
+
   create_table "photos", force: true do |t|
     t.string   "image"
     t.text     "name"
@@ -69,14 +146,13 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.integer  "trip_id"
   end
 
-  create_table "places", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.decimal  "lat"
-    t.decimal  "lon"
-    t.integer  "following_users_count", default: 0
-    t.string   "name"
+  create_table "regions", force: true do |t|
+    t.integer "state_id"
+    t.string  "name"
+    t.spatial "boundary_polygon", limit: {:srid=>3785, :type=>"geometry"}
   end
+
+  add_index "regions", ["boundary_polygon"], :name => "index_regions_on_boundary_polygon", :spatial => true
 
   create_table "sessions", force: true do |t|
     t.string   "session_id", null: false
@@ -85,14 +161,24 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "special_emails", force: true do |t|
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "states", force: true do |t|
+    t.integer "country_id"
+    t.string  "name"
+    t.spatial "coordinates",      limit: {:srid=>4326, :type=>"point"}
+    t.spatial "boundary_polygon", limit: {:srid=>3785, :type=>"geometry"}
+  end
+
+  add_index "states", ["boundary_polygon"], :name => "index_states_on_boundary_polygon", :spatial => true
+  add_index "states", ["coordinates"], :name => "index_states_on_coordinates", :spatial => true
 
   create_table "trip_places", force: true do |t|
     t.integer  "trip_id"
@@ -102,8 +188,8 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.integer  "sort"
   end
 
-  add_index "trip_places", ["place_id"], name: "index_trip_places_on_place_id", using: :btree
-  add_index "trip_places", ["trip_id"], name: "index_trip_places_on_trip_id", using: :btree
+  add_index "trip_places", ["place_id"], :name => "index_trip_places_on_place_id"
+  add_index "trip_places", ["trip_id"], :name => "index_trip_places_on_trip_id"
 
   create_table "trips", force: true do |t|
     t.string   "name"
@@ -112,7 +198,6 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
     t.string   "transport"
     t.date     "trip_date"
     t.boolean  "draft_version", default: false
@@ -121,7 +206,40 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.integer  "no_of_likes",   default: 0,     null: false
   end
 
-  add_index "trips", ["slug"], name: "index_trips_on_slug", using: :btree
+  add_index "trips", ["slug"], :name => "index_trips_on_slug"
+
+  create_table "trips_milestones", force: true do |t|
+    t.integer  "trip_id"
+    t.string   "location_type"
+    t.integer  "location_id"
+    t.text     "description"
+    t.datetime "visiting_date"
+    t.string   "road_condition"
+    t.string   "previous_place_type"
+    t.integer  "previous_place_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trips_milestones", ["trip_id"], :name => "index_trips_milestones_on_trip_id"
+
+  create_table "trips_moments", force: true do |t|
+    t.integer  "milestone_id"
+    t.string   "location_type"
+    t.integer  "location_id"
+    t.text     "description"
+    t.datetime "visiting_date"
+    t.boolean  "are_any_milestones_before_it"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trips_moments", ["milestone_id"], :name => "index_trips_moments_on_milestone_id"
+
+  create_table "trips_users", force: true do |t|
+    t.integer "user_id"
+    t.integer "trip_id"
+  end
 
   create_table "user_followed_places", force: true do |t|
     t.integer  "user_id"
@@ -130,7 +248,7 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.integer  "place_id"
   end
 
-  add_index "user_followed_places", ["user_id"], name: "index_user_followed_places_on_user_id", using: :btree
+  add_index "user_followed_places", ["user_id"], :name => "index_user_followed_places_on_user_id"
 
   create_table "user_invites", force: true do |t|
     t.integer  "user_id"
@@ -142,7 +260,7 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.datetime "updated_at"
   end
 
-  add_index "user_invites", ["user_id"], name: "index_user_invites_on_user_id", using: :btree
+  add_index "user_invites", ["user_id"], :name => "index_user_invites_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                   default: "", null: false
@@ -179,12 +297,12 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.string   "twitter_uid"
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["email", "username"], name: "email_username_uniqueness", unique: true, using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
-  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
+  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
+  add_index "users", ["email", "username"], :name => "email_username_uniqueness", :unique => true
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["slug"], :name => "index_users_on_slug", :unique => true
+  add_index "users", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
 
   create_table "users_liked_trips", force: true do |t|
     t.integer  "user_id"
@@ -193,7 +311,15 @@ ActiveRecord::Schema.define(version: 20140406185703) do
     t.datetime "updated_at"
   end
 
-  add_index "users_liked_trips", ["trip_id"], name: "index_users_liked_trips_on_trip_id", using: :btree
-  add_index "users_liked_trips", ["user_id"], name: "index_users_liked_trips_on_user_id", using: :btree
+  add_index "users_liked_trips", ["trip_id"], :name => "index_users_liked_trips_on_trip_id"
+  add_index "users_liked_trips", ["user_id"], :name => "index_users_liked_trips_on_user_id"
+
+  create_table "villages", force: true do |t|
+    t.integer "region_id"
+    t.string  "name"
+    t.spatial "coordinates", limit: {:srid=>4326, :type=>"point"}
+  end
+
+  add_index "villages", ["coordinates"], :name => "index_villages_on_coordinates", :spatial => true
 
 end

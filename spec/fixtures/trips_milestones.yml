@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  trip: 
+  location_type: MyString
+  location_id: 1
+  description: MyText
+  visiting_date: 2014-04-24 19:56:29
+  road_condition: MyString
+
+two:
+  trip: 
+  location_type: MyString
+  location_id: 1
+  description: MyText
+  visiting_date: 2014-04-24 19:56:29
+  road_condition: MyString

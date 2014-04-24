@@ -1,17 +1,41 @@
+####### Please install postgis on the system that is going to use this config. Also for the script_dir variable 
+######  please write down the installation path of postgis. You also might have to create spatial_tables manually
+######  in the postgres database to initialize the PostGIS extension.
+######
 development:
-  adapter: postgresql
+  adapter: postgis
   encoding: unicode
   database: roads_development
   pool: 5
+  username: macpro
+  password: 
+  host: localhost
+  port: 5432
+  schema_search_path: "public,postgis"
+  script_dir: "/usr/local/Cellar/postgis/2.1.1/share/postgis"
+  pool: 5
 
 test:
-  adapter: postgresql
+  adapter: postgis
   encoding: unicode
   database: roads_test
   pool: 5
+  username: macpro
+  password: 
+  schema_search_path: "public,postgis"
+  script_dir: "/usr/local/Cellar/postgis/2.1.1/share/postgis"
+  host: localhost
+  port: 5432
+  pool: 5
 
 production:
-  adapter: postgresql
+  adapter: postgis
   encoding: unicode
   database: roads_production
   pool: 5
+  username: macpro
+  password: 
+  schema_search_path: "public,postgis"
+  script_dir: "/usr/local/Cellar/postgis/2.1.1/share/postgis"
+  host: localhost
+  port: 5432

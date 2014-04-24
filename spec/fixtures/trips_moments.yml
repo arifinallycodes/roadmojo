@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  milestone: 
+  location_type: MyString
+  location_id: 1
+  description: MyText
+  visiting_date: 2014-04-24 19:43:17
+  are_any_milestones_before_it: false
+
+two:
+  milestone: 
+  location_type: MyString
+  location_id: 1
+  description: MyText
+  visiting_date: 2014-04-24 19:43:17
+  are_any_milestones_before_it: false
